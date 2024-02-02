@@ -19,11 +19,12 @@ object NavigationTree {
                 object ProductCard : Catalog()
             }
 
-            object Basket : BaseScreen()
+            object Cart : BaseScreen()
             object Stocks : BaseScreen()
 
 
             sealed class Profile : BaseScreen() {
+                object UserProfile : Profile()
                 object Favorite : Profile()
             }
         }

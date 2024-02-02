@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.nyx.onlineshoptesttask.navigation.screens.RegistrationScreenNavigationImpl
+import com.nyx.onlineshoptesttask.ui.views.DashboardNavigationBar
 import com.nyx.registration_compose.screens.RegistrationScreen
 
 private const val ARGS = "args"
@@ -15,7 +16,7 @@ private const val ARGS = "args"
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = NavigationTree.Root.Dashboard.Main.Home.name,
+    startDestination: String = NavigationTree.Root.Registration.name,
 ) {
 
     NavHost(
@@ -29,6 +30,10 @@ fun AppNavHost(
             RegistrationScreen(
                 screenNavigation = registrationScreenNavigation
             )
+        }
+
+        composable(route = NavigationTree.Root.Dashboard.Catalog.ProductsCatalog.name) {
+            DashboardNavigationBar()
         }
     }
 }

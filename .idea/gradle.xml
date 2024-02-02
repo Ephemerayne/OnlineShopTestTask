@@ -12,6 +12,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/feature-catalog" />
+            <option value="$PROJECT_DIR$/feature-catalog/catalog-api" />
+            <option value="$PROJECT_DIR$/feature-catalog/catalog-compose" />
+            <option value="$PROJECT_DIR$/feature-catalog/catalog-data" />
+            <option value="$PROJECT_DIR$/feature-catalog/catalog-impl" />
             <option value="$PROJECT_DIR$/feature-registration" />
             <option value="$PROJECT_DIR$/feature-registration/registration-api" />
             <option value="$PROJECT_DIR$/feature-registration/registration-compose" />

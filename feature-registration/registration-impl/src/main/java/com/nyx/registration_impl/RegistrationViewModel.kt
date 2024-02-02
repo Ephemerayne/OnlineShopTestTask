@@ -19,6 +19,7 @@ class RegistrationViewModel :
             is RegistrationViewEvent.OnClearSurnameClicked -> clearSurnameField()
             is RegistrationViewEvent.OnClearPhoneNumberClicked -> clearPhoneNumberField()
             is RegistrationViewEvent.OnEnterButtonClicked -> login()
+            is RegistrationViewEvent.ActionInvoked -> viewAction = null
         }
     }
 

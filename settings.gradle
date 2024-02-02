@@ -15,7 +15,13 @@ dependencyResolutionManagement {
 rootProject.name = "OnlineShopTestTask"
 include ':app'
 include ':common'
+
 include ':feature-registration:registration-api'
 include ':feature-registration:registration-compose'
 include ':feature-registration:registration-data'
 include ':feature-registration:registration-impl'
+
+include ':feature-catalog:catalog-api'
+include ':feature-catalog:catalog-compose'
+include ':feature-catalog:catalog-data'
+include ':feature-catalog:catalog-impl'
