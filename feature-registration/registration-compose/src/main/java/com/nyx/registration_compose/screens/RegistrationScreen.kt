@@ -24,6 +24,7 @@ import com.nyx.common.views.PhoneNumberTextField
 import com.nyx.common.views.ScreenTitleView
 import com.nyx.common.views.VerticalSpacer
 import com.nyx.registration_api.navigation.RegistrationScreenNavigation
+import com.nyx.registration_compose.navigation.registrationActionNavigation
 import com.nyx.registration_impl.RegistrationViewModel
 import com.nyx.registration_impl.models.RegistrationViewEvent
 
@@ -72,6 +73,8 @@ fun RegistrationScreen(
         onClearPhoneNumberClick = onClearPhoneNumberClick,
         onEnterButtonClick = onEnterButtonClick
     )
+
+    registrationActionNavigation(viewModel = viewModel, navigation = screenNavigation)
 }
 
 @Composable

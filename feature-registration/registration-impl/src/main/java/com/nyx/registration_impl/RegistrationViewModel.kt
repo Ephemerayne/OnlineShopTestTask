@@ -53,7 +53,6 @@ class RegistrationViewModel :
     }
 
     private fun login() {
-        // TODO сохранение в БД или проверка существующего пользователя
+        viewAction = RegistrationViewAction.OpenCatalog
     }
-
 }

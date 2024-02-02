@@ -8,7 +8,7 @@ class RegistrationScreenNavigationImpl(
     private val navController: NavController,
 ) : RegistrationScreenNavigation {
 
-    override fun goToCatalog() {
+    override fun openCatalog() {
         navController.navigate(route = NavigationTree.Root.Dashboard.Catalog.ProductsCatalog.name)
     }
 }

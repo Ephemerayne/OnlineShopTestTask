@@ -8,4 +8,5 @@ sealed class RegistrationViewEvent {
     object OnClearSurnameClicked: RegistrationViewEvent()
     object OnClearPhoneNumberClicked: RegistrationViewEvent()
     object OnEnterButtonClicked: RegistrationViewEvent()
+    object ActionInvoked: RegistrationViewEvent()
 }
