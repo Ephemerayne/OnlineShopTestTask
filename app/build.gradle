@@ -54,4 +54,5 @@ dependencies {
     implementation project(":common")
     implementation project(":feature-registration:registration-compose")
     implementation project(":feature-registration:registration-api")
+    implementation project(":feature-registration:registration-impl")
 }
