@@ -1,4 +1,4 @@
-package com.nyx.onlineshoptesttask.navigation.screens
+package com.nyx.onlineshoptesttask.navigation.screens.registration
 
 import androidx.navigation.NavController
 import com.nyx.onlineshoptesttask.navigation.NavigationTree

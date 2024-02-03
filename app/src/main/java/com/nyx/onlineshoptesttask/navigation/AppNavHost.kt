@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.nyx.onlineshoptesttask.navigation.screens.RegistrationScreenNavigationImpl
+import com.nyx.onlineshoptesttask.navigation.screens.registration.RegistrationScreenNavigationImpl
 import com.nyx.onlineshoptesttask.ui.views.DashboardNavigationBar
 import com.nyx.registration_compose.screens.RegistrationScreen
 
