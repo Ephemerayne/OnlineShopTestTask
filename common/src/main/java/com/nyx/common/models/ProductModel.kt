@@ -1,4 +1,4 @@
-package com.nyx.catalog_api.models
+package com.nyx.common.models
 
 data class ProductModel(
     val id: Int = 0,

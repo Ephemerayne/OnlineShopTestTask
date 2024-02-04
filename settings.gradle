@@ -25,3 +25,8 @@ include ':feature-catalog:catalog-api'
 include ':feature-catalog:catalog-compose'
 include ':feature-catalog:catalog-data'
 include ':feature-catalog:catalog-impl'
+
+include ':feature-product-card:product-card-api'
+include ':feature-product-card:product-card-compose'
+include ':feature-product-card:product-card-data'
+include ':feature-product-card:product-card-impl'

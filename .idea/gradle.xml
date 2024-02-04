@@ -17,6 +17,11 @@
             <option value="$PROJECT_DIR$/feature-catalog/catalog-compose" />
             <option value="$PROJECT_DIR$/feature-catalog/catalog-data" />
             <option value="$PROJECT_DIR$/feature-catalog/catalog-impl" />
+            <option value="$PROJECT_DIR$/feature-product-card" />
+            <option value="$PROJECT_DIR$/feature-product-card/product-card-api" />
+            <option value="$PROJECT_DIR$/feature-product-card/product-card-compose" />
+            <option value="$PROJECT_DIR$/feature-product-card/product-card-data" />
+            <option value="$PROJECT_DIR$/feature-product-card/product-card-impl" />
             <option value="$PROJECT_DIR$/feature-registration" />
             <option value="$PROJECT_DIR$/feature-registration/registration-api" />
             <option value="$PROJECT_DIR$/feature-registration/registration-compose" />

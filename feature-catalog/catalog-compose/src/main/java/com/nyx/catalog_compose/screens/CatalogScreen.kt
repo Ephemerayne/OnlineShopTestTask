@@ -14,14 +14,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -41,12 +39,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
 import com.nyx.catalog_api.navigation.CatalogScreenNavigation
@@ -59,7 +54,10 @@ import com.nyx.catalog_impl.models.SortingType
 import com.nyx.common.utils.StableList
 import com.nyx.common.utils.toStable
 import com.nyx.common.viewmodel.rememberEvent
+import com.nyx.common.views.CrossedOutPriceView
+import com.nyx.common.views.DiscountChipView
 import com.nyx.common.views.HorizontalSpacer
+import com.nyx.common.views.NewPriceView
 import com.nyx.common.views.ScreenTitleView
 import com.nyx.common.views.VerticalSpacer
 
@@ -259,35 +257,16 @@ private fun ProductItem(onProductClick: () -> Unit) {
                 contentDescription = ""
             )
         }
-        Text(
-            modifier = Modifier.padding(start = 4.dp),
-            text = "150 ₽",
-            color = Color.LightGray,
-            style = TextStyle(textDecoration = TextDecoration.LineThrough)
-        )
+        CrossedOutPriceView(price = 140.0)
 
         //price and sales
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
+            NewPriceView(
                 modifier = Modifier.padding(start = 4.dp),
-                text = "300 ₽",
-                color = Color.Black,
+                price = 124.0
             )
             HorizontalSpacer(width = 4.dp)
-            Card(
-                modifier = Modifier
-                    .width(34.dp)
-                    .height(16.dp),
-                backgroundColor = Color.Magenta,
-                shape = RoundedCornerShape(4.dp)
-            ) {
-                Text(
-                    text = "-50%",
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    fontSize = 12.sp
-                )
-            }
+            DiscountChipView(discount = 35)
         }
 
         // product title and description

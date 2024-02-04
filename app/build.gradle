@@ -59,4 +59,8 @@ dependencies {
     implementation project(":feature-catalog:catalog-compose")
     implementation project(":feature-catalog:catalog-api")
     implementation project(":feature-catalog:catalog-impl")
+
+    implementation project(":feature-product-card:product-card-compose")
+    implementation project(":feature-product-card:product-card-api")
+    implementation project(":feature-product-card:product-card-impl")
 }

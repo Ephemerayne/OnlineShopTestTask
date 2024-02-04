@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.nyx.catalog_api'
+    namespace 'com.nyx.product_card_api'
     compileSdk 33
 
     defaultConfig {

@@ -28,6 +28,7 @@ import com.nyx.common.utils.toStable
 import com.nyx.dashboard_compose.views.StubView
 import com.nyx.onlineshoptesttask.navigation.NavigationTree
 import com.nyx.onlineshoptesttask.navigation.screens.catalog.CatalogScreenNavigationImpl
+import com.nyx.product_card_compose.screens.ProductCardScreen
 
 sealed class NavItem(val route: String, val title: String, val icon: ImageVector) {
     object Main :
@@ -112,15 +113,13 @@ fun DashboardNavigationBar() {
             composable(NavItem.Main.route) { StubView(pageName = "main") }
             composable(NavItem.Catalog.route) {
                 CatalogScreen(screenNavigation = catalogScreenNavigation)
-                println("debug: OPEN CATALOG SCREEN") // 2x call??
             }
             composable(NavItem.Cart.route) { StubView(pageName = "cart") }
             composable(NavItem.Stocks.route) { StubView(pageName = "stocks") }
             composable(NavItem.Profile.route) { StubView(pageName = "profile") }
 
             composable(NavigationTree.Root.Dashboard.Catalog.ProductCard.name) {
-                println("debug: OPEN PRODUCT CARD SCREEN")
-              //  ProductCardScreen()
+                ProductCardScreen()
             }
         }
     }
