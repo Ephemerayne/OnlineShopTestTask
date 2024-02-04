@@ -12,7 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -31,6 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
 import com.nyx.common.models.Info
 import com.nyx.common.viewmodel.rememberEvent
+import com.nyx.common.views.AddToCartButton
 import com.nyx.common.views.ButtonItemView
 import com.nyx.common.views.CrossedOutPriceView
 import com.nyx.common.views.DiscountChipView
@@ -41,6 +43,7 @@ import com.nyx.common.views.HorizontalSpacer
 import com.nyx.common.views.NewPriceView
 import com.nyx.common.views.RatingStarsBar
 import com.nyx.common.views.VerticalSpacer
+import com.nyx.product_card_api.navigation.ProductCardScreenNavigation
 import com.nyx.product_card_impl.ProductCardViewModel
 import com.nyx.product_card_impl.models.ProductCardViewEvent
 import com.nyx.product_card_impl.models.ProductCardViewState
@@ -48,74 +51,59 @@ import com.nyx.product_card_impl.models.ProductCardViewState
 @Composable
 fun ProductCardScreen(
     viewModel: ProductCardViewModel = viewModel(),
+    screenNavigation: ProductCardScreenNavigation
 ) {
     val viewState = viewModel.viewStates().observeAsState().value
 
     val onHideOrShowDescriptionClick =
         viewModel.rememberEvent(ProductCardViewEvent.HideOrShowDescriptionClicked)
 
-    val onHideOrShoIngredientsClick =
+    val onHideOrShowIngredientsClick =
         viewModel.rememberEvent(ProductCardViewEvent.HideOrShowIngredientsClicked)
 
-    val test = viewModel.rememberEvent<Boolean, _> {
+    val onIngredientsLinesCountMeasured = viewModel.rememberEvent<Boolean, _> {
         ProductCardViewEvent.IngredientsTextLinesCountMeasured(it)
     }
 
     ProductCardView(
-        viewState,
-        onHideOrShowDescriptionClick,
-        onHideOrShoIngredientsClick,
-        test
+       viewState =  viewState,
+        onBackArrowClick = { screenNavigation.back() },
+        onHideOrShowDescriptionClick = onHideOrShowDescriptionClick,
+        onHideOrShowIngredientsClick = onHideOrShowIngredientsClick,
+        onIngredientsLinesCountMeasured = onIngredientsLinesCountMeasured
     )
 }
 
 @Composable
 private fun ProductCardView(
     viewState: ProductCardViewState,
+    onBackArrowClick: () -> Unit,
     onHideOrShowDescriptionClick: () -> Unit,
     onHideOrShowIngredientsClick: () -> Unit,
     onIngredientsLinesCountMeasured: (Boolean) -> Unit,
 ) {
-    Column() {
-        HeaderView()
-        LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
-            item {
+    val scrollState = rememberScrollState()
+
+    Box {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(scrollState)
+        ) {
+            HeaderView(onBackArrowClick = onBackArrowClick)
+            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 VerticalSpacer(height = 12.dp)
-            }
-            item {
                 ImageView()
-            }
-            item {
                 ProductTitleView()
-            }
-            item {
                 VerticalSpacer(height = 12.dp)
-            }
-            item {
                 AvailableStockView()
-            }
-            item {
                 VerticalSpacer(height = 12.dp)
-            }
-            item {
-                HorizontalDividerView()
-            }
-            item {
+                HorizontalDividerView(thickness = 0.5.dp)
                 VerticalSpacer(height = 12.dp)
-            }
-            item {
                 RatingView(rating = 3.5, reviews = 6)
-            }
-            item {
                 VerticalSpacer(height = 16.dp)
-            }
-            item {
                 PriceView(150.0, 300.0, 50)
-            }
-            item {
                 VerticalSpacer(height = 16.dp)
-            }
-            item {
                 DescriptionView(
                     brand = "BRAND",
                     description = "This is decription product This is decription product This is decription product This is decription product This is decription product This is decription productThis is decription product This is decription productThis is decription product",
@@ -123,11 +111,7 @@ private fun ProductCardView(
                     onClick = {/* No implementation */ },
                     onHideOrShowDescriptionClick = onHideOrShowDescriptionClick
                 )
-            }
-            item {
                 VerticalSpacer(height = 24.dp)
-            }
-            item {
                 CharacteristicsView(
                     characteristics = listOf(
                         Info("title 1", "value 1"),
@@ -136,11 +120,7 @@ private fun ProductCardView(
                         Info("title 4", "value 4")
                     )
                 )
-            }
-            item {
                 VerticalSpacer(height = 20.dp)
-            }
-            item {
                 IngredientsView(
                     description = "ct  product ingredients product efefef nts prodgggggggggggggggggg rfffffffffffffffffffffd df fg dfg dfuct  product ingredients produ nts product  product ingredients produ",
                     isIngredientsExpanded = viewState.isIngredientsExpanded,
@@ -148,15 +128,24 @@ private fun ProductCardView(
                     onIngredientsLinesCountMeasured = onIngredientsLinesCountMeasured,
                     isIngredientsTextHasMoreThanTwoLines = viewState.isIngredientsTextHasMoreThanTwoLines
                 )
+                VerticalSpacer(height = 80.dp)
             }
         }
+        AddToCartButton(
+            modifier = Modifier.align(Alignment.BottomCenter),
+            newPrice = 150.0,
+            oldPrice = 300.0,
+            onClick = {/* No implementation */ }
+        )
     }
 }
 
 
 // TODO refactoring
 @Composable
-private fun HeaderView() {
+private fun HeaderView(
+    onBackArrowClick: () -> Unit,
+) {
     Row(
         modifier = Modifier.height(40.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -165,7 +154,7 @@ private fun HeaderView() {
             modifier = Modifier
                 .fillMaxHeight()
                 .width(50.dp)
-                .clickable { },
+                .clickable(onClick = onBackArrowClick),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -180,7 +169,7 @@ private fun HeaderView() {
             modifier = Modifier
                 .fillMaxHeight()
                 .width(50.dp)
-                .clickable { },
+                .clickable { /* No implementation */ },
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -318,7 +307,11 @@ private fun IngredientsView(
     Row() {
         Text(text = "Состав")
         Spacer(modifier = Modifier.weight(1f))
-        Icon(imageVector = Icons.Default.Search, contentDescription = "")
+        Icon(
+            modifier = Modifier.clickable(onClick = {/* No implementation */ }),
+            imageVector = Icons.Default.Search,
+            contentDescription = ""
+        )
     }
 
     VerticalSpacer(height = 8.dp)

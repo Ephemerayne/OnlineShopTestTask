@@ -1,6 +1,6 @@
 package com.nyx.common.views
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +16,8 @@ fun HideOrShowView(
 ) {
     Text(
         modifier = Modifier
-            .clickable(onClick = onHideOrShowClick)
+            .offset((-12).dp)
+            .noRippleClickable(onClick = onHideOrShowClick)
             .padding(12.dp),
         text = if (isViewVisible) "Скрыть" else "Подробнее",
         color = Color.LightGray,
@@ -32,7 +33,8 @@ fun ExpandOrReduceView(
     onHideOrShowClick?.let {
         Text(
             modifier = Modifier
-                .clickable(onClick = onHideOrShowClick)
+                .offset((-12).dp)
+                .noRippleClickable(onClick = onHideOrShowClick)
                 .padding(12.dp),
             text = if (isViewExpanded) "Скрыть" else "Подробнее",
             color = Color.LightGray,
