@@ -152,8 +152,11 @@ fun DashboardNavigationBar() {
                 composable(NavigationTree.Root.Dashboard.Profile.Favourite.name) {
                     FavouriteProductsScreen(screenNavigation = favouritesScreenNavigation)
                 }
-            }
 
+                composable(NavigationTree.Root.Dashboard.Profile.ProductCard.name) {
+                    ProductCardScreen(screenNavigation = productCardScreenNavigation)
+                }
+            }
         }
     }
 }

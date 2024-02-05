@@ -18,6 +18,9 @@ fun favouritesActionNavigation(
             is FavouritesViewAction.Back -> {
                 screenNavigation.back()
             }
+            is FavouritesViewAction.OpenProductCard -> {
+                screenNavigation.openProductCard()
+            }
         }
     }
 }
