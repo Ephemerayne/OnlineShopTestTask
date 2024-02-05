@@ -59,7 +59,6 @@ import com.nyx.common.views.DiscountChipView
 import com.nyx.common.views.HorizontalSpacer
 import com.nyx.common.views.NewPriceView
 import com.nyx.common.views.ScreenTitleView
-import com.nyx.common.views.VerticalSpacer
 
 @Composable
 fun CatalogScreen(
@@ -111,7 +110,6 @@ private fun CatalogView(
 ) {
     Column(modifier = Modifier) {
         ScreenTitleView(text = "Каталог")
-        VerticalSpacer(height = 12.dp)
         Row {
             SortingView(
                 viewState = viewState,

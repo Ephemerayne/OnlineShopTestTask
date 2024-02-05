@@ -1,8 +1,10 @@
 package com.nyx.common.views
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -17,14 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun ButtonItemView(
-    icon: ImageVector? = null,
-    text: String,
+    leadingIcon: ImageVector? = null,
+    title: String,
+    subtitle: String? = null,
+    trailingIcon: ImageVector = Icons.Default.KeyboardArrowRight,
     onClick: () -> Unit,
 ) {
     Button(
+        modifier = Modifier.height(52.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
         onClick = onClick
@@ -33,16 +39,21 @@ fun ButtonItemView(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            icon?.let {
+            leadingIcon?.let {
                 Icon(
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    imageVector = icon,
+                    imageVector = leadingIcon,
                     contentDescription = ""
                 )
             }
-            Text(text = text)
+            Column() {
+                Text(text = title)
+                subtitle?.let {
+                    Text(text = subtitle, color = Color.Gray, fontSize = 10.sp)
+                }
+            }
             Spacer(modifier = Modifier.weight(1f))
-            Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "")
+            Icon(imageVector = trailingIcon, contentDescription = "")
         }
     }
 }

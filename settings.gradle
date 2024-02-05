@@ -30,3 +30,8 @@ include ':feature-product-card:product-card-api'
 include ':feature-product-card:product-card-compose'
 include ':feature-product-card:product-card-data'
 include ':feature-product-card:product-card-impl'
+
+include ':feature-profile:profile-api'
+include ':feature-profile:profile-compose'
+include ':feature-profile:profile-data'
+include ':feature-profile:profile-impl'

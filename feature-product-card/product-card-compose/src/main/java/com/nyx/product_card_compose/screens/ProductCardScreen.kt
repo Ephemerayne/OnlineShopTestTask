@@ -261,7 +261,7 @@ private fun DescriptionView(
 
     if (isDescriptionVisible) {
         VerticalSpacer(height = 12.dp)
-        ButtonItemView(text = brand, onClick = onClick)
+        ButtonItemView(title = brand, onClick = onClick)
         VerticalSpacer(height = 8.dp)
         Text(text = description)
         VerticalSpacer(height = 8.dp)

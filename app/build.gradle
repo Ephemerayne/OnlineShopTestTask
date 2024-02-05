@@ -63,4 +63,8 @@ dependencies {
     implementation project(":feature-product-card:product-card-compose")
     implementation project(":feature-product-card:product-card-api")
     implementation project(":feature-product-card:product-card-impl")
+
+    implementation project(":feature-profile:profile-compose")
+    implementation project(":feature-profile:profile-api")
+    implementation project(":feature-profile:profile-impl")
 }

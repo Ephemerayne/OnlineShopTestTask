@@ -25,7 +25,7 @@ object NavigationTree {
 
             sealed class Profile : BaseScreen() {
                 object UserProfile : Profile()
-                object Favorite : Profile()
+                object Favourite : Profile()
             }
         }
     }

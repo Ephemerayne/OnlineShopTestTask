@@ -30,9 +30,12 @@ import com.nyx.dashboard_compose.views.StubView
 import com.nyx.onlineshoptesttask.navigation.NavigationTree
 import com.nyx.onlineshoptesttask.navigation.screens.catalog.CatalogScreenNavigationImpl
 import com.nyx.onlineshoptesttask.navigation.screens.product_card.ProductCardScreenNavigationImpl
+import com.nyx.onlineshoptesttask.navigation.screens.profile.ProfileScreenNavigationImpl
 import com.nyx.product_card_compose.screens.ProductCardScreen
+import com.nyx.profile_compose.screens.ProfileScreen
 
-const val catalogNavGraph = "Catalog Nav Graph"
+const val catalogNavGraph = "CatalogNavGraph"
+const val profileNavGraph = "ProfileNavGraph"
 
 sealed class NavItem(val route: String, val title: String, val icon: ImageVector) {
     object Main :
@@ -114,6 +117,7 @@ fun DashboardNavigationBar() {
         ) {
             val catalogScreenNavigation = CatalogScreenNavigationImpl(navController)
             val productCardScreenNavigation = ProductCardScreenNavigationImpl(navController)
+            val profileScreenNavigation = ProfileScreenNavigationImpl(navController)
 
             composable(NavItem.Main.route) { StubView(pageName = "main") }
 
@@ -132,10 +136,21 @@ fun DashboardNavigationBar() {
             }
 
             composable(NavItem.Cart.route) { StubView(pageName = "cart") }
-
             composable(NavItem.Stocks.route) { StubView(pageName = "stocks") }
 
-            composable(NavItem.Profile.route) { StubView(pageName = "profile") }
+            navigation(
+                startDestination = profileNavGraph,
+                route = NavItem.Profile.route
+            ) {
+                composable(profileNavGraph) {
+                    ProfileScreen(screenNavigation = profileScreenNavigation)
+                }
+
+                composable(NavigationTree.Root.Dashboard.Profile.Favourite.name) {
+                    StubView(pageName = "favourites")
+                }
+            }
+
         }
     }
 }
