@@ -10,9 +10,7 @@ object NavigationTree {
 
         sealed class Dashboard : BaseScreen() {
 
-            sealed class Main : Dashboard() {
-                object Home : Main()
-            }
+            object Main : Dashboard()
 
             sealed class Catalog : BaseScreen() {
                 object ProductsCatalog : Catalog()
@@ -21,7 +19,6 @@ object NavigationTree {
 
             object Cart : BaseScreen()
             object Stocks : BaseScreen()
-
 
             sealed class Profile : BaseScreen() {
                 object UserProfile : Profile()

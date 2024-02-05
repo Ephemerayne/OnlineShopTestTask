@@ -42,7 +42,7 @@ const val profileNavGraph = "ProfileNavGraph"
 sealed class NavItem(val route: String, val title: String, val icon: ImageVector) {
     object Main :
         NavItem(
-            route = NavigationTree.Root.Dashboard.Main.Home.name,
+            route = NavigationTree.Root.Dashboard.Main.name,
             title = "Главная",
             icon = Icons.Filled.Home
         )
