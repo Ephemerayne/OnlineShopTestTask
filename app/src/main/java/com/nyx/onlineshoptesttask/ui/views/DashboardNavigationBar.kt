@@ -22,6 +22,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.nyx.catalog_compose.CatalogScreen
 import com.nyx.common.utils.toStable
@@ -30,6 +31,8 @@ import com.nyx.onlineshoptesttask.navigation.NavigationTree
 import com.nyx.onlineshoptesttask.navigation.screens.catalog.CatalogScreenNavigationImpl
 import com.nyx.onlineshoptesttask.navigation.screens.product_card.ProductCardScreenNavigationImpl
 import com.nyx.product_card_compose.screens.ProductCardScreen
+
+const val catalogNavGraph = "Catalog Nav Graph"
 
 sealed class NavItem(val route: String, val title: String, val icon: ImageVector) {
     object Main :
@@ -105,25 +108,34 @@ fun DashboardNavigationBar() {
         }
     ) { innerPadding ->
         NavHost(
-            navController,
+            navController = navController,
             startDestination = NavItem.Catalog.route,
-            Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding)
         ) {
             val catalogScreenNavigation = CatalogScreenNavigationImpl(navController)
             val productCardScreenNavigation = ProductCardScreenNavigationImpl(navController)
 
             composable(NavItem.Main.route) { StubView(pageName = "main") }
-            composable(NavItem.Catalog.route) {
-                CatalogScreen(screenNavigation = catalogScreenNavigation)
-            }
-            composable(NavItem.Cart.route) { StubView(pageName = "cart") }
-            composable(NavItem.Stocks.route) { StubView(pageName = "stocks") }
-            composable(NavItem.Profile.route) { StubView(pageName = "profile") }
 
-            composable(NavigationTree.Root.Dashboard.Catalog.ProductCard.name) {
-                ProductCardScreen(screenNavigation = productCardScreenNavigation)
+            navigation(
+                startDestination = catalogNavGraph,
+                route = NavItem.Catalog.route,
+            ) {
+
+                composable(catalogNavGraph) {
+                    CatalogScreen(screenNavigation = catalogScreenNavigation)
+                }
+
+                composable(NavigationTree.Root.Dashboard.Catalog.ProductCard.name) {
+                    ProductCardScreen(screenNavigation = productCardScreenNavigation)
+                }
             }
+
+            composable(NavItem.Cart.route) { StubView(pageName = "cart") }
+
+            composable(NavItem.Stocks.route) { StubView(pageName = "stocks") }
+
+            composable(NavItem.Profile.route) { StubView(pageName = "profile") }
         }
     }
 }
-
