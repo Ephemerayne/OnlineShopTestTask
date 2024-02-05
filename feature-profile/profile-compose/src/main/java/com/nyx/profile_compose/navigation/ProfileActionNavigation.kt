@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.nyx.common.viewmodel.observeAction
 import com.nyx.profile_api.navigation.ProfileScreenNavigation
 import com.nyx.profile_impl.ProfileViewModel
+import com.nyx.profile_impl.models.ProfileViewAction
 import com.nyx.profile_impl.models.ProfileViewEvent
 
 @Composable
@@ -12,9 +13,10 @@ fun profileActionNavigation(
     screenNavigation: ProfileScreenNavigation,
 ) {
     viewModel.observeAction(ProfileViewEvent.ActionInvoked) { action ->
-        /*when (action) {
-            is RegistrationViewAction.OpenCatalog -> {
-                navigation.openCatalog()
-            }*/
+        when (action) {
+            is ProfileViewAction.NavigateToFavouritesScreen -> {
+                screenNavigation.openFavourites()
+            }
+        }
     }
 }

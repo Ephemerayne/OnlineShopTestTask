@@ -67,4 +67,8 @@ dependencies {
     implementation project(":feature-profile:profile-compose")
     implementation project(":feature-profile:profile-api")
     implementation project(":feature-profile:profile-impl")
+
+    implementation project(":feature-favourites:favourites-compose")
+    implementation project(":feature-favourites:favourites-api")
+    implementation project(":feature-favourites:favourites-impl")
 }

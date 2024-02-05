@@ -6,4 +6,5 @@ sealed class ProductCardViewEvent {
     class IngredientsTextLinesCountMeasured(
         val isLinesCountMoreThanTwo: Boolean,
     ) : ProductCardViewEvent()
+    object ActionInvoked: ProductCardViewEvent()
 }

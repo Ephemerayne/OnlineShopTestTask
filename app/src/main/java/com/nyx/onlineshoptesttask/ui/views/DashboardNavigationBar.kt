@@ -27,8 +27,10 @@ import androidx.navigation.compose.rememberNavController
 import com.nyx.catalog_compose.CatalogScreen
 import com.nyx.common.utils.toStable
 import com.nyx.dashboard_compose.views.StubView
+import com.nyx.favourites_compose.screens.FavouriteProductsScreen
 import com.nyx.onlineshoptesttask.navigation.NavigationTree
 import com.nyx.onlineshoptesttask.navigation.screens.catalog.CatalogScreenNavigationImpl
+import com.nyx.onlineshoptesttask.navigation.screens.favourites.FavouritesScreenNavigationImpl
 import com.nyx.onlineshoptesttask.navigation.screens.product_card.ProductCardScreenNavigationImpl
 import com.nyx.onlineshoptesttask.navigation.screens.profile.ProfileScreenNavigationImpl
 import com.nyx.product_card_compose.screens.ProductCardScreen
@@ -118,6 +120,7 @@ fun DashboardNavigationBar() {
             val catalogScreenNavigation = CatalogScreenNavigationImpl(navController)
             val productCardScreenNavigation = ProductCardScreenNavigationImpl(navController)
             val profileScreenNavigation = ProfileScreenNavigationImpl(navController)
+            val favouritesScreenNavigation = FavouritesScreenNavigationImpl(navController)
 
             composable(NavItem.Main.route) { StubView(pageName = "main") }
 
@@ -147,7 +150,7 @@ fun DashboardNavigationBar() {
                 }
 
                 composable(NavigationTree.Root.Dashboard.Profile.Favourite.name) {
-                    StubView(pageName = "favourites")
+                    FavouriteProductsScreen(screenNavigation = favouritesScreenNavigation)
                 }
             }
 

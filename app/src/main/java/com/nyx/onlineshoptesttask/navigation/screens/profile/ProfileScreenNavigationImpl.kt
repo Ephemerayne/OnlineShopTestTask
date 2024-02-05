@@ -8,7 +8,7 @@ class ProfileScreenNavigationImpl(
     private val navController: NavController
 ): ProfileScreenNavigation {
 
-    override fun goToFavourites() {
+    override fun openFavourites() {
         navController.navigate(NavigationTree.Root.Dashboard.Profile.Favourite.name)
     }
 }

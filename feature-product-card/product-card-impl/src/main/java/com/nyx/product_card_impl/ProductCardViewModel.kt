@@ -16,6 +16,7 @@ class ProductCardViewModel :
             is ProductCardViewEvent.HideOrShowIngredientsClicked -> toggleIngredientsVisibility()
             is ProductCardViewEvent.IngredientsTextLinesCountMeasured ->
                 setIsIngredientsTextLinesCountMeasured(viewEvent.isLinesCountMoreThanTwo)
+            is ProductCardViewEvent.ActionInvoked -> viewAction = null
         }
     }
 

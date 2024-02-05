@@ -6,22 +6,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +32,7 @@ import com.nyx.common.views.ButtonItemView
 import com.nyx.common.views.CrossedOutPriceView
 import com.nyx.common.views.DiscountChipView
 import com.nyx.common.views.ExpandOrReduceView
+import com.nyx.common.views.HeaderView
 import com.nyx.common.views.HideOrShowView
 import com.nyx.common.views.HorizontalDividerView
 import com.nyx.common.views.HorizontalSpacer
@@ -44,6 +40,7 @@ import com.nyx.common.views.NewPriceView
 import com.nyx.common.views.RatingStarsBar
 import com.nyx.common.views.VerticalSpacer
 import com.nyx.product_card_api.navigation.ProductCardScreenNavigation
+import com.nyx.product_card_compose.navigation.productCardActionNavigation
 import com.nyx.product_card_impl.ProductCardViewModel
 import com.nyx.product_card_impl.models.ProductCardViewEvent
 import com.nyx.product_card_impl.models.ProductCardViewState
@@ -51,7 +48,7 @@ import com.nyx.product_card_impl.models.ProductCardViewState
 @Composable
 fun ProductCardScreen(
     viewModel: ProductCardViewModel = viewModel(),
-    screenNavigation: ProductCardScreenNavigation
+    screenNavigation: ProductCardScreenNavigation,
 ) {
     val viewState = viewModel.viewStates().observeAsState().value
 
@@ -66,12 +63,14 @@ fun ProductCardScreen(
     }
 
     ProductCardView(
-       viewState =  viewState,
+        viewState = viewState,
         onBackArrowClick = { screenNavigation.back() },
         onHideOrShowDescriptionClick = onHideOrShowDescriptionClick,
         onHideOrShowIngredientsClick = onHideOrShowIngredientsClick,
         onIngredientsLinesCountMeasured = onIngredientsLinesCountMeasured
     )
+
+    productCardActionNavigation(viewModel = viewModel, screenNavigation = screenNavigation)
 }
 
 @Composable
@@ -90,7 +89,7 @@ private fun ProductCardView(
                 .fillMaxWidth()
                 .verticalScroll(scrollState)
         ) {
-            HeaderView(onBackArrowClick = onBackArrowClick)
+            HeaderView(onBackArrowClick = onBackArrowClick, onShareIconClick = {})
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 VerticalSpacer(height = 12.dp)
                 ImageView()
@@ -137,47 +136,6 @@ private fun ProductCardView(
             oldPrice = 300.0,
             onClick = {/* No implementation */ }
         )
-    }
-}
-
-
-// TODO refactoring
-@Composable
-private fun HeaderView(
-    onBackArrowClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier.height(40.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(50.dp)
-                .clickable(onClick = onBackArrowClick),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                modifier = Modifier.size(24.dp),
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = ""
-            )
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(50.dp)
-                .clickable { /* No implementation */ },
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                modifier = Modifier.size(24.dp),
-                imageVector = Icons.Default.Share,
-                contentDescription = ""
-            )
-        }
     }
 }
 

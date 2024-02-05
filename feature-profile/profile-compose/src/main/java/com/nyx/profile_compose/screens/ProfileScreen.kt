@@ -28,12 +28,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
+import com.nyx.common.viewmodel.rememberEvent
 import com.nyx.common.views.ButtonItemView
 import com.nyx.common.views.ScreenTitleView
 import com.nyx.common.views.VerticalSpacer
 import com.nyx.profile_api.navigation.ProfileScreenNavigation
 import com.nyx.profile_compose.navigation.profileActionNavigation
 import com.nyx.profile_impl.ProfileViewModel
+import com.nyx.profile_impl.models.ProfileViewEvent
 
 @Composable
 fun ProfileScreen(
@@ -43,13 +45,21 @@ fun ProfileScreen(
 
     val viewState = viewModel.viewStates().observeAsState().value
 
-    ProfileView()
+    val onFavouritesItemClick = viewModel.rememberEvent(ProfileViewEvent.OnFavouritesClicked)
+
+    ProfileView(
+        onFavouritesClick = onFavouritesItemClick,
+        onExitClick = {} // exit to registration screen
+    )
 
     profileActionNavigation(viewModel = viewModel, screenNavigation = screenNavigation)
 }
 
 @Composable
-private fun ProfileView() {
+private fun ProfileView(
+    onFavouritesClick: () -> Unit,
+    onExitClick: () -> Unit,
+) {
     val scrollState = rememberScrollState()
 
     Box(
@@ -65,7 +75,10 @@ private fun ProfileView() {
             VerticalSpacer(height = 8.dp)
             UserNameItemView(username = "Name Surname", phone = "+7 123 456 78 99")
             VerticalSpacer(height = 20.dp)
-            FavouritesItemView(productsCount = 1)
+            FavouritesItemView(
+                productsCount = 1,
+                onFavouritesClick = onFavouritesClick
+            )
             VerticalSpacer(height = 8.dp)
             ShopsItemView()
             VerticalSpacer(height = 8.dp)
@@ -76,9 +89,12 @@ private fun ProfileView() {
             ReturnProductItemView()
         }
 
-        ExitButton(modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .padding(bottom = 20.dp))
+        ExitButton(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 20.dp),
+            onExitClick = onExitClick
+        )
     }
 }
 
@@ -89,16 +105,17 @@ private fun UserNameItemView(username: String, phone: String) {
         title = username,
         subtitle = phone,
         trailingIcon = Icons.Default.ExitToApp,
-        onClick = {})
+        onClick = { /* No implementation */ })
 }
 
 @Composable
-private fun FavouritesItemView(productsCount: Int) {
+private fun FavouritesItemView(productsCount: Int, onFavouritesClick: () -> Unit) {
     ButtonItemView(
         leadingIcon = Icons.Default.FavoriteBorder,
         title = "Избранное",
         subtitle = "$productsCount товар",
-        onClick = {})
+        onClick = onFavouritesClick
+    )
 }
 
 @Composable
@@ -106,7 +123,7 @@ private fun ShopsItemView() {
     ButtonItemView(
         leadingIcon = Icons.Default.ShoppingCart,
         title = "Магазины",
-        onClick = {})
+        onClick = { /* No implementation */ })
 }
 
 @Composable
@@ -114,7 +131,7 @@ private fun FeedbackItemView() {
     ButtonItemView(
         leadingIcon = Icons.Default.Email,
         title = "Обратная связь",
-        onClick = {}
+        onClick = { /* No implementation */ }
     )
 }
 
@@ -123,7 +140,7 @@ private fun OfferItemView() {
     ButtonItemView(
         leadingIcon = Icons.Default.List,
         title = "Оферта",
-        onClick = {}
+        onClick = { /* No implementation */ }
     )
 }
 
@@ -132,19 +149,20 @@ private fun ReturnProductItemView() {
     ButtonItemView(
         leadingIcon = Icons.Default.ArrowForward,
         title = "Возврат товара",
-        onClick = {}
+        onClick = { /* No implementation */ }
     )
 }
 
 @Composable
-private fun ExitButton(modifier: Modifier = Modifier) {
+private fun ExitButton(modifier: Modifier = Modifier, onExitClick: () -> Unit) {
     Button(
         modifier = modifier
             .fillMaxWidth()
             .height(52.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
-        onClick = { /*TODO*/ }) {
+        onClick = onExitClick
+    ) {
         Text(text = "Выйти", textAlign = TextAlign.Center)
     }
 }

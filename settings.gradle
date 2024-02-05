@@ -35,3 +35,8 @@ include ':feature-profile:profile-api'
 include ':feature-profile:profile-compose'
 include ':feature-profile:profile-data'
 include ':feature-profile:profile-impl'
+
+include ':feature-favourites:favourites-api'
+include ':feature-favourites:favourites-compose'
+include ':feature-favourites:favourites-data'
+include ':feature-favourites:favourites-impl'
