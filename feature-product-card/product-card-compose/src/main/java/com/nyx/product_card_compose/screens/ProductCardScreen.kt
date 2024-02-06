@@ -1,14 +1,15 @@
 package com.nyx.product_card_compose.screens
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -36,6 +37,8 @@ import com.nyx.common.views.HeaderView
 import com.nyx.common.views.HideOrShowView
 import com.nyx.common.views.HorizontalDividerView
 import com.nyx.common.views.HorizontalSpacer
+import com.nyx.common.views.ImagePager
+import com.nyx.common.views.ImagePagerIndicatorView
 import com.nyx.common.views.NewPriceView
 import com.nyx.common.views.RatingStarsBar
 import com.nyx.common.views.VerticalSpacer
@@ -73,6 +76,7 @@ fun ProductCardScreen(
     productCardActionNavigation(viewModel = viewModel, screenNavigation = screenNavigation)
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ProductCardView(
     viewState: ProductCardViewState,
@@ -82,6 +86,8 @@ private fun ProductCardView(
     onIngredientsLinesCountMeasured: (Boolean) -> Unit,
 ) {
     val scrollState = rememberScrollState()
+    val pagerState = rememberPagerState(0)
+
 
     Box {
         Column(
@@ -92,7 +98,10 @@ private fun ProductCardView(
             HeaderView(onBackArrowClick = onBackArrowClick, onShareIconClick = {})
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 VerticalSpacer(height = 12.dp)
-                ImageView()
+                ImagePagerView(pagerState = pagerState, 4)
+                VerticalSpacer(height = 8.dp)
+                ImagePagerIndicatorView(pagerState = pagerState, imagesCount = 4)
+                VerticalSpacer(height = 8.dp)
                 ProductTitleView()
                 VerticalSpacer(height = 12.dp)
                 AvailableStockView()
@@ -139,18 +148,19 @@ private fun ProductCardView(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ImageView() {
+private fun ImagePagerView(
+    pagerState: PagerState,
+    imagesCount: Int,
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(368.dp)
-                .background(Color.LightGray)
-                .align(Alignment.Center)
+        ImagePager(
+            pagerState = pagerState,
+            imagesCount = imagesCount
         )
         Icon(
             modifier = Modifier
@@ -162,7 +172,7 @@ private fun ImageView() {
         Icon(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(4.dp),
+                .padding(start = 4.dp, bottom = 16.dp),
             imageVector = Icons.Default.Info,
             contentDescription = ""
         )

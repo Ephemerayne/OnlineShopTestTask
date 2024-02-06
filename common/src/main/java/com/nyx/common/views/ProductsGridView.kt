@@ -1,7 +1,7 @@
 package com.nyx.common.views
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -42,8 +43,11 @@ fun ProductsGridView(onProductClick: () -> Unit) {
         })
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ProductItem(onProductClick: () -> Unit) {
+    val pagerState = rememberPagerState(0)
+
     Column(
         modifier = Modifier
             .padding(end = 8.dp, bottom = 8.dp)
@@ -54,10 +58,10 @@ private fun ProductItem(onProductClick: () -> Unit) {
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
-                .background(Color.Blue)
                 .fillMaxWidth()
                 .height(144.dp)
         ) {
+            ImagePager(pagerState = pagerState, imagesCount = 4)
             Icon(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -66,6 +70,13 @@ private fun ProductItem(onProductClick: () -> Unit) {
                 contentDescription = ""
             )
         }
+        VerticalSpacer(height = 4.dp)
+        ImagePagerIndicatorView(
+            pagerState = pagerState,
+            imagesCount = 4,
+            indicator = IndicatorSettings(size = 4.dp, paddingBetween = 2.dp)
+        )
+        VerticalSpacer(height = 4.dp)
         CrossedOutPriceView(price = 140.0)
 
         //price and sales
