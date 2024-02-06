@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ChipDefaults
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -34,8 +36,12 @@ import com.nyx.catalog_impl.models.CatalogViewEvent
 import com.nyx.catalog_impl.models.CatalogViewState
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
+import com.nyx.common_compose.R
+import com.nyx.common_compose.typography.AppTypography
+import com.nyx.common_compose.utils.StableList
 import com.nyx.common_compose.utils.toStable
 import com.nyx.common_compose.viewmodel.rememberEvent
+import com.nyx.common_compose.views.*
 
 @Composable
 fun CatalogScreen(
@@ -86,7 +92,7 @@ private fun CatalogView(
     onProductClick: () -> Unit,
 ) {
     Column(modifier = Modifier) {
-        com.nyx.common_compose.views.ScreenTitleView(text = "Каталог")
+        ScreenTitleView(text = "Каталог")
         Row {
             SortingView(
                 viewState = viewState,
@@ -102,7 +108,7 @@ private fun CatalogView(
             onTagClick = onTagClick,
             onClearClick = onClearTagClick
         )
-        com.nyx.common_compose.views.ProductsGridView(onProductClick = onProductClick)
+        ProductsGridView(onProductClick = onProductClick)
     }
 }
 
@@ -124,7 +130,11 @@ private fun SortingView(
             imageVector = Icons.Default.Info,
             contentDescription = null
         )
-        Text(modifier = Modifier.padding(start = 8.dp), text = viewState.currentSortingType.text)
+        Text(
+            modifier = Modifier.padding(start = 8.dp),
+            text = viewState.currentSortingType.text,
+            style = AppTypography.title4
+        )
         Icon(
             modifier = Modifier.padding(start = 4.dp),
             imageVector = Icons.Default.ArrowDropDown,
@@ -139,7 +149,7 @@ private fun SortingView(
         SortingType.values().forEach { item ->
             DropdownMenuItem(
                 onClick = { onSortingVariantClick(item) }
-            ) { Text(text = item.text) }
+            ) { Text(text = item.text, style = AppTypography.title4) }
         }
     }
 }
@@ -158,7 +168,11 @@ private fun FiltersView(onClick: () -> Unit) {
             imageVector = Icons.Default.Settings,
             contentDescription = null
         )
-        Text(modifier = Modifier.padding(start = 4.dp, end = 8.dp), text = "Фильтры")
+        Text(
+            modifier = Modifier.padding(start = 4.dp, end = 8.dp),
+            text = "Фильтры",
+            style = AppTypography.title4
+        )
     }
 }
 
@@ -166,7 +180,7 @@ private fun FiltersView(onClick: () -> Unit) {
 @Composable
 private fun TagsCarouselView(
     currentTagType: ProductTagType,
-    availableTags: com.nyx.common_compose.utils.StableList<ProductTagType>,
+    availableTags: StableList<ProductTagType>,
     onTagClick: (ProductTagType) -> Unit,
     onClearClick: () -> Unit,
 ) {
@@ -177,6 +191,12 @@ private fun TagsCarouselView(
             FilterChip(
                 modifier = Modifier.padding(4.dp),
                 selected = isSelected,
+                colors = ChipDefaults.filterChipColors(
+                    selectedBackgroundColor = colorResource(id = R.color.dark_blue),
+                    selectedContentColor = colorResource(id = R.color.white),
+                    contentColor = colorResource(id = R.color.text_gray),
+                    backgroundColor = colorResource(id = R.color.background_light_gray)
+                ),
                 onClick = { onTagClick(type) },
                 trailingIcon =
                 if (isSelected && type != ProductTagType.ALL) {
@@ -190,7 +210,11 @@ private fun TagsCarouselView(
                 } else null
 
             ) {
-                Text(text = type.text, textAlign = TextAlign.Center)
+                Text(
+                    text = type.text,
+                    textAlign = TextAlign.Center,
+                    style = if (isSelected) AppTypography.title4 else AppTypography.buttonText2
+                )
             }
         }
     }

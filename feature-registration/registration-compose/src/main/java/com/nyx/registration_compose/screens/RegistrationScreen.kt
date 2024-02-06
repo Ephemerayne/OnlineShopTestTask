@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,10 +18,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
+import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
+import com.nyx.common_compose.views.*
 import com.nyx.registration_api.navigation.RegistrationScreenNavigation
+import com.nyx.registration_compose.R
 import com.nyx.registration_compose.navigation.registrationActionNavigation
-import com.nyx.registration_impl.R
 import com.nyx.registration_impl.RegistrationViewModel
 import com.nyx.registration_impl.models.RegistrationViewEvent
 
@@ -89,7 +91,7 @@ private fun RegistrationView(
 ) {
     val focusRequester = remember { FocusRequester() }
 
-    com.nyx.common_compose.views.ScreenTitleView(text = stringResource(id = R.string.registration_enter_title))
+    ScreenTitleView(text = stringResource(id = R.string.registration_enter_title))
 
     Column(
         modifier = Modifier
@@ -97,30 +99,30 @@ private fun RegistrationView(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        com.nyx.common_compose.views.CyrillicTextField(
+        CyrillicTextField(
             input = nameInput,
             placeholder = "Имя",
             focusRequester = focusRequester,
             onTextChanged = onNameChanged,
             onClearInputClick = onClearNameClick
         )
-        com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
-        com.nyx.common_compose.views.CyrillicTextField(
+        VerticalSpacer(height = 12.dp)
+        CyrillicTextField(
             input = surnameInput,
             placeholder = "Фамилия",
             focusRequester = focusRequester,
             onTextChanged = onSurnameChanged,
             onClearInputClick = onClearSurnameClick
         )
-        com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
-        com.nyx.common_compose.views.PhoneNumberTextField(
+        VerticalSpacer(height = 12.dp)
+        PhoneNumberTextField(
             input = phoneNumberInput,
             placeholder = "Номер телефона",
             focusRequester = focusRequester,
             onTextChanged = onPhoneNumberChanged,
             onClearInputClick = onClearPhoneNumberClick
         )
-        com.nyx.common_compose.views.VerticalSpacer(height = 20.dp)
+        VerticalSpacer(height = 20.dp)
         Button(
             modifier = Modifier
                 .fillMaxWidth()
@@ -128,7 +130,11 @@ private fun RegistrationView(
             shape = RoundedCornerShape(8.dp),
             onClick = onEnterButtonClick
         ) {
-            Text(text = "Войти", textAlign = TextAlign.Center)
+            Text(
+                text = "Войти",
+                textAlign = TextAlign.Center,
+                style = AppTypography.buttonText2
+            )
         }
     }
 }

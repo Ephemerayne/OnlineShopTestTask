@@ -30,6 +30,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -39,6 +40,8 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nyx.common_compose.R
+import com.nyx.common_compose.typography.AppTypography
 import kotlin.math.min
 
 private object PhoneNumberDefaults {
@@ -59,7 +62,7 @@ fun PhoneNumberTextField(
         fontSize = 14.sp
     ),
     cursorColor: Color = Color.Black,
-    fieldColor: Color = Color.White,
+    fieldColor: Color = colorResource(id = R.color.background_light_gray),
     isEnabled: Boolean = true,
     hasClearIcon: Boolean = true,
     contentPaddings: PaddingValues = PaddingValues(
@@ -106,9 +109,8 @@ fun PhoneNumberTextField(
                     if (input.isEmpty()) {
                         Text(
                             text = if (isFocused) PhoneNumberDefaults.MASK else placeholder,
-                            color = Color.LightGray,
-                            fontFamily = FontFamily.SansSerif,
-                            fontSize = 14.sp
+                            color = colorResource(id = R.color.text_gray),
+                            style = AppTypography.placeholderText
                         )
                     }
                 },

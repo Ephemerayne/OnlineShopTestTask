@@ -18,8 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.nyx.common_compose.R
+import com.nyx.common_compose.typography.AppTypography
 
 @Composable
 fun ButtonItemView(
@@ -32,7 +34,8 @@ fun ButtonItemView(
     Button(
         modifier = Modifier.height(52.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
+        colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.background_light_gray)),
+        elevation = null,
         onClick = onClick
     ) {
         Row(
@@ -47,9 +50,14 @@ fun ButtonItemView(
                 )
             }
             Column() {
-                Text(text = title)
+                Text(text = title, style = AppTypography.title2)
                 subtitle?.let {
-                    Text(text = subtitle, color = Color.Gray, fontSize = 10.sp)
+                    Text(
+                        modifier = Modifier.padding(top = 2.dp),
+                        text = subtitle,
+                        color = Color.Gray,
+                        style = AppTypography.caption1
+                    )
                 }
             }
             Spacer(modifier = Modifier.weight(1f))

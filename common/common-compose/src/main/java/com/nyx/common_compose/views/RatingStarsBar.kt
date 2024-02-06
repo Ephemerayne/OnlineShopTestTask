@@ -9,8 +9,9 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.nyx.common_compose.R
 
 
 @Composable
@@ -26,7 +27,7 @@ fun RatingStarsBar(rating: Double, modifier: Modifier = Modifier) {
                 imageVector = Icons.Filled.Star,
                 contentDescription = "Full Star",
                 modifier = Modifier.size(24.dp),
-                tint = Color.Red
+                tint = colorResource(id = R.color.orange)
             )
         }
 
@@ -35,7 +36,7 @@ fun RatingStarsBar(rating: Double, modifier: Modifier = Modifier) {
                 imageVector = Icons.Filled.List,
                 contentDescription = "Half Star",
                 modifier = Modifier.size(24.dp),
-                tint = Color.Red
+                tint = colorResource(id = R.color.orange)
             )
         }
 
@@ -44,7 +45,7 @@ fun RatingStarsBar(rating: Double, modifier: Modifier = Modifier) {
                 imageVector = Icons.Filled.FavoriteBorder,
                 contentDescription = "Empty Star",
                 modifier = Modifier.size(24.dp),
-                tint = Color.Gray
+                tint = colorResource(id = R.color.orange)
             )
         }
     }

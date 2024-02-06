@@ -16,7 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -25,9 +27,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.nyx.catalog_compose.CatalogScreen
+import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.utils.toStable
 import com.nyx.dashboard_compose.views.StubView
 import com.nyx.favourites_compose.screens.FavouriteProductsScreen
+import com.nyx.onlineshoptesttask.R
 import com.nyx.onlineshoptesttask.navigation.NavigationTree
 import com.nyx.onlineshoptesttask.navigation.screens.catalog.CatalogScreenNavigationImpl
 import com.nyx.onlineshoptesttask.navigation.screens.favourites.FavouritesScreenNavigationImpl
@@ -90,14 +94,19 @@ fun DashboardNavigationBar() {
 
     Scaffold(
         bottomBar = {
-            BottomNavigation {
+            BottomNavigation(
+                backgroundColor = Color.White,
+                contentColor = colorResource(id = R.color.dark_blue)
+            ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 items.forEach { screen ->
                     BottomNavigationItem(
                         icon = { Icon(screen.icon, contentDescription = null) },
-                        label = { Text(screen.title) },
+                        label = { Text(text = screen.title, style = AppTypography.caption1) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                        selectedContentColor = colorResource(id = R.color.pink),
+                        unselectedContentColor = colorResource(id = R.color.dark_blue),
                         onClick = {
                             navController.navigate(screen.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {

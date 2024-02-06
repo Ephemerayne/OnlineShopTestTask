@@ -7,14 +7,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.nyx.common_compose.R
+import com.nyx.common_compose.typography.AppTypography
 
 @Composable
 fun AddToCartButton(
@@ -24,20 +25,32 @@ fun AddToCartButton(
     onClick: () -> Unit,
 ) {
     Button(
-        modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp).height(51.dp),
+        modifier = modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .height(51.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Magenta),
         onClick = onClick
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            NewPriceView(price = newPrice, textStyle = TextStyle(color = Color.White))
+            NewPriceView(
+                price = newPrice,
+                textStyle = AppTypography.buttonText2.copy(Color.White)
+            )
             HorizontalSpacer(width = 4.dp)
-            CrossedOutPriceView(price = oldPrice)
+            CrossedOutPriceView(
+                price = oldPrice,
+                textColor = colorResource(id = R.color.light_pink),
+                textStyle = AppTypography.caption1
+            )
             Spacer(modifier = Modifier.weight(1f))
-            Text(text = "Добавить в корзину", color = Color.White)
+            Text(
+                text = "Добавить в корзину",
+                color = Color.White,
+                style = AppTypography.buttonText2
+            )
         }
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Email
@@ -19,16 +20,20 @@ import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
+import com.nyx.common_compose.R
+import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
+import com.nyx.common_compose.views.ButtonItemView
+import com.nyx.common_compose.views.ScreenTitleView
+import com.nyx.common_compose.views.VerticalSpacer
 import com.nyx.profile_api.navigation.ProfileScreenNavigation
 import com.nyx.profile_compose.navigation.profileActionNavigation
 import com.nyx.profile_impl.ProfileViewModel
@@ -68,21 +73,21 @@ private fun ProfileView(
             modifier = Modifier
                 .verticalScroll(scrollState)
         ) {
-            com.nyx.common_compose.views.ScreenTitleView(text = "Личный кабинет")
-            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
+            ScreenTitleView(text = "Личный кабинет")
+            VerticalSpacer(height = 8.dp)
             UserNameItemView(username = "Name Surname", phone = "+7 123 456 78 99")
-            com.nyx.common_compose.views.VerticalSpacer(height = 20.dp)
+            VerticalSpacer(height = 20.dp)
             FavouritesItemView(
                 productsCount = 1,
                 onFavouritesClick = onFavouritesClick
             )
-            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
+            VerticalSpacer(height = 8.dp)
             ShopsItemView()
-            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
+            VerticalSpacer(height = 8.dp)
             FeedbackItemView()
-            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
+            VerticalSpacer(height = 8.dp)
             OfferItemView()
-            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
+            VerticalSpacer(height = 8.dp)
             ReturnProductItemView()
         }
 
@@ -97,7 +102,7 @@ private fun ProfileView(
 
 @Composable
 private fun UserNameItemView(username: String, phone: String) {
-    com.nyx.common_compose.views.ButtonItemView(
+    ButtonItemView(
         leadingIcon = Icons.Default.Face,
         title = username,
         subtitle = phone,
@@ -107,7 +112,7 @@ private fun UserNameItemView(username: String, phone: String) {
 
 @Composable
 private fun FavouritesItemView(productsCount: Int, onFavouritesClick: () -> Unit) {
-    com.nyx.common_compose.views.ButtonItemView(
+    ButtonItemView(
         leadingIcon = Icons.Default.FavoriteBorder,
         title = "Избранное",
         subtitle = "$productsCount товар",
@@ -117,7 +122,7 @@ private fun FavouritesItemView(productsCount: Int, onFavouritesClick: () -> Unit
 
 @Composable
 private fun ShopsItemView() {
-    com.nyx.common_compose.views.ButtonItemView(
+    ButtonItemView(
         leadingIcon = Icons.Default.ShoppingCart,
         title = "Магазины",
         onClick = { /* No implementation */ })
@@ -125,7 +130,7 @@ private fun ShopsItemView() {
 
 @Composable
 private fun FeedbackItemView() {
-    com.nyx.common_compose.views.ButtonItemView(
+    ButtonItemView(
         leadingIcon = Icons.Default.Email,
         title = "Обратная связь",
         onClick = { /* No implementation */ }
@@ -134,7 +139,7 @@ private fun FeedbackItemView() {
 
 @Composable
 private fun OfferItemView() {
-    com.nyx.common_compose.views.ButtonItemView(
+    ButtonItemView(
         leadingIcon = Icons.Default.List,
         title = "Оферта",
         onClick = { /* No implementation */ }
@@ -143,7 +148,7 @@ private fun OfferItemView() {
 
 @Composable
 private fun ReturnProductItemView() {
-    com.nyx.common_compose.views.ButtonItemView(
+    ButtonItemView(
         leadingIcon = Icons.Default.ArrowForward,
         title = "Возврат товара",
         onClick = { /* No implementation */ }
@@ -157,9 +162,16 @@ private fun ExitButton(modifier: Modifier = Modifier, onExitClick: () -> Unit) {
             .fillMaxWidth()
             .height(52.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = colorResource(id = R.color.background_light_gray)
+        ),
+        elevation = null,
         onClick = onExitClick
     ) {
-        Text(text = "Выйти", textAlign = TextAlign.Center)
+        Text(
+            text = "Выйти",
+            textAlign = TextAlign.Center,
+            style = AppTypography.buttonText2
+        )
     }
 }
