@@ -70,7 +70,8 @@ fun CatalogScreen(
     val onProductClick =
         viewModel.rememberEvent(CatalogViewEvent.OnProductClicked)
 
-
+    val onFavouriteClick =
+        viewModel.rememberEvent(CatalogViewEvent.OnFavouriteClicked)
 
     CatalogView(
         viewState = viewState,
@@ -78,7 +79,8 @@ fun CatalogScreen(
         onSortingVariantClick = onSortingVariantClick,
         onTagClick = onTagClick,
         onClearTagClick = onClearTagClick,
-        onProductClick = onProductClick
+        onProductClick = onProductClick,
+        onFavouriteClick = onFavouriteClick
     )
 
     catalogActionNavigation(viewModel = viewModel, navigation = screenNavigation)
@@ -92,6 +94,7 @@ private fun CatalogView(
     onTagClick: (ProductTagType) -> Unit,
     onClearTagClick: () -> Unit,
     onProductClick: () -> Unit,
+    onFavouriteClick: () -> Unit
 ) {
     Column(modifier = Modifier) {
         ScreenTitleView(text = stringResource(R.string.catalog_title))
@@ -110,7 +113,10 @@ private fun CatalogView(
             onTagClick = onTagClick,
             onClearClick = onClearTagClick
         )
-        ProductsGridView(onProductClick = onProductClick)
+        ProductsGridView(
+            onProductClick = onProductClick,
+            onFavouriteClick = onFavouriteClick
+        )
     }
 }
 

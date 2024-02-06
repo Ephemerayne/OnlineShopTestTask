@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,13 +35,14 @@ import com.nyx.common_compose.typography.AppTypography
 @Composable
 fun ProductsGridView(
     onProductClick: () -> Unit,
+    onFavouriteClick: () -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(start = 8.dp),
         content = {
             items(9) { product ->
-                ProductItem(onProductClick)
+                ProductItem(onProductClick, onFavouriteClick)
             }
         })
 }
@@ -49,6 +51,7 @@ fun ProductsGridView(
 @Composable
 private fun ProductItem(
     onProductClick: () -> Unit,
+    onFavouriteClick: () -> Unit,
 ) {
     val pagerState = rememberPagerState(0)
 
@@ -70,13 +73,7 @@ private fun ProductItem(
                 .clip(RoundedCornerShape(8.dp))
         ) {
             ImagePager(pagerState = pagerState, imagesCount = 4)
-            Image(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(4.dp),
-                painter = painterResource(R.drawable.favourite_icon),
-                contentDescription = null
-            )
+            FavouriteIconView(onFavouriteClick = onFavouriteClick)
         }
         VerticalSpacer(height = 4.dp)
         ImagePagerIndicatorView(
@@ -95,6 +92,22 @@ private fun ProductItem(
         TitleAndDescriptionView()
         RatingView()
         AddToCartIconButton()
+    }
+}
+
+@Composable
+private fun BoxScope.FavouriteIconView(onFavouriteClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .align(Alignment.TopEnd)
+            .clickable(onClick = onFavouriteClick)
+    ) {
+        Image(
+            modifier = Modifier
+                .padding(8.dp),
+            painter = painterResource(R.drawable.favourite_icon),
+            contentDescription = null
+        )
     }
 }
 

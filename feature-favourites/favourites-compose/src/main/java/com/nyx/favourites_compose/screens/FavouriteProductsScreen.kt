@@ -63,7 +63,7 @@ private fun FavouritesView(
         Box {
             when (selectedTab) {
                 TabType.PRODUCT -> {
-                    ProductsGridView(onProductClick = onProductClick)
+                    ProductsGridView(onProductClick = onProductClick, onFavouriteClick = {})
                 }
 
                 TabType.BRANDS -> {

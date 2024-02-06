@@ -18,6 +18,7 @@ class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, Cata
             is CatalogViewEvent.OnTagClicked -> setProductTag(viewEvent.type)
             is CatalogViewEvent.OnClearTagClicked -> resetTags()
             is CatalogViewEvent.OnProductClicked -> openProductCard()
+            is CatalogViewEvent.OnFavouriteClicked -> addProductToFavourites()
             is CatalogViewEvent.ActionInvoked -> viewAction = null
         }
     }
@@ -53,5 +54,9 @@ class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, Cata
 
     private fun openProductCard() {
         viewAction = CatalogViewAction.OpenProductCard
+    }
+
+    private fun addProductToFavourites() {
+        // database note
     }
 }
