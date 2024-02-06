@@ -26,10 +26,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.nyx.catalog_compose.CatalogScreen
+import com.nyx.catalog_compose.screens.CatalogScreen
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.utils.toStable
-import com.nyx.dashboard_compose.views.StubView
+import com.nyx.common_compose.views.StubView
 import com.nyx.favourites_compose.screens.FavouriteProductsScreen
 import com.nyx.onlineshoptesttask.R
 import com.nyx.onlineshoptesttask.navigation.NavigationTree

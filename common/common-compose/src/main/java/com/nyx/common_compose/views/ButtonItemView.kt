@@ -46,7 +46,7 @@ fun ButtonItemView(
                 Icon(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     imageVector = leadingIcon,
-                    contentDescription = ""
+                    contentDescription = null
                 )
             }
             Column() {
@@ -61,7 +61,7 @@ fun ButtonItemView(
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
-            Icon(imageVector = trailingIcon, contentDescription = "")
+            Icon(imageVector = trailingIcon, contentDescription = null)
         }
     }
 }

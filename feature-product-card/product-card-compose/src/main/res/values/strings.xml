@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="catalog_title">Доступно для заказа</string>
+    <plurals name="available_stock">
+        <item quantity="one">Доступно для заказа %1$d штука</item>
+        <item quantity="few">Доступно для заказа %1$d штуки</item>
+        <item quantity="many">Доступно для заказа %1$d штук</item>
+    </plurals>
+    <plurals name="review_count">
+        <item quantity="one">· %1$d отзыв</item>
+        <item quantity="few">· %1$d отзыва</item>
+        <item quantity="many">· %1$d отзывов</item>
+    </plurals>
+    <string name="description_title">Описание</string>
+    <string name="characteristics_title">Характеристики</string>
+    <string name="ingredients_title">Состав</string>
+</resources>

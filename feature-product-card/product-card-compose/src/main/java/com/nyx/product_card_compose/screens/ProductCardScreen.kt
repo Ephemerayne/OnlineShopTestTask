@@ -22,20 +22,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
 import com.nyx.common_api.models.Info
-import com.nyx.common_compose.R
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.common_compose.views.*
 import com.nyx.product_card_api.navigation.ProductCardScreenNavigation
+import com.nyx.product_card_compose.R
 import com.nyx.product_card_compose.navigation.productCardActionNavigation
 import com.nyx.product_card_impl.ProductCardViewModel
 import com.nyx.product_card_impl.models.ProductCardViewEvent
 import com.nyx.product_card_impl.models.ProductCardViewState
+import com.nyx.common_compose.R as ColorRes
 
 @Composable
 fun ProductCardScreen(
@@ -95,8 +98,8 @@ private fun ProductCardView(
                     pagerState = pagerState,
                     imagesCount = 4,
                     indicator = IndicatorSettings(
-                        selectedColor = colorResource(id = R.color.pink),
-                        unselectedColor = colorResource(id = R.color.element_light_gray)
+                        selectedColor = colorResource(id = ColorRes.color.pink),
+                        unselectedColor = colorResource(id = ColorRes.color.element_light_gray)
                     ),
                 )
                 VerticalSpacer(height = 8.dp)
@@ -106,7 +109,7 @@ private fun ProductCardView(
                 VerticalSpacer(height = 12.dp)
                 HorizontalDividerView(thickness = 0.5.dp)
                 VerticalSpacer(height = 12.dp)
-                RatingView(rating = 3.5, reviews = 6)
+                RatingView(rating = 3.5, reviews = 2)
                 VerticalSpacer(height = 16.dp)
                 PriceView(150.0, 300.0, 50)
                 VerticalSpacer(height = 16.dp)
@@ -141,6 +144,7 @@ private fun ProductCardView(
             modifier = Modifier.align(Alignment.BottomCenter),
             newPrice = 150.0,
             oldPrice = 300.0,
+            unit = "₽",
             onClick = {/* No implementation */ }
         )
     }
@@ -165,14 +169,14 @@ private fun ImagePagerView(
                 .align(Alignment.TopEnd)
                 .padding(4.dp),
             imageVector = Icons.Default.FavoriteBorder,
-            contentDescription = ""
+            contentDescription = null
         )
         Icon(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(start = 4.dp, bottom = 16.dp),
             imageVector = Icons.Default.Info,
-            contentDescription = ""
+            contentDescription = null
         )
     }
 }
@@ -181,7 +185,7 @@ private fun ImagePagerView(
 private fun ProductTitleView() {
     Text(
         text = "BRAND",
-        color = colorResource(id = R.color.text_gray),
+        color = colorResource(id = ColorRes.color.text_gray),
         style = AppTypography.title1
     )
     VerticalSpacer(height = 12.dp)
@@ -196,8 +200,8 @@ private fun ProductTitleView() {
 @Composable
 private fun AvailableStockView() {
     Text(
-        text = "Доступно для заказа 30 штук",
-        color = colorResource(id = R.color.text_gray),
+        text = pluralStringResource(R.plurals.available_stock, 1, 1),
+        color = colorResource(id = ColorRes.color.text_gray),
         style = AppTypography.text1
     )
 }
@@ -209,13 +213,13 @@ private fun RatingView(rating: Double, reviews: Int) {
         HorizontalSpacer(width = 8.dp)
         Text(
             text = rating.toString(),
-            color = colorResource(id = R.color.text_gray),
+            color = colorResource(id = ColorRes.color.text_gray),
             style = AppTypography.text1
         )
         HorizontalSpacer(width = 4.dp)
         Text(
-            text = "· $reviews отзыва",
-            color = colorResource(id = R.color.text_gray),
+            text = pluralStringResource(R.plurals.review_count, reviews, reviews),
+            color = colorResource(id = ColorRes.color.text_gray),
             style = AppTypography.text1
         )
     }
@@ -224,9 +228,13 @@ private fun RatingView(rating: Double, reviews: Int) {
 @Composable
 private fun PriceView(newPrice: Double, oldPrice: Double, discount: Int) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        NewPriceView(price = newPrice, textStyle = AppTypography.priceText)
+        NewPriceView(
+            price = newPrice,
+            unit = "Р",
+            textStyle = AppTypography.priceText
+        )
         HorizontalSpacer(width = 12.dp)
-        CrossedOutPriceView(price = oldPrice, textStyle = AppTypography.text1)
+        CrossedOutPriceView(price = oldPrice, unit = "Р", textStyle = AppTypography.text1)
         HorizontalSpacer(width = 12.dp)
         DiscountChipView(discount = discount)
     }
@@ -240,7 +248,7 @@ private fun DescriptionView(
     onClick: () -> Unit,
     onHideOrShowDescriptionClick: () -> Unit,
 ) {
-    TitleView(text = "Описание")
+    TitleView(text = stringResource(R.string.description_title))
 
     if (isDescriptionVisible) {
         VerticalSpacer(height = 12.dp)
@@ -258,7 +266,7 @@ private fun DescriptionView(
 
 @Composable
 private fun CharacteristicsView(characteristics: List<Info>) {
-    TitleView(text = "Характеристики")
+    TitleView(text = stringResource(R.string.characteristics_title))
     VerticalSpacer(height = 20.dp)
 
     characteristics.forEach { info ->
@@ -288,12 +296,12 @@ private fun IngredientsView(
     onIngredientsLinesCountMeasured: (Boolean) -> Unit,
 ) {
     Row {
-        TitleView(text = "Состав")
+        TitleView(text = stringResource(R.string.ingredients_title))
         Spacer(modifier = Modifier.weight(1f))
         Icon(
             modifier = Modifier.clickable(onClick = {/* No implementation */ }),
             imageVector = Icons.Default.Search,
-            contentDescription = ""
+            contentDescription = null
         )
     }
 

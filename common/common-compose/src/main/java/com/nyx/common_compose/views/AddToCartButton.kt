@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nyx.common_compose.R
 import com.nyx.common_compose.typography.AppTypography
@@ -22,6 +23,7 @@ fun AddToCartButton(
     modifier: Modifier = Modifier,
     newPrice: Double,
     oldPrice: Double,
+    unit: String,
     onClick: () -> Unit,
 ) {
     Button(
@@ -37,17 +39,19 @@ fun AddToCartButton(
         ) {
             NewPriceView(
                 price = newPrice,
+                unit= "Р",
                 textStyle = AppTypography.buttonText2.copy(Color.White)
             )
             HorizontalSpacer(width = 4.dp)
             CrossedOutPriceView(
                 price = oldPrice,
+                unit = unit,
                 textColor = colorResource(id = R.color.light_pink),
                 textStyle = AppTypography.caption1
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "Добавить в корзину",
+                text = stringResource(R.string.add_to_cart_button_text),
                 color = Color.White,
                 style = AppTypography.buttonText2
             )

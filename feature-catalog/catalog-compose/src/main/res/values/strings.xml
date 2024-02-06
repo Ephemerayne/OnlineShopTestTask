@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="catalog_title">Каталог</string>
+    <string name="filters_title">Фильтры</string>
+    <string name="filter_type_by_popular">По популярности</string>
+    <string name="filter_type_by_decrease_price">По уменьшению цены</string>
+    <string name="filter_type_by_increase_price">По возрастанию цены</string>
+    <string name="tag_type_all">Смотреть все</string>
+    <string name="tag_type_body">Тело</string>
+    <string name="tag_type_face">Лицо</string>
+    <string name="tag_type_suntan">Загар</string>
+    <string name="tag_type_masks">Маски</string>
+</resources>

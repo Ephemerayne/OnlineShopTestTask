@@ -3,14 +3,16 @@ package com.nyx.favourites_compose.screens
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
 import com.nyx.common_compose.utils.toStable
 import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.common_compose.views.*
-import com.nyx.dashboard_compose.views.StubView
 import com.nyx.favourites_api.navigation.FavouritesScreenNavigation
+import com.nyx.favourites_compose.R
+import com.nyx.favourites_compose.extensions.text
 import com.nyx.favourites_compose.navigation.favouritesActionNavigation
 import com.nyx.favourites_impl.models.FavouritesViewEvent
 import com.nyx.favourites_impl.models.FavouritesViewModel
@@ -46,11 +48,14 @@ private fun FavouritesView(
     onProductClick: () -> Unit,
 ) {
     Column {
-        HeaderView("Избранное", onBackArrowClick = onBackClick)
+        HeaderView(
+            title = stringResource(R.string.favourites_title),
+            onBackArrowClick = onBackClick,
+        )
         VerticalSpacer(height = 4.dp)
         SwitchTabsView(
             selectedTabIndex = selectedTab.ordinal,
-            tabsTitles = TabType.values().map { it.title }.toStable(),
+            tabsTitles = TabType.values().map { it.text }.toStable(),
             onTabClick = onTabClick
         )
         VerticalSpacer(height = 20.dp)

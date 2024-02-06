@@ -39,7 +39,7 @@ fun HeaderView(
             Icon(
                 modifier = Modifier.size(24.dp),
                 imageVector = Icons.Default.ArrowBack,
-                contentDescription = ""
+                contentDescription = null
             )
         }
 
@@ -60,7 +60,7 @@ fun HeaderView(
                 Icon(
                     modifier = Modifier.size(24.dp),
                     imageVector = Icons.Default.Share,
-                    contentDescription = ""
+                    contentDescription = null
                 )
             }
         }

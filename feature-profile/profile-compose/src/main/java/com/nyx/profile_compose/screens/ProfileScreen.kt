@@ -24,20 +24,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
-import com.nyx.common_compose.R
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.common_compose.views.ButtonItemView
 import com.nyx.common_compose.views.ScreenTitleView
 import com.nyx.common_compose.views.VerticalSpacer
 import com.nyx.profile_api.navigation.ProfileScreenNavigation
+import com.nyx.profile_compose.R
 import com.nyx.profile_compose.navigation.profileActionNavigation
 import com.nyx.profile_impl.ProfileViewModel
 import com.nyx.profile_impl.models.ProfileViewEvent
+import com.nyx.common_compose.R as ColorRes
 
 @Composable
 fun ProfileScreen(
@@ -73,12 +76,12 @@ private fun ProfileView(
             modifier = Modifier
                 .verticalScroll(scrollState)
         ) {
-            ScreenTitleView(text = "Личный кабинет")
+            ScreenTitleView(text = stringResource(R.string.profile_title))
             VerticalSpacer(height = 8.dp)
             UserNameItemView(username = "Name Surname", phone = "+7 123 456 78 99")
             VerticalSpacer(height = 20.dp)
             FavouritesItemView(
-                productsCount = 1,
+                productsCount = 30,
                 onFavouritesClick = onFavouritesClick
             )
             VerticalSpacer(height = 8.dp)
@@ -114,8 +117,8 @@ private fun UserNameItemView(username: String, phone: String) {
 private fun FavouritesItemView(productsCount: Int, onFavouritesClick: () -> Unit) {
     ButtonItemView(
         leadingIcon = Icons.Default.FavoriteBorder,
-        title = "Избранное",
-        subtitle = "$productsCount товар",
+        title = stringResource(R.string.profile_favourite_item_text),
+        subtitle = pluralStringResource(R.plurals.favourite_products, productsCount, productsCount),
         onClick = onFavouritesClick
     )
 }
@@ -124,7 +127,7 @@ private fun FavouritesItemView(productsCount: Int, onFavouritesClick: () -> Unit
 private fun ShopsItemView() {
     ButtonItemView(
         leadingIcon = Icons.Default.ShoppingCart,
-        title = "Магазины",
+        title = stringResource(R.string.profile_shops_item_text),
         onClick = { /* No implementation */ })
 }
 
@@ -132,7 +135,7 @@ private fun ShopsItemView() {
 private fun FeedbackItemView() {
     ButtonItemView(
         leadingIcon = Icons.Default.Email,
-        title = "Обратная связь",
+        title = stringResource(R.string.profile_feedback_item_text),
         onClick = { /* No implementation */ }
     )
 }
@@ -141,7 +144,7 @@ private fun FeedbackItemView() {
 private fun OfferItemView() {
     ButtonItemView(
         leadingIcon = Icons.Default.List,
-        title = "Оферта",
+        title = stringResource(R.string.profile_offer_item_text),
         onClick = { /* No implementation */ }
     )
 }
@@ -150,7 +153,7 @@ private fun OfferItemView() {
 private fun ReturnProductItemView() {
     ButtonItemView(
         leadingIcon = Icons.Default.ArrowForward,
-        title = "Возврат товара",
+        title = stringResource(R.string.profile_return_product_item_text),
         onClick = { /* No implementation */ }
     )
 }
@@ -163,13 +166,13 @@ private fun ExitButton(modifier: Modifier = Modifier, onExitClick: () -> Unit) {
             .height(52.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = colorResource(id = R.color.background_light_gray)
+            backgroundColor = colorResource(id = ColorRes.color.background_light_gray)
         ),
         elevation = null,
         onClick = onExitClick
     ) {
         Text(
-            text = "Выйти",
+            text = stringResource(R.string.exit_button_text),
             textAlign = TextAlign.Center,
             style = AppTypography.buttonText2
         )

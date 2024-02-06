@@ -13,16 +13,16 @@ data class CatalogViewState(
     ),
 )
 
-enum class SortingType(val text: String) {
-    BY_POPULAR("По популярности"),
-    BY_DECREASE_PRICE("По уменьшению цены"),
-    BY_INCREASE_PRICE("По возрастанию цены")
+enum class SortingType {
+    BY_POPULAR,
+    BY_DECREASE_PRICE,
+    BY_INCREASE_PRICE
 }
 
-enum class ProductTagType(val text: String) {
-    ALL("Смотреть все"),
-    FACE("Лицо"),
-    BODY("Тело"),
-    SUNTAN("Загар"),
-    MASKS("Маски")
+enum class ProductTagType {
+    ALL,
+    FACE,
+    BODY,
+    SUNTAN,
+    MASKS,
 }

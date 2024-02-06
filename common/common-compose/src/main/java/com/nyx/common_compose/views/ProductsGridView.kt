@@ -95,7 +95,7 @@ private fun ProductItem(
             )
         )
         VerticalSpacer(height = 4.dp)
-        CrossedOutPriceView(price = 140.0)
+        CrossedOutPriceView(price = 140.0, unit = "Р")
         PriceAndSalesView()
         TitleAndDescriptionView()
         RatingView()
@@ -109,6 +109,7 @@ private fun PriceAndSalesView() {
         NewPriceView(
             modifier = Modifier.padding(start = 4.dp),
             price = 124.0,
+            unit = "Р",
             textStyle = AppTypography.title2
         )
         HorizontalSpacer(width = 4.dp)
@@ -139,7 +140,7 @@ private fun RatingView() {
     ) {
         Icon(
             imageVector = Icons.Default.Star,
-            contentDescription = "",
+            contentDescription = null,
             tint = colorResource(id = R.color.orange)
         )
         HorizontalSpacer(width = 4.dp)
@@ -170,7 +171,7 @@ private fun ColumnScope.AddToCartIconButton() {
         Icon(
             modifier = Modifier.size(24.dp),
             imageVector = Icons.Default.Add,
-            contentDescription = "",
+            contentDescription = null,
             tint = Color.White
         )
     }

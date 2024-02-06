@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="registration_enter_title">Вход</string>
+    <string name="placeholder_name">Имя</string>
+    <string name="placeholder_surname">Фамилия</string>
+    <string name="placeholder_phone_number">Номер телефона</string>
+    <string name="enter_button_text">Войти</string>
 </resources>

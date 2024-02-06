@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_title">Личный кабинет</string>
+    <string name="profile_favourite_item_text">Избранное</string>
+    <plurals name="favourite_products">
+        <item quantity="one">%1$d товар</item>
+        <item quantity="few">%1$d товара</item>
+        <item quantity="many">%1$d товаров</item>
+    </plurals>
+    <string name="profile_shops_item_text">Магазины</string>
+    <string name="profile_feedback_item_text">Обратная связь</string>
+    <string name="profile_offer_item_text">Оферта</string>
+    <string name="profile_return_product_item_text">Возврат товара</string>
+    <string name="exit_button_text">Выйти</string>
+</resources>

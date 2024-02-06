@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nyx.common_compose.R
@@ -21,7 +22,7 @@ fun DiscountChipView(discount: Int) {
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
-            text = "-$discount%",
+            text = stringResource(R.string.discount_text, discount),
             color = Color.White,
             textAlign = TextAlign.Center,
             style = AppTypography.elementText

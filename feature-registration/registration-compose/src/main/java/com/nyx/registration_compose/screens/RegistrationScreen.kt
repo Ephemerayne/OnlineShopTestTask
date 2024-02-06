@@ -101,7 +101,7 @@ private fun RegistrationView(
     ) {
         CyrillicTextField(
             input = nameInput,
-            placeholder = "Имя",
+            placeholder = stringResource(R.string.placeholder_name),
             focusRequester = focusRequester,
             onTextChanged = onNameChanged,
             onClearInputClick = onClearNameClick
@@ -109,7 +109,7 @@ private fun RegistrationView(
         VerticalSpacer(height = 12.dp)
         CyrillicTextField(
             input = surnameInput,
-            placeholder = "Фамилия",
+            placeholder = stringResource(R.string.placeholder_surname),
             focusRequester = focusRequester,
             onTextChanged = onSurnameChanged,
             onClearInputClick = onClearSurnameClick
@@ -117,7 +117,7 @@ private fun RegistrationView(
         VerticalSpacer(height = 12.dp)
         PhoneNumberTextField(
             input = phoneNumberInput,
-            placeholder = "Номер телефона",
+            placeholder = stringResource(R.string.placeholder_phone_number),
             focusRequester = focusRequester,
             onTextChanged = onPhoneNumberChanged,
             onClearInputClick = onClearPhoneNumberClick
@@ -131,7 +131,7 @@ private fun RegistrationView(
             onClick = onEnterButtonClick
         ) {
             Text(
-                text = "Войти",
+                text = stringResource(R.string.enter_button_text),
                 textAlign = TextAlign.Center,
                 style = AppTypography.buttonText2
             )

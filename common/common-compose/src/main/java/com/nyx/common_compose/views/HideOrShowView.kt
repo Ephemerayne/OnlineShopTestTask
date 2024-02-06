@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nyx.common_compose.R
@@ -21,7 +22,7 @@ fun HideOrShowView(
             .offset((-12).dp)
             .noRippleClickable(onClick = onHideOrShowClick)
             .padding(12.dp),
-        text = if (isViewVisible) "Скрыть" else "Подробнее",
+        text = stringResource(if (isViewVisible) R.string.hide_text else R.string.more_details_text),
         color = colorResource(id = R.color.text_gray),
         textAlign = TextAlign.Center,
         style = AppTypography.buttonText1
@@ -39,7 +40,7 @@ fun ExpandOrReduceView(
                 .offset((-12).dp)
                 .noRippleClickable(onClick = onHideOrShowClick)
                 .padding(12.dp),
-            text = if (isViewExpanded) "Скрыть" else "Подробнее",
+            text = stringResource(if (isViewExpanded) R.string.hide_text else R.string.more_details_text),
             color = colorResource(id = R.color.text_gray),
             textAlign = TextAlign.Center,
             style = AppTypography.buttonText1

@@ -1,4 +1,4 @@
-package com.nyx.catalog_compose
+package com.nyx.catalog_compose.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,23 +25,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
 import com.nyx.catalog_api.navigation.CatalogScreenNavigation
+import com.nyx.catalog_compose.R
+import com.nyx.catalog_compose.extensions.text
 import com.nyx.catalog_compose.navigation.catalogActionNavigation
 import com.nyx.catalog_impl.CatalogViewModel
 import com.nyx.catalog_impl.models.CatalogViewEvent
 import com.nyx.catalog_impl.models.CatalogViewState
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
-import com.nyx.common_compose.R
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.utils.StableList
 import com.nyx.common_compose.utils.toStable
 import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.common_compose.views.*
+import com.nyx.common_compose.R as ColorRes
 
 @Composable
 fun CatalogScreen(
@@ -92,7 +95,7 @@ private fun CatalogView(
     onProductClick: () -> Unit,
 ) {
     Column(modifier = Modifier) {
-        ScreenTitleView(text = "Каталог")
+        ScreenTitleView(text = stringResource(R.string.catalog_title))
         Row {
             SortingView(
                 viewState = viewState,
@@ -170,7 +173,7 @@ private fun FiltersView(onClick: () -> Unit) {
         )
         Text(
             modifier = Modifier.padding(start = 4.dp, end = 8.dp),
-            text = "Фильтры",
+            text = stringResource(R.string.filters_title),
             style = AppTypography.title4
         )
     }
@@ -192,10 +195,10 @@ private fun TagsCarouselView(
                 modifier = Modifier.padding(4.dp),
                 selected = isSelected,
                 colors = ChipDefaults.filterChipColors(
-                    selectedBackgroundColor = colorResource(id = R.color.dark_blue),
-                    selectedContentColor = colorResource(id = R.color.white),
-                    contentColor = colorResource(id = R.color.text_gray),
-                    backgroundColor = colorResource(id = R.color.background_light_gray)
+                    selectedBackgroundColor = colorResource(id = ColorRes.color.dark_blue),
+                    selectedContentColor = colorResource(id = ColorRes.color.white),
+                    contentColor = colorResource(id = ColorRes.color.text_gray),
+                    backgroundColor = colorResource(id = ColorRes.color.background_light_gray)
                 ),
                 onClick = { onTagClick(type) },
                 trailingIcon =
@@ -204,7 +207,7 @@ private fun TagsCarouselView(
                         Icon(
                             modifier = Modifier.clickable(onClick = onClearClick),
                             imageVector = Icons.Default.Clear,
-                            contentDescription = ""
+                            contentDescription = null
                         )
                     }
                 } else null
