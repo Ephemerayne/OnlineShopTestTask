@@ -14,3 +14,29 @@ dependencyResolutionManagement {
 }
 rootProject.name = "OnlineShopTestTask"
 include ':app'
+include ':common'
+
+include ':feature-registration:registration-api'
+include ':feature-registration:registration-compose'
+include ':feature-registration:registration-data'
+include ':feature-registration:registration-impl'
+
+include ':feature-catalog:catalog-api'
+include ':feature-catalog:catalog-compose'
+include ':feature-catalog:catalog-data'
+include ':feature-catalog:catalog-impl'
+
+include ':feature-product-card:product-card-api'
+include ':feature-product-card:product-card-compose'
+include ':feature-product-card:product-card-data'
+include ':feature-product-card:product-card-impl'
+
+include ':feature-profile:profile-api'
+include ':feature-profile:profile-compose'
+include ':feature-profile:profile-data'
+include ':feature-profile:profile-impl'
+
+include ':feature-favourites:favourites-api'
+include ':feature-favourites:favourites-compose'
+include ':feature-favourites:favourites-data'
+include ':feature-favourites:favourites-impl'
