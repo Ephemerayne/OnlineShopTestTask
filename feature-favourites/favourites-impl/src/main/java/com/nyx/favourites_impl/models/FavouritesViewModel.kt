@@ -1,9 +1,7 @@
 package com.nyx.favourites_impl.models
 
-import com.nyx.common.viewmodel.BaseViewModel
-
 class FavouritesViewModel :
-    BaseViewModel<FavouritesViewState, FavouritesViewAction, FavouritesViewEvent>(
+    com.nyx.common_compose.viewmodel.BaseViewModel<FavouritesViewState, FavouritesViewAction, FavouritesViewEvent>(
         initialState = FavouritesViewState()
     ) {
 

@@ -34,11 +34,8 @@ import com.nyx.catalog_impl.models.CatalogViewEvent
 import com.nyx.catalog_impl.models.CatalogViewState
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
-import com.nyx.common.utils.StableList
-import com.nyx.common.utils.toStable
-import com.nyx.common.viewmodel.rememberEvent
-import com.nyx.common.views.ProductsGridView
-import com.nyx.common.views.ScreenTitleView
+import com.nyx.common_compose.utils.toStable
+import com.nyx.common_compose.viewmodel.rememberEvent
 
 @Composable
 fun CatalogScreen(
@@ -89,7 +86,7 @@ private fun CatalogView(
     onProductClick: () -> Unit,
 ) {
     Column(modifier = Modifier) {
-        ScreenTitleView(text = "Каталог")
+        com.nyx.common_compose.views.ScreenTitleView(text = "Каталог")
         Row {
             SortingView(
                 viewState = viewState,
@@ -105,7 +102,7 @@ private fun CatalogView(
             onTagClick = onTagClick,
             onClearClick = onClearTagClick
         )
-        ProductsGridView(onProductClick = onProductClick)
+        com.nyx.common_compose.views.ProductsGridView(onProductClick = onProductClick)
     }
 }
 
@@ -169,7 +166,7 @@ private fun FiltersView(onClick: () -> Unit) {
 @Composable
 private fun TagsCarouselView(
     currentTagType: ProductTagType,
-    availableTags: StableList<ProductTagType>,
+    availableTags: com.nyx.common_compose.utils.StableList<ProductTagType>,
     onTagClick: (ProductTagType) -> Unit,
     onClearClick: () -> Unit,
 ) {

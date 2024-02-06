@@ -1,12 +1,11 @@
 package com.nyx.registration_impl
 
-import com.nyx.common.viewmodel.BaseViewModel
 import com.nyx.registration_impl.models.RegistrationViewAction
 import com.nyx.registration_impl.models.RegistrationViewEvent
 import com.nyx.registration_impl.models.RegistrationViewState
 
 class RegistrationViewModel :
-    BaseViewModel<RegistrationViewState, RegistrationViewAction, RegistrationViewEvent>(
+    com.nyx.common_compose.viewmodel.BaseViewModel<RegistrationViewState, RegistrationViewAction, RegistrationViewEvent>(
         initialState = RegistrationViewState()
     ) {
 

@@ -51,7 +51,10 @@ android {
 }
 
 dependencies {
-    implementation project(":common")
+    implementation project(":common:common-api")
+    implementation project(":common:common-compose")
+    implementation project(":common:common-impl")
+
     implementation project(":feature-registration:registration-compose")
     implementation project(":feature-registration:registration-api")
     implementation project(":feature-registration:registration-impl")

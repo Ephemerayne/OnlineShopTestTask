@@ -14,7 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "OnlineShopTestTask"
 include ':app'
-include ':common'
 
 include ':feature-registration:registration-api'
 include ':feature-registration:registration-compose'
@@ -40,3 +39,7 @@ include ':feature-favourites:favourites-api'
 include ':feature-favourites:favourites-compose'
 include ':feature-favourites:favourites-data'
 include ':feature-favourites:favourites-impl'
+
+include ':common:common-api'
+include ':common:common-compose'
+include ':common:common-impl'

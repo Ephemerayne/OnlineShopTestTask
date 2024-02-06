@@ -28,10 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
-import com.nyx.common.viewmodel.rememberEvent
-import com.nyx.common.views.ButtonItemView
-import com.nyx.common.views.ScreenTitleView
-import com.nyx.common.views.VerticalSpacer
+import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.profile_api.navigation.ProfileScreenNavigation
 import com.nyx.profile_compose.navigation.profileActionNavigation
 import com.nyx.profile_impl.ProfileViewModel
@@ -71,21 +68,21 @@ private fun ProfileView(
             modifier = Modifier
                 .verticalScroll(scrollState)
         ) {
-            ScreenTitleView(text = "Личный кабинет")
-            VerticalSpacer(height = 8.dp)
+            com.nyx.common_compose.views.ScreenTitleView(text = "Личный кабинет")
+            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
             UserNameItemView(username = "Name Surname", phone = "+7 123 456 78 99")
-            VerticalSpacer(height = 20.dp)
+            com.nyx.common_compose.views.VerticalSpacer(height = 20.dp)
             FavouritesItemView(
                 productsCount = 1,
                 onFavouritesClick = onFavouritesClick
             )
-            VerticalSpacer(height = 8.dp)
+            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
             ShopsItemView()
-            VerticalSpacer(height = 8.dp)
+            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
             FeedbackItemView()
-            VerticalSpacer(height = 8.dp)
+            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
             OfferItemView()
-            VerticalSpacer(height = 8.dp)
+            com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
             ReturnProductItemView()
         }
 
@@ -100,7 +97,7 @@ private fun ProfileView(
 
 @Composable
 private fun UserNameItemView(username: String, phone: String) {
-    ButtonItemView(
+    com.nyx.common_compose.views.ButtonItemView(
         leadingIcon = Icons.Default.Face,
         title = username,
         subtitle = phone,
@@ -110,7 +107,7 @@ private fun UserNameItemView(username: String, phone: String) {
 
 @Composable
 private fun FavouritesItemView(productsCount: Int, onFavouritesClick: () -> Unit) {
-    ButtonItemView(
+    com.nyx.common_compose.views.ButtonItemView(
         leadingIcon = Icons.Default.FavoriteBorder,
         title = "Избранное",
         subtitle = "$productsCount товар",
@@ -120,7 +117,7 @@ private fun FavouritesItemView(productsCount: Int, onFavouritesClick: () -> Unit
 
 @Composable
 private fun ShopsItemView() {
-    ButtonItemView(
+    com.nyx.common_compose.views.ButtonItemView(
         leadingIcon = Icons.Default.ShoppingCart,
         title = "Магазины",
         onClick = { /* No implementation */ })
@@ -128,7 +125,7 @@ private fun ShopsItemView() {
 
 @Composable
 private fun FeedbackItemView() {
-    ButtonItemView(
+    com.nyx.common_compose.views.ButtonItemView(
         leadingIcon = Icons.Default.Email,
         title = "Обратная связь",
         onClick = { /* No implementation */ }
@@ -137,7 +134,7 @@ private fun FeedbackItemView() {
 
 @Composable
 private fun OfferItemView() {
-    ButtonItemView(
+    com.nyx.common_compose.views.ButtonItemView(
         leadingIcon = Icons.Default.List,
         title = "Оферта",
         onClick = { /* No implementation */ }
@@ -146,7 +143,7 @@ private fun OfferItemView() {
 
 @Composable
 private fun ReturnProductItemView() {
-    ButtonItemView(
+    com.nyx.common_compose.views.ButtonItemView(
         leadingIcon = Icons.Default.ArrowForward,
         title = "Возврат товара",
         onClick = { /* No implementation */ }

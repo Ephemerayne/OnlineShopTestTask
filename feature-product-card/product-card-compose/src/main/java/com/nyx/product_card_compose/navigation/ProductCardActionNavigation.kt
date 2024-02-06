@@ -1,7 +1,7 @@
 package com.nyx.product_card_compose.navigation
 
 import androidx.compose.runtime.Composable
-import com.nyx.common.viewmodel.observeAction
+import com.nyx.common_compose.viewmodel.observeAction
 import com.nyx.product_card_api.navigation.ProductCardScreenNavigation
 import com.nyx.product_card_impl.ProductCardViewModel
 import com.nyx.product_card_impl.models.ProductCardViewAction

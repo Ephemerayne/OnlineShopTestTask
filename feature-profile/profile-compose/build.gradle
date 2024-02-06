@@ -39,7 +39,9 @@ android {
 }
 
 dependencies {
-    implementation project(":common")
+    implementation project(":common:common-api")
+    implementation project(":common:common-compose")
+
     implementation project(":feature-profile:profile-api")
     implementation project(":feature-profile:profile-impl")
 }

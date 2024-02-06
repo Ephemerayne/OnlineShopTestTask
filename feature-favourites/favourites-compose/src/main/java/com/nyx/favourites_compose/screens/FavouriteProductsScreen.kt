@@ -6,12 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
-import com.nyx.common.utils.toStable
-import com.nyx.common.viewmodel.rememberEvent
-import com.nyx.common.views.HeaderView
-import com.nyx.common.views.ProductsGridView
-import com.nyx.common.views.SwitchTabsView
-import com.nyx.common.views.VerticalSpacer
+import com.nyx.common_compose.utils.toStable
+import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.dashboard_compose.views.StubView
 import com.nyx.favourites_api.navigation.FavouritesScreenNavigation
 import com.nyx.favourites_compose.navigation.favouritesActionNavigation
@@ -49,19 +45,19 @@ private fun FavouritesView(
     onProductClick: () -> Unit
 ) {
     Column {
-        HeaderView("Избранное", onBackArrowClick = onBackClick)
-        VerticalSpacer(height = 4.dp)
-        SwitchTabsView(
+        com.nyx.common_compose.views.HeaderView("Избранное", onBackArrowClick = onBackClick)
+        com.nyx.common_compose.views.VerticalSpacer(height = 4.dp)
+        com.nyx.common_compose.views.SwitchTabsView(
             selectedTabIndex = selectedTab.ordinal,
             tabsTitles = TabType.values().map { it.title }.toStable(),
             onTabClick = onTabClick
         )
-        VerticalSpacer(height = 20.dp)
+        com.nyx.common_compose.views.VerticalSpacer(height = 20.dp)
 
         Box {
             when (selectedTab) {
                 TabType.PRODUCT -> {
-                    ProductsGridView(onProductClick = onProductClick)
+                    com.nyx.common_compose.views.ProductsGridView(onProductClick = onProductClick)
                 }
 
                 TabType.BRANDS -> {

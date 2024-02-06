@@ -5,7 +5,7 @@ import com.nyx.catalog_api.navigation.CatalogScreenNavigation
 import com.nyx.catalog_impl.CatalogViewModel
 import com.nyx.catalog_impl.models.CatalogViewAction
 import com.nyx.catalog_impl.models.CatalogViewEvent
-import com.nyx.common.viewmodel.observeAction
+import com.nyx.common_compose.viewmodel.observeAction
 
 @Composable
 fun catalogActionNavigation(

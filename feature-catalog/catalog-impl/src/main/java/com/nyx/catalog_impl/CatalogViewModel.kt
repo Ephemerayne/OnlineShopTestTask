@@ -5,9 +5,8 @@ import com.nyx.catalog_impl.models.CatalogViewEvent
 import com.nyx.catalog_impl.models.CatalogViewState
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
-import com.nyx.common.viewmodel.BaseViewModel
 
-class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, CatalogViewEvent>(
+class CatalogViewModel : com.nyx.common_compose.viewmodel.BaseViewModel<CatalogViewState, CatalogViewAction, CatalogViewEvent>(
     initialState = CatalogViewState()
 ) {
 

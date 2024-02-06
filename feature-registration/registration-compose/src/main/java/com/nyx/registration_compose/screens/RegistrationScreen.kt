@@ -18,13 +18,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
-import com.nyx.common.viewmodel.rememberEvent
-import com.nyx.common.views.CyrillicTextField
-import com.nyx.common.views.PhoneNumberTextField
-import com.nyx.common.views.ScreenTitleView
-import com.nyx.common.views.VerticalSpacer
+import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.registration_api.navigation.RegistrationScreenNavigation
 import com.nyx.registration_compose.navigation.registrationActionNavigation
+import com.nyx.registration_impl.R
 import com.nyx.registration_impl.RegistrationViewModel
 import com.nyx.registration_impl.models.RegistrationViewEvent
 
@@ -92,7 +89,7 @@ private fun RegistrationView(
 ) {
     val focusRequester = remember { FocusRequester() }
 
-    ScreenTitleView(text = stringResource(id = com.nyx.registration_impl.R.string.registration_enter_title))
+    com.nyx.common_compose.views.ScreenTitleView(text = stringResource(id = R.string.registration_enter_title))
 
     Column(
         modifier = Modifier
@@ -100,30 +97,30 @@ private fun RegistrationView(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        CyrillicTextField(
+        com.nyx.common_compose.views.CyrillicTextField(
             input = nameInput,
             placeholder = "Имя",
             focusRequester = focusRequester,
             onTextChanged = onNameChanged,
             onClearInputClick = onClearNameClick
         )
-        VerticalSpacer(height = 12.dp)
-        CyrillicTextField(
+        com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
+        com.nyx.common_compose.views.CyrillicTextField(
             input = surnameInput,
             placeholder = "Фамилия",
             focusRequester = focusRequester,
             onTextChanged = onSurnameChanged,
             onClearInputClick = onClearSurnameClick
         )
-        VerticalSpacer(height = 12.dp)
-        PhoneNumberTextField(
+        com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
+        com.nyx.common_compose.views.PhoneNumberTextField(
             input = phoneNumberInput,
             placeholder = "Номер телефона",
             focusRequester = focusRequester,
             onTextChanged = onPhoneNumberChanged,
             onClearInputClick = onClearPhoneNumberClick
         )
-        VerticalSpacer(height = 20.dp)
+        com.nyx.common_compose.views.VerticalSpacer(height = 20.dp)
         Button(
             modifier = Modifier
                 .fillMaxWidth()

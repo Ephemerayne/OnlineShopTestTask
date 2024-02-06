@@ -1,12 +1,11 @@
 package com.nyx.product_card_impl
 
-import com.nyx.common.viewmodel.BaseViewModel
 import com.nyx.product_card_impl.models.ProductCardViewAction
 import com.nyx.product_card_impl.models.ProductCardViewEvent
 import com.nyx.product_card_impl.models.ProductCardViewState
 
 class ProductCardViewModel :
-    BaseViewModel<ProductCardViewState, ProductCardViewAction, ProductCardViewEvent>(
+    com.nyx.common_compose.viewmodel.BaseViewModel<ProductCardViewState, ProductCardViewAction, ProductCardViewEvent>(
         initialState = ProductCardViewState()
     ) {
 

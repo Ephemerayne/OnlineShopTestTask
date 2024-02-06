@@ -26,22 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
-import com.nyx.common.models.Info
-import com.nyx.common.viewmodel.rememberEvent
-import com.nyx.common.views.AddToCartButton
-import com.nyx.common.views.ButtonItemView
-import com.nyx.common.views.CrossedOutPriceView
-import com.nyx.common.views.DiscountChipView
-import com.nyx.common.views.ExpandOrReduceView
-import com.nyx.common.views.HeaderView
-import com.nyx.common.views.HideOrShowView
-import com.nyx.common.views.HorizontalDividerView
-import com.nyx.common.views.HorizontalSpacer
-import com.nyx.common.views.ImagePager
-import com.nyx.common.views.ImagePagerIndicatorView
-import com.nyx.common.views.NewPriceView
-import com.nyx.common.views.RatingStarsBar
-import com.nyx.common.views.VerticalSpacer
+import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.product_card_api.navigation.ProductCardScreenNavigation
 import com.nyx.product_card_compose.navigation.productCardActionNavigation
 import com.nyx.product_card_impl.ProductCardViewModel
@@ -95,23 +80,28 @@ private fun ProductCardView(
                 .fillMaxWidth()
                 .verticalScroll(scrollState)
         ) {
-            HeaderView(onBackArrowClick = onBackArrowClick, onShareIconClick = {})
+            com.nyx.common_compose.views.HeaderView(
+                onBackArrowClick = onBackArrowClick,
+                onShareIconClick = {})
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                VerticalSpacer(height = 12.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
                 ImagePagerView(pagerState = pagerState, 4)
-                VerticalSpacer(height = 8.dp)
-                ImagePagerIndicatorView(pagerState = pagerState, imagesCount = 4)
-                VerticalSpacer(height = 8.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
+                com.nyx.common_compose.views.ImagePagerIndicatorView(
+                    pagerState = pagerState,
+                    imagesCount = 4
+                )
+                com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
                 ProductTitleView()
-                VerticalSpacer(height = 12.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
                 AvailableStockView()
-                VerticalSpacer(height = 12.dp)
-                HorizontalDividerView(thickness = 0.5.dp)
-                VerticalSpacer(height = 12.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
+                com.nyx.common_compose.views.HorizontalDividerView(thickness = 0.5.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
                 RatingView(rating = 3.5, reviews = 6)
-                VerticalSpacer(height = 16.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 16.dp)
                 PriceView(150.0, 300.0, 50)
-                VerticalSpacer(height = 16.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 16.dp)
                 DescriptionView(
                     brand = "BRAND",
                     description = "This is decription product This is decription product This is decription product This is decription product This is decription product This is decription productThis is decription product This is decription productThis is decription product",
@@ -119,16 +109,16 @@ private fun ProductCardView(
                     onClick = {/* No implementation */ },
                     onHideOrShowDescriptionClick = onHideOrShowDescriptionClick
                 )
-                VerticalSpacer(height = 24.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 24.dp)
                 CharacteristicsView(
                     characteristics = listOf(
-                        Info("title 1", "value 1"),
-                        Info("title 2", "value 2"),
-                        Info("title 3", "value 3"),
-                        Info("title 4", "value 4")
+                        com.nyx.common_api.models.Info("title 1", "value 1"),
+                        com.nyx.common_api.models.Info("title 2", "value 2"),
+                        com.nyx.common_api.models.Info("title 3", "value 3"),
+                        com.nyx.common_api.models.Info("title 4", "value 4")
                     )
                 )
-                VerticalSpacer(height = 20.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 20.dp)
                 IngredientsView(
                     description = "ct  product ingredients product efefef nts prodgggggggggggggggggg rfffffffffffffffffffffd df fg dfg dfuct  product ingredients produ nts product  product ingredients produ",
                     isIngredientsExpanded = viewState.isIngredientsExpanded,
@@ -136,10 +126,10 @@ private fun ProductCardView(
                     onIngredientsLinesCountMeasured = onIngredientsLinesCountMeasured,
                     isIngredientsTextHasMoreThanTwoLines = viewState.isIngredientsTextHasMoreThanTwoLines
                 )
-                VerticalSpacer(height = 80.dp)
+                com.nyx.common_compose.views.VerticalSpacer(height = 80.dp)
             }
         }
-        AddToCartButton(
+        com.nyx.common_compose.views.AddToCartButton(
             modifier = Modifier.align(Alignment.BottomCenter),
             newPrice = 150.0,
             oldPrice = 300.0,
@@ -158,7 +148,7 @@ private fun ImagePagerView(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        ImagePager(
+        com.nyx.common_compose.views.ImagePager(
             pagerState = pagerState,
             imagesCount = imagesCount
         )
@@ -182,7 +172,7 @@ private fun ImagePagerView(
 @Composable
 private fun ProductTitleView() {
     Text(text = "BRAND", color = Color.LightGray)
-    VerticalSpacer(height = 12.dp)
+    com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
     Text(
         text = "PRODUCT NAME DESCRIPTION PRODUCT NAME DESCRIPTION PRODUCT NAME DESCRIPTION PRODUCT NAME DESCRIPTION",
         maxLines = 3,
@@ -198,10 +188,10 @@ private fun AvailableStockView() {
 @Composable
 private fun RatingView(rating: Double, reviews: Int) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        RatingStarsBar(rating = rating)
-        HorizontalSpacer(width = 8.dp)
+        com.nyx.common_compose.views.RatingStarsBar(rating = rating)
+        com.nyx.common_compose.views.HorizontalSpacer(width = 8.dp)
         Text(text = rating.toString(), color = Color.LightGray)
-        HorizontalSpacer(width = 4.dp)
+        com.nyx.common_compose.views.HorizontalSpacer(width = 4.dp)
         Text(text = "· $reviews отзыва", color = Color.LightGray)
     }
 }
@@ -209,11 +199,11 @@ private fun RatingView(rating: Double, reviews: Int) {
 @Composable
 private fun PriceView(newPrice: Double, oldPrice: Double, discount: Int) {
     Row {
-        NewPriceView(price = newPrice)
-        HorizontalSpacer(width = 12.dp)
-        CrossedOutPriceView(price = oldPrice)
-        HorizontalSpacer(width = 12.dp)
-        DiscountChipView(discount = discount)
+        com.nyx.common_compose.views.NewPriceView(price = newPrice)
+        com.nyx.common_compose.views.HorizontalSpacer(width = 12.dp)
+        com.nyx.common_compose.views.CrossedOutPriceView(price = oldPrice)
+        com.nyx.common_compose.views.HorizontalSpacer(width = 12.dp)
+        com.nyx.common_compose.views.DiscountChipView(discount = discount)
     }
 }
 
@@ -228,23 +218,23 @@ private fun DescriptionView(
     Text(text = "Описание")
 
     if (isDescriptionVisible) {
-        VerticalSpacer(height = 12.dp)
-        ButtonItemView(title = brand, onClick = onClick)
-        VerticalSpacer(height = 8.dp)
+        com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
+        com.nyx.common_compose.views.ButtonItemView(title = brand, onClick = onClick)
+        com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
         Text(text = description)
-        VerticalSpacer(height = 8.dp)
+        com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
     }
 
-    HideOrShowView(
+    com.nyx.common_compose.views.HideOrShowView(
         isViewVisible = isDescriptionVisible,
         onHideOrShowClick = onHideOrShowDescriptionClick
     )
 }
 
 @Composable
-private fun CharacteristicsView(characteristics: List<Info>) {
+private fun CharacteristicsView(characteristics: List<com.nyx.common_api.models.Info>) {
     Text(text = "Характеристики")
-    VerticalSpacer(height = 20.dp)
+    com.nyx.common_compose.views.VerticalSpacer(height = 20.dp)
 
     characteristics.forEach { info ->
         CharacteristicItem(title = info.title.orEmpty(), value = info.value.orEmpty()) // mappers
@@ -259,9 +249,9 @@ private fun CharacteristicItem(title: String, value: String) {
         Spacer(modifier = Modifier.weight(1f))
         Text(text = value)
     }
-    VerticalSpacer(height = 2.dp)
-    HorizontalDividerView()
-    VerticalSpacer(height = 12.dp)
+    com.nyx.common_compose.views.VerticalSpacer(height = 2.dp)
+    com.nyx.common_compose.views.HorizontalDividerView()
+    com.nyx.common_compose.views.VerticalSpacer(height = 12.dp)
 }
 
 @Composable
@@ -282,7 +272,7 @@ private fun IngredientsView(
         )
     }
 
-    VerticalSpacer(height = 8.dp)
+    com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
 
     val maxLines =
         if (isIngredientsTextHasMoreThanTwoLines == null) {
@@ -305,9 +295,9 @@ private fun IngredientsView(
             }
         }
     )
-    VerticalSpacer(height = 8.dp)
+    com.nyx.common_compose.views.VerticalSpacer(height = 8.dp)
 
-    ExpandOrReduceView(
+    com.nyx.common_compose.views.ExpandOrReduceView(
         isViewExpanded = isIngredientsExpanded,
         onHideOrShowClick =
         if (isIngredientsTextHasMoreThanTwoLines == true) {
