@@ -9,7 +9,7 @@
     <plurals name="review_count">
         <item quantity="one">· %1$d отзыв</item>
         <item quantity="few">· %1$d отзыва</item>
-        <item quantity="many">· %1$d отзывов</item>
+        <item quantity="many">·  %1$d отзывов</item>
     </plurals>
     <string name="description_title">Описание</string>
     <string name="characteristics_title">Характеристики</string>

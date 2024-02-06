@@ -12,18 +12,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -41,6 +34,7 @@ import com.nyx.profile_compose.navigation.profileActionNavigation
 import com.nyx.profile_impl.ProfileViewModel
 import com.nyx.profile_impl.models.ProfileViewEvent
 import com.nyx.common_compose.R as ColorRes
+import com.nyx.common_compose.R as CommonRes
 
 @Composable
 fun ProfileScreen(
@@ -106,17 +100,17 @@ private fun ProfileView(
 @Composable
 private fun UserNameItemView(username: String, phone: String) {
     ButtonItemView(
-        leadingIcon = Icons.Default.Face,
+        leadingIcon = painterResource(id = CommonRes.drawable.profile_icon),
         title = username,
         subtitle = phone,
-        trailingIcon = Icons.Default.ExitToApp,
+        trailingIcon = painterResource(id = R.drawable.exit_icon),
         onClick = { /* No implementation */ })
 }
 
 @Composable
 private fun FavouritesItemView(productsCount: Int, onFavouritesClick: () -> Unit) {
     ButtonItemView(
-        leadingIcon = Icons.Default.FavoriteBorder,
+        leadingIcon = painterResource(CommonRes.drawable.favourite_icon),
         title = stringResource(R.string.profile_favourite_item_text),
         subtitle = pluralStringResource(R.plurals.favourite_products, productsCount, productsCount),
         onClick = onFavouritesClick
@@ -126,7 +120,7 @@ private fun FavouritesItemView(productsCount: Int, onFavouritesClick: () -> Unit
 @Composable
 private fun ShopsItemView() {
     ButtonItemView(
-        leadingIcon = Icons.Default.ShoppingCart,
+        leadingIcon = painterResource(R.drawable.shop_icon),
         title = stringResource(R.string.profile_shops_item_text),
         onClick = { /* No implementation */ })
 }
@@ -134,7 +128,7 @@ private fun ShopsItemView() {
 @Composable
 private fun FeedbackItemView() {
     ButtonItemView(
-        leadingIcon = Icons.Default.Email,
+        leadingIcon = painterResource(R.drawable.feedback_icon),
         title = stringResource(R.string.profile_feedback_item_text),
         onClick = { /* No implementation */ }
     )
@@ -143,7 +137,7 @@ private fun FeedbackItemView() {
 @Composable
 private fun OfferItemView() {
     ButtonItemView(
-        leadingIcon = Icons.Default.List,
+        leadingIcon = painterResource(R.drawable.offer_icon),
         title = stringResource(R.string.profile_offer_item_text),
         onClick = { /* No implementation */ }
     )
@@ -152,7 +146,7 @@ private fun OfferItemView() {
 @Composable
 private fun ReturnProductItemView() {
     ButtonItemView(
-        leadingIcon = Icons.Default.ArrowForward,
+        leadingIcon = painterResource(R.drawable.return_icon),
         title = stringResource(R.string.profile_return_product_item_text),
         onClick = { /* No implementation */ }
     )

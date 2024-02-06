@@ -2,6 +2,7 @@ package com.nyx.common_compose.views
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,18 +19,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nyx.common_compose.R
@@ -74,13 +70,12 @@ private fun ProductItem(
                 .clip(RoundedCornerShape(8.dp))
         ) {
             ImagePager(pagerState = pagerState, imagesCount = 4)
-            Icon(
+            Image(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(4.dp),
-                imageVector = Icons.Default.FavoriteBorder,
-                tint = colorResource(id = R.color.pink),
-                contentDescription = ""
+                painter = painterResource(R.drawable.favourite_icon),
+                contentDescription = null
             )
         }
         VerticalSpacer(height = 4.dp)
@@ -138,10 +133,9 @@ private fun RatingView() {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = Icons.Default.Star,
+        Image(
+            painter = painterResource(R.drawable.rating_icon),
             contentDescription = null,
-            tint = colorResource(id = R.color.orange)
         )
         HorizontalSpacer(width = 4.dp)
         Text(
@@ -167,12 +161,11 @@ private fun ColumnScope.AddToCartIconButton() {
         contentPadding = PaddingValues(1.dp),
         shape = RoundedCornerShape(8.dp, 0.dp, 8.dp, 0.dp),
         elevation = null,
-        onClick = { /*TODO*/ }) {
-        Icon(
+        onClick = { /* No implementation */ }) {
+        Image(
             modifier = Modifier.size(24.dp),
-            imageVector = Icons.Default.Add,
-            contentDescription = null,
-            tint = Color.White
+            painter = painterResource(R.drawable.add_icon),
+            contentDescription = null
         )
     }
 }

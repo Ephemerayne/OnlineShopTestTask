@@ -1,6 +1,7 @@
 package com.nyx.product_card_compose.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,16 +13,12 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,7 +35,7 @@ import com.nyx.product_card_compose.navigation.productCardActionNavigation
 import com.nyx.product_card_impl.ProductCardViewModel
 import com.nyx.product_card_impl.models.ProductCardViewEvent
 import com.nyx.product_card_impl.models.ProductCardViewState
-import com.nyx.common_compose.R as ColorRes
+import com.nyx.common_compose.R as CommonRes
 
 @Composable
 fun ProductCardScreen(
@@ -89,7 +86,7 @@ private fun ProductCardView(
         ) {
             HeaderView(
                 onBackArrowClick = onBackArrowClick,
-                onShareIconClick = {})
+                onShareIconClick = { /* No implementation */ })
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 VerticalSpacer(height = 12.dp)
                 ImagePagerView(pagerState = pagerState, 4)
@@ -98,8 +95,8 @@ private fun ProductCardView(
                     pagerState = pagerState,
                     imagesCount = 4,
                     indicator = IndicatorSettings(
-                        selectedColor = colorResource(id = ColorRes.color.pink),
-                        unselectedColor = colorResource(id = ColorRes.color.element_light_gray)
+                        selectedColor = colorResource(id = CommonRes.color.pink),
+                        unselectedColor = colorResource(id = CommonRes.color.element_light_gray)
                     ),
                 )
                 VerticalSpacer(height = 8.dp)
@@ -164,18 +161,18 @@ private fun ImagePagerView(
             pagerState = pagerState,
             imagesCount = imagesCount
         )
-        Icon(
+        Image(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(4.dp),
-            imageVector = Icons.Default.FavoriteBorder,
+            painter = painterResource(CommonRes.drawable.favourite_icon),
             contentDescription = null
         )
-        Icon(
+        Image(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(start = 4.dp, bottom = 16.dp),
-            imageVector = Icons.Default.Info,
+            painter = painterResource(R.drawable.image_info_icon),
             contentDescription = null
         )
     }
@@ -185,7 +182,7 @@ private fun ImagePagerView(
 private fun ProductTitleView() {
     Text(
         text = "BRAND",
-        color = colorResource(id = ColorRes.color.text_gray),
+        color = colorResource(id = CommonRes.color.text_gray),
         style = AppTypography.title1
     )
     VerticalSpacer(height = 12.dp)
@@ -201,7 +198,7 @@ private fun ProductTitleView() {
 private fun AvailableStockView() {
     Text(
         text = pluralStringResource(R.plurals.available_stock, 1, 1),
-        color = colorResource(id = ColorRes.color.text_gray),
+        color = colorResource(id = CommonRes.color.text_gray),
         style = AppTypography.text1
     )
 }
@@ -213,13 +210,13 @@ private fun RatingView(rating: Double, reviews: Int) {
         HorizontalSpacer(width = 8.dp)
         Text(
             text = rating.toString(),
-            color = colorResource(id = ColorRes.color.text_gray),
+            color = colorResource(id = CommonRes.color.text_gray),
             style = AppTypography.text1
         )
         HorizontalSpacer(width = 4.dp)
         Text(
             text = pluralStringResource(R.plurals.review_count, reviews, reviews),
-            color = colorResource(id = ColorRes.color.text_gray),
+            color = colorResource(id = CommonRes.color.text_gray),
             style = AppTypography.text1
         )
     }
@@ -298,9 +295,9 @@ private fun IngredientsView(
     Row {
         TitleView(text = stringResource(R.string.ingredients_title))
         Spacer(modifier = Modifier.weight(1f))
-        Icon(
+        Image(
             modifier = Modifier.clickable(onClick = {/* No implementation */ }),
-            imageVector = Icons.Default.Search,
+            painter = painterResource(id = R.drawable.copy_icon),
             contentDescription = null
         )
     }

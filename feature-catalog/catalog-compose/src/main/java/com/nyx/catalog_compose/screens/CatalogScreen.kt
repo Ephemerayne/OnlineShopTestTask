@@ -1,5 +1,6 @@
 package com.nyx.catalog_compose.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,13 +19,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -128,9 +127,9 @@ private fun SortingView(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        Icon(
+        Image(
             modifier = Modifier.padding(start = 8.dp),
-            imageVector = Icons.Default.Info,
+            painter = painterResource(R.drawable.sorting_icon),
             contentDescription = null
         )
         Text(
@@ -166,9 +165,9 @@ private fun FiltersView(onClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End
     ) {
-        Icon(
+        Image(
             modifier = Modifier.padding(start = 8.dp),
-            imageVector = Icons.Default.Settings,
+            painter = painterResource(R.drawable.filters_icon),
             contentDescription = null
         )
         Text(
@@ -204,20 +203,20 @@ private fun TagsCarouselView(
                 trailingIcon =
                 if (isSelected && type != ProductTagType.ALL) {
                     {
-                        Icon(
+                        Image(
                             modifier = Modifier.clickable(onClick = onClearClick),
-                            imageVector = Icons.Default.Clear,
+                            painter = painterResource(R.drawable.close_icon),
                             contentDescription = null
                         )
                     }
                 } else null
-
             ) {
                 Text(
                     text = type.text,
                     textAlign = TextAlign.Center,
                     style = if (isSelected) AppTypography.title4 else AppTypography.buttonText2
                 )
+
             }
         }
     }

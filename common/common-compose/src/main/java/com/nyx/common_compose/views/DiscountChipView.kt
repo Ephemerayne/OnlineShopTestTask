@@ -21,7 +21,7 @@ fun DiscountChipView(discount: Int) {
         shape = RoundedCornerShape(4.dp),
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+            modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp),
             text = stringResource(R.string.discount_text, discount),
             color = Color.White,
             textAlign = TextAlign.Center,

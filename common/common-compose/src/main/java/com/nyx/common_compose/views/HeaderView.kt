@@ -1,5 +1,6 @@
 package com.nyx.common_compose.views
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -8,15 +9,13 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.nyx.common_compose.R
 import com.nyx.common_compose.typography.AppTypography
 
 @Composable
@@ -36,9 +35,9 @@ fun HeaderView(
                 .clickable(onClick = onBackArrowClick),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
+            Image(
                 modifier = Modifier.size(24.dp),
-                imageVector = Icons.Default.ArrowBack,
+                painter = painterResource(R.drawable.arrow_back_icon),
                 contentDescription = null
             )
         }
@@ -57,9 +56,9 @@ fun HeaderView(
                     .clickable(onClick = onShareIconClick),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
+                Image(
                     modifier = Modifier.size(24.dp),
-                    imageVector = Icons.Default.Share,
+                    painter = painterResource(R.drawable.share_icon),
                     contentDescription = null
                 )
             }

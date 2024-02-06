@@ -6,19 +6,13 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -39,42 +33,43 @@ import com.nyx.onlineshoptesttask.navigation.screens.product_card.ProductCardScr
 import com.nyx.onlineshoptesttask.navigation.screens.profile.ProfileScreenNavigationImpl
 import com.nyx.product_card_compose.screens.ProductCardScreen
 import com.nyx.profile_compose.screens.ProfileScreen
+import com.nyx.common_compose.R as CommonRes
 
 const val catalogNavGraph = "CatalogNavGraph"
 const val profileNavGraph = "ProfileNavGraph"
 
-sealed class NavItem(val route: String, val title: String, val icon: ImageVector) {
+sealed class NavItem(val route: String, val title: String, val icon: Int) {
     object Main :
         NavItem(
             route = NavigationTree.Root.Dashboard.Main.name,
             title = "Главная",
-            icon = Icons.Filled.Home
+            icon = R.drawable.home_icon
         )
 
     object Catalog : NavItem(
         route = NavigationTree.Root.Dashboard.Catalog.ProductsCatalog.name,
         title = "Каталог",
-        icon = Icons.Filled.List
+        icon = R.drawable.catalog_icon
     )
 
     object Cart :
         NavItem(
             route = NavigationTree.Root.Dashboard.Cart.name,
             title = "Корзина",
-            icon = Icons.Filled.ShoppingCart
+            icon = R.drawable.cart_icon
         )
 
     object Stocks : NavItem(
         route = NavigationTree.Root.Dashboard.Stocks.name,
         title = "Акции",
-        icon = Icons.Filled.Star
+        icon = R.drawable.stocks_icon
     )
 
     object Profile :
         NavItem(
             route = NavigationTree.Root.Dashboard.Profile.UserProfile.name,
             title = "Профиль",
-            icon = Icons.Filled.Face
+            icon = CommonRes.drawable.profile_icon
         )
 }
 
@@ -102,7 +97,12 @@ fun DashboardNavigationBar() {
                 val currentDestination = navBackStackEntry?.destination
                 items.forEach { screen ->
                     BottomNavigationItem(
-                        icon = { Icon(screen.icon, contentDescription = null) },
+                        icon = {
+                            Icon(
+                                painter = painterResource(id = screen.icon),
+                                contentDescription = null
+                            )
+                        },
                         label = { Text(text = screen.title, style = AppTypography.caption1) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         selectedContentColor = colorResource(id = R.color.pink),
