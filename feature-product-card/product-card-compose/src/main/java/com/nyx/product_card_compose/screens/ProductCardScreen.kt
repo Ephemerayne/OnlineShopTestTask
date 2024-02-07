@@ -211,7 +211,7 @@ private fun ProductTitleView(brand: String, title: String) {
 @Composable
 private fun AvailableStockView(availableStock: Int) {
     Text(
-        text = pluralStringResource(R.plurals.available_stock, availableStock, 1),
+        text = pluralStringResource(R.plurals.available_stock, availableStock, availableStock),
         color = colorResource(id = CommonRes.color.text_gray),
         style = AppTypography.text1
     )
@@ -286,7 +286,7 @@ private fun CharacteristicsView(characteristics: List<InfoUiEntity>) {
     VerticalSpacer(height = 20.dp)
 
     characteristics.forEach { info ->
-        CharacteristicItem(title = info.title.orEmpty(), value = info.value.orEmpty()) // mappers
+        CharacteristicItem(title = info.title, value = info.value)
     }
 
 }
