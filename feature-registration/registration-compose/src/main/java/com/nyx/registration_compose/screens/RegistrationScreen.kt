@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,7 @@ import com.nyx.registration_compose.R
 import com.nyx.registration_compose.navigation.registrationActionNavigation
 import com.nyx.registration_impl.RegistrationViewModel
 import com.nyx.registration_impl.models.RegistrationViewEvent
+import com.nyx.common_compose.R as CommonRes
 
 @Composable
 fun RegistrationScreen(
@@ -64,6 +67,7 @@ fun RegistrationScreen(
         nameInput = viewState.name,
         surnameInput = viewState.surname,
         phoneNumberInput = viewState.phoneNumber,
+        isEnterButtonEnabled = viewState.isInputValid,
         onNameChanged = onNameChanged,
         onSurnameChanged = onSurnameChanged,
         onPhoneNumberChanged = onPhoneNumberChanged,
@@ -81,6 +85,7 @@ private fun RegistrationView(
     nameInput: String,
     surnameInput: String,
     phoneNumberInput: String,
+    isEnterButtonEnabled: Boolean,
     onNameChanged: (String) -> Unit,
     onSurnameChanged: (String) -> Unit,
     onPhoneNumberChanged: (String) -> Unit,
@@ -128,6 +133,11 @@ private fun RegistrationView(
                 .fillMaxWidth()
                 .height(51.dp),
             shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                disabledBackgroundColor = colorResource(CommonRes.color.light_pink),
+                disabledContentColor = colorResource(CommonRes.color.white)
+            ),
+            enabled = isEnterButtonEnabled,
             onClick = onEnterButtonClick
         ) {
             Text(

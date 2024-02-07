@@ -1,5 +1,6 @@
 package com.nyx.registration_impl
 
+import com.nyx.common_impl.utils.isCyrillicInput
 import com.nyx.registration_impl.models.RegistrationViewAction
 import com.nyx.registration_impl.models.RegistrationViewEvent
 import com.nyx.registration_impl.models.RegistrationViewState
@@ -26,33 +27,54 @@ class RegistrationViewModel :
         viewState = viewState.copy(
             name = input
         )
+        validateInput()
     }
 
     private fun onSurnameTextInputChange(input: String) {
         viewState = viewState.copy(
             surname = input
         )
+        validateInput()
     }
 
     private fun onPhoneNumberTextInputChange(input: String) {
         viewState = viewState.copy(
             phoneNumber = input
         )
+        validateInput()
     }
 
     private fun clearNameField() {
         viewState = viewState.copy(name = "")
+        validateInput()
     }
 
     private fun clearSurnameField() {
         viewState = viewState.copy(surname = "")
+        validateInput()
     }
 
     private fun clearPhoneNumberField() {
         viewState = viewState.copy(phoneNumber = "")
+        validateInput()
     }
 
     private fun login() {
         viewAction = RegistrationViewAction.OpenCatalog
+    }
+
+    private fun validateInput() {
+        val isInputValid =
+            isCyrillicLetterInput(viewState.name) && isCyrillicLetterInput(viewState.surname) && viewState.phoneNumber.length == 10
+
+
+
+        viewState = viewState.copy(isInputValid = isInputValid)
+    }
+
+    private fun isCyrillicLetterInput(input: String): Boolean {
+        if (input.isBlank()) return false
+
+        return isCyrillicInput(input)
     }
 }

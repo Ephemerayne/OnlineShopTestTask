@@ -32,17 +32,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.nyx.common_compose.R
 import com.nyx.common_compose.typography.AppTypography
-import kotlin.math.min
 
 private object PhoneNumberDefaults {
     const val MASK = "+7 XXX XXX-XX-XX"
@@ -56,11 +55,7 @@ fun PhoneNumberTextField(
     input: String,
     placeholder: String,
     focusRequester: FocusRequester,
-    textStyle: TextStyle = TextStyle(
-        color = Color.Black,
-        fontFamily = FontFamily.SansSerif,
-        fontSize = 14.sp
-    ),
+    textStyle: TextStyle = AppTypography.placeholderText,
     cursorColor: Color = Color.Black,
     fieldColor: Color = colorResource(id = R.color.background_light_gray),
     isEnabled: Boolean = true,
@@ -74,7 +69,7 @@ fun PhoneNumberTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Number
     ),
-    visualTransformation: VisualTransformation = MaskVisualTransformation(PhoneNumberDefaults.MASK),
+    visualTransformation: VisualTransformation = PhoneVisualTransformation(),
     keyboardActions: KeyboardActions = KeyboardActions(),
     onTextChanged: (String) -> Unit,
     onClearInputClick: () -> Unit,
@@ -87,7 +82,13 @@ fun PhoneNumberTextField(
         BasicTextField(
             value = input,
             onValueChange = { input ->
-                if (input.length <= PhoneNumberDefaults.INPUT_LENGTH) {
+                val availableInputLength = if (input.isNotEmpty() && input.startsWith("7")) {
+                    PhoneNumberDefaults.INPUT_LENGTH + 1
+                } else {
+                    PhoneNumberDefaults.INPUT_LENGTH
+                }
+
+                if (input.length <= availableInputLength) {
                     onTextChanged(input)
                 }
             },
@@ -135,68 +136,44 @@ fun PhoneNumberTextField(
     }
 }
 
-
-//TODO
-private class MaskVisualTransformation(private val mask: String) : VisualTransformation {
-
-    private val specialSymbolsIndices = mask.indices.filter { mask[it] != 'X' }
-
-    override fun filter(input: AnnotatedString): TransformedText {
-        // Фильтрация ввода, оставляем только цифры
-        val digitsOnly = input.text.filter { it.isDigit() }
-
-        // Игнорирование первой цифры, если это "7"
-        val effectiveInput = if (digitsOnly.startsWith("7")) digitsOnly.drop(1) else digitsOnly
-
-        var result = ""
-        var maskIndex = 0
-        var inputIndex = 0
-
-        while (inputIndex < effectiveInput.length && maskIndex < mask.length) {
-            if (mask[maskIndex] == 'X') {
-                result += effectiveInput[inputIndex]
-                inputIndex++
-            } else {
-                result += mask[maskIndex]
-            }
-            maskIndex++
+class PhoneVisualTransformation : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        if (text.isEmpty()) {
+            return TransformedText(AnnotatedString(""), getOffsetMapping(""))
         }
 
-        return TransformedText(AnnotatedString(result), offsetTranslator(effectiveInput.length))
+        val trimmed = if (text.text.startsWith("7")) {
+            text.text.substring(1)
+        } else {
+            text.text
+        }
+
+        val digitsOnly = trimmed.filter { it.isDigit() }
+
+        var phoneNumber = "+7 "
+
+        digitsOnly.forEachIndexed { index, c ->
+            when (index) {
+                in 0..2 -> phoneNumber += if (index == 2) "$c " else c
+                in 3..5 -> phoneNumber += if (index == 5) "$c-" else c
+                in 6..7 -> phoneNumber += if (index == 7) "$c-" else c
+                else -> phoneNumber += c
+            }
+        }
+
+        val visualText = TextFieldValue(phoneNumber, TextRange(phoneNumber.length))
+
+        return TransformedText(AnnotatedString(visualText.text), getOffsetMapping(visualText.text))
     }
 
-    private fun offsetTranslator(inputLength: Int): OffsetMapping {
+    private fun getOffsetMapping(text: String): OffsetMapping {
         return object : OffsetMapping {
             override fun originalToTransformed(offset: Int): Int {
-                var transformedOffset = 0
-                var xCount = 0
-                // Перебираем символы маски и учитываем только те, которые соответствуют введенным символам (X)
-                for (i in mask.indices) {
-                    if (i >= mask.length || xCount >= inputLength) break // Убедитесь, что мы не выходим за пределы
-                    if (mask[i] == 'X') {
-                        if (xCount == offset) {
-                            break
-                        }
-                        xCount++
-                    }
-                    transformedOffset++
-                }
-                // Возвращаем минимальное значение из рассчитанного смещения и длины всего преобразованного текста
-                // Это предотвращает выход за пределы диапазона
-                return min(transformedOffset, mask.substring(0, transformedOffset).length)
+                return text.length.coerceAtMost(offset + 999)
             }
 
             override fun transformedToOriginal(offset: Int): Int {
-                var originalOffset = 0
-                var xCount = 0
-                for (i in 0 until min(offset, mask.length)) {
-                    if (mask[i] == 'X') {
-                        xCount++
-                    }
-                    if (i == offset - 1) break
-                }
-                originalOffset = xCount
-                return originalOffset
+                return (offset - 999).coerceAtLeast(0)
             }
         }
     }

@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    implementation project(":common:common-impl")
+
     // AndroidX
     api "androidx.core:core-ktx:$core_version"
     api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"

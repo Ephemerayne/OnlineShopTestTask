@@ -34,12 +34,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.nyx.common_compose.R
 import com.nyx.common_compose.typography.AppTypography
+import com.nyx.common_impl.utils.isCyrillicInput
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -48,11 +47,7 @@ fun CyrillicTextField(
     input: String,
     placeholder: String,
     focusRequester: FocusRequester,
-    textStyle: TextStyle = TextStyle(
-        color = Color.Black,
-        fontFamily = FontFamily.SansSerif,
-        fontSize = 14.sp
-    ),
+    textStyle: TextStyle = AppTypography.placeholderText,
     cursorColor: Color = Color.Black,
     fieldColor: Color = colorResource(id = R.color.background_light_gray),
     isEnabled: Boolean = true,
@@ -71,8 +66,7 @@ fun CyrillicTextField(
 
     var isFocused by remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
-    val pattern = remember { Regex("[а-яА-я\\s]*") }
-    val isValidValue = input.matches(pattern)
+
 
     Box(modifier = modifier.fillMaxWidth()) {
         BasicTextField(
@@ -87,7 +81,7 @@ fun CyrillicTextField(
                 .focusRequester(focusRequester)
                 .onFocusChanged { isFocused = it.isFocused }
                 .border(
-                    border = if (isValidValue) BorderStroke(
+                    border = if (isCyrillicInput(input)) BorderStroke(
                         width = 0.dp,
                         color = Color.Transparent
                     ) else
@@ -118,7 +112,7 @@ fun CyrillicTextField(
                 contentPadding = contentPaddings,
             )
         }
-        if (input.isNotBlank() && isFocused && hasClearIcon) {
+        if (input.isNotEmpty() && isFocused && hasClearIcon) {
             Image(
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
