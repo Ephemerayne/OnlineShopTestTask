@@ -8,8 +8,13 @@ class FavouritesScreenNavigationImpl(
     private val navController: NavController,
 ) : FavouritesScreenNavigation {
 
-    override fun openProductCard() {
-        navController.navigate(NavigationTree.Root.Dashboard.Profile.ProductCard.name)
+    override fun openProductCard(productId: String) {
+        navController.navigate(
+            route = NavigationTree.Root.Dashboard.Profile.Favourite.createRoute(
+                route = NavigationTree.Root.Dashboard.Profile.ProductCard.name,
+                args = productId
+            )
+        )
     }
 
     override fun back() {

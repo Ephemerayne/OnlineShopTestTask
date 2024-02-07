@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import com.nyx.common_compose.R
 import com.nyx.common_compose.models.ProductUiEntity
 import com.nyx.common_compose.typography.AppTypography
+import com.nyx.common_compose.utils.productIdToImageRes
+import com.nyx.common_compose.utils.toStable
 
 @Composable
 fun ProductsGridView(
@@ -75,13 +78,17 @@ private fun ProductItem(
             .clickable(onClick = onProductClick)
     )
     {
+        val imagesIds = remember {
+            productIdToImageRes(product.id)
+        }.toStable()
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(144.dp)
                 .clip(RoundedCornerShape(8.dp))
         ) {
-            ImagePager(pagerState = pagerState, imagesCount = 4)
+            ImagePager(pagerState = pagerState, imagesIds = imagesIds)
             FavouriteIconView(
                 isFavourite = product.isFavourite,
                 onFavouriteClick = onFavouriteClick
@@ -90,7 +97,7 @@ private fun ProductItem(
         VerticalSpacer(height = 4.dp)
         ImagePagerIndicatorView(
             pagerState = pagerState,
-            imagesCount = 4,
+            imagesCount = imagesIds.count(),
             indicator = IndicatorSettings(
                 size = 4.dp,
                 paddingBetween = 2.dp,

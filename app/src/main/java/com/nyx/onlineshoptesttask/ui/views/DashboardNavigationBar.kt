@@ -189,11 +189,19 @@ fun DashboardNavigationBar() {
                     FavouriteProductsScreen(screenNavigation = favouritesScreenNavigation)
                 }
 
-                composable(NavigationTree.Root.Dashboard.Profile.ProductCard.name) {
-                    /* ProductCardScreen(
-                         product = "",
-                         screenNavigation = productCardScreenNavigation
-                     )*/
+                composable(route = "${NavigationTree.Root.Dashboard.Profile.ProductCard.name}/{${Constants.PRODUCT_ID}}",
+                    arguments = listOf(
+                        navArgument(Constants.PRODUCT_ID) {
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val productId = backStackEntry.arguments?.getString(Constants.PRODUCT_ID)
+                    requireNotNull(productId) { "productId parameter wasn't found. Please make sure it's set!" }
+                    ProductCardScreen(
+                        productId = productId,
+                        screenNavigation = productCardScreenNavigation
+                    )
                 }
             }
         }

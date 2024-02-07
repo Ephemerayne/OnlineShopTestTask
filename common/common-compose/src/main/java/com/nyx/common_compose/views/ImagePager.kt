@@ -1,6 +1,7 @@
 package com.nyx.common_compose.views
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,28 +19,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlin.random.Random
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImagePager(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
-    imagesCount: Int,
+    imagesIds: List<Int>,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
-            pageCount = imagesCount
+            pageCount = imagesIds.count()
         ) {
-            Box(
+            Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(368.dp)
-                    .background(Color(Random.nextInt()))
+                    .height(368.dp),
+                painter = painterResource(imagesIds[it]),
+                contentDescription = null
             )
         }
     }

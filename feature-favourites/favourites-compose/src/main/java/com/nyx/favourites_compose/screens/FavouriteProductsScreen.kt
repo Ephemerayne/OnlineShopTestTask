@@ -43,14 +43,16 @@ fun FavouriteProductsScreen(
     val onFavouriteClick = viewModel.rememberEvent<String, Boolean, _> { id, isFavourite ->
         FavouritesViewEvent.OnFavouriteClicked(id, isFavourite)
     }
-//    val onProductClick = viewModel.rememberEvent(FavouritesViewEvent.OnProductClicked)
+    val onProductClick = viewModel.rememberEvent<String, _> {
+        FavouritesViewEvent.OnProductClicked(it)
+    }
 
     FavouritesView(
         favouritesProducts = viewState.products,
         selectedTab = viewState.currentSelectedTab,
         onBackClick = onBackClick,
         onTabClick = onTabClick,
-        onProductClick = {},
+        onProductClick = onProductClick,
         onFavouriteClick = onFavouriteClick
     )
 
@@ -82,11 +84,15 @@ private fun FavouritesView(
         Box {
             when (selectedTab) {
                 TabType.PRODUCT -> {
-                    ProductsGridView(
-                        products = favouritesProducts,
-                        onProductClick = onProductClick,
-                        onFavouriteClick = onFavouriteClick
-                    )
+                    if (favouritesProducts.isEmpty()) {
+                        StubView(pageName = "favourite products")
+                    } else {
+                        ProductsGridView(
+                            products = favouritesProducts,
+                            onProductClick = onProductClick,
+                            onFavouriteClick = onFavouriteClick
+                        )
+                    }
                 }
 
                 TabType.BRANDS -> {

@@ -27,7 +27,7 @@ class FavouritesViewModel(
             is FavouritesViewEvent.OnBackClicked -> viewAction = FavouritesViewAction.Back
             is FavouritesViewEvent.OnTabClicked -> setTab(viewEvent.tabIndex)
             is FavouritesViewEvent.OnProductClicked -> viewAction =
-                FavouritesViewAction.OpenProductCard
+                FavouritesViewAction.OpenProductCard(viewEvent.productId)
 
             is FavouritesViewEvent.OnFavouriteClicked -> toggleProductToFavourites(
                 viewEvent.id,

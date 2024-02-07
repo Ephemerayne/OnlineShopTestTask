@@ -19,7 +19,7 @@ fun favouritesActionNavigation(
                 screenNavigation.back()
             }
             is FavouritesViewAction.OpenProductCard -> {
-                screenNavigation.openProductCard()
+                screenNavigation.openProductCard(action.productId)
             }
         }
     }

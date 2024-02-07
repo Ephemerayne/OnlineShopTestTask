@@ -33,6 +33,9 @@ import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.models.InfoUiEntity
 import com.nyx.common_compose.models.ProductUiEntity
 import com.nyx.common_compose.typography.AppTypography
+import com.nyx.common_compose.utils.StableList
+import com.nyx.common_compose.utils.productIdToImageRes
+import com.nyx.common_compose.utils.toStable
 import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.common_compose.viewmodel.viewModelFactory
 import com.nyx.common_compose.views.*
@@ -99,6 +102,7 @@ private fun ProductCardView(
     val scrollState = rememberScrollState()
     val pagerState = rememberPagerState(0)
     val product = viewState.product ?: ProductEntity().toUiEntity()
+    val imagesIds = productIdToImageRes(product.id).toStable()
 
     Box {
         Column(
@@ -106,6 +110,7 @@ private fun ProductCardView(
                 .fillMaxWidth()
                 .verticalScroll(scrollState)
         ) {
+
             HeaderView(
                 onBackArrowClick = onBackArrowClick,
                 onShareIconClick = { /* No implementation */ })
@@ -113,14 +118,14 @@ private fun ProductCardView(
                 VerticalSpacer(height = 12.dp)
                 ImagePagerView(
                     product = product,
+                    imagesIds = imagesIds,
                     pagerState = pagerState,
-                    imagesCount = 4,
                     onFavouriteClick = onFavouriteClick
                 )
                 VerticalSpacer(height = 8.dp)
                 ImagePagerIndicatorView(
                     pagerState = pagerState,
-                    imagesCount = 4,
+                    imagesCount = imagesIds.count(),
                     indicator = IndicatorSettings(
                         selectedColor = colorResource(id = CommonRes.color.pink),
                         unselectedColor = colorResource(id = CommonRes.color.element_light_gray)
@@ -184,8 +189,8 @@ private fun ProductCardView(
 @Composable
 private fun ImagePagerView(
     product: ProductUiEntity,
+    imagesIds: StableList<Int>,
     pagerState: PagerState,
-    imagesCount: Int,
     onFavouriteClick: (productId: String, isFavourite: Boolean) -> Unit,
 ) {
     Box(
@@ -194,17 +199,19 @@ private fun ImagePagerView(
     ) {
         ImagePager(
             pagerState = pagerState,
-            imagesCount = imagesCount
+            imagesIds = imagesIds
         )
-        // TODO box
-        Image(
+        Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(4.dp)
-                .clickable(onClick = { onFavouriteClick(product.id, product.isFavourite) }),
-            painter = painterResource(if (product.isFavourite) CommonRes.drawable.selected_favourite_icon else CommonRes.drawable.favourite_icon),
-            contentDescription = null
-        )
+                .clickable(onClick = { onFavouriteClick(product.id, product.isFavourite) })
+        ) {
+            Image(
+                modifier = Modifier.padding(8.dp),
+                painter = painterResource(if (product.isFavourite) CommonRes.drawable.selected_favourite_icon else CommonRes.drawable.favourite_icon),
+                contentDescription = null
+            )
+        }
         Image(
             modifier = Modifier
                 .align(Alignment.BottomStart)
