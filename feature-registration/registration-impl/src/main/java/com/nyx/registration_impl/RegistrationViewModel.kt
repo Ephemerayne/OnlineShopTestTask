@@ -61,8 +61,19 @@ class RegistrationViewModel :
     }
 
     private fun validateInput() {
+        val numberStartsWithSeven =
+            viewState.phoneNumber.isNotBlank() && viewState.phoneNumber.startsWith("7")
+
+        val isValidNumberLength = if (numberStartsWithSeven) {
+            viewState.phoneNumber.length == 11
+        } else {
+            viewState.phoneNumber.length == 10
+        }
+
         val isInputValid =
-            isCyrillicLetterInput(viewState.name) && isCyrillicLetterInput(viewState.surname) && viewState.phoneNumber.length == 10
+            isCyrillicLetterInput(viewState.name) &&
+                    isCyrillicLetterInput(viewState.surname) &&
+                    isValidNumberLength
 
         viewState = viewState.copy(isInputValid = isInputValid)
     }
