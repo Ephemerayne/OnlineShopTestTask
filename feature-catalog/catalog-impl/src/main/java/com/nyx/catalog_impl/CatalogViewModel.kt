@@ -14,9 +14,10 @@ import com.nyx.common_data.repository.ProductRepositoryImpl
 import kotlinx.coroutines.launch
 
 class CatalogViewModel
-    (sharedPreferences: SharedPreferences): BaseViewModel<CatalogViewState, CatalogViewAction, CatalogViewEvent>(
-    initialState = CatalogViewState()
-) {
+    (sharedPreferences: SharedPreferences) :
+    BaseViewModel<CatalogViewState, CatalogViewAction, CatalogViewEvent>(
+        initialState = CatalogViewState()
+    ) {
 
     private val repository = ProductRepositoryImpl(
         FavouriteProductStorage(sharedPreferences)
@@ -33,7 +34,11 @@ class CatalogViewModel
             is CatalogViewEvent.OnTagClicked -> setProductTag(viewEvent.type)
             is CatalogViewEvent.OnClearTagClicked -> resetTags()
             is CatalogViewEvent.OnProductClicked -> openProductCard(viewEvent.productId)
-            is CatalogViewEvent.OnFavouriteClicked -> toggleProductToFavourites(viewEvent.productId, viewEvent.isFavourite)
+            is CatalogViewEvent.OnFavouriteClicked -> toggleProductToFavourites(
+                viewEvent.productId,
+                viewEvent.isFavourite
+            )
+
             is CatalogViewEvent.ActionInvoked -> viewAction = null
         }
     }
@@ -41,7 +46,8 @@ class CatalogViewModel
     private fun fetchProducts() {
         viewModelScope.launch {
             repository.getProducts().collect {
-                viewState = viewState.copy(products = it.map { entity -> entity.toUiEntity() })
+                viewState = viewState.copy(products = it.map { entity -> entity.toUiEntity() }
+                    .sortedByDescending { it.feedback.rating })
             }
         }
     }
@@ -51,9 +57,16 @@ class CatalogViewModel
     }
 
     private fun setCurrentSortingType(type: SortingType) {
+        val sortedProducts = when (type) {
+            SortingType.BY_POPULAR -> viewState.products.sortedByDescending { it.feedback.rating }
+            SortingType.BY_DECREASE_PRICE -> viewState.products.sortedByDescending { it.price.priceWithDiscount.toInt() }
+            SortingType.BY_INCREASE_PRICE -> viewState.products.sortedBy { it.price.priceWithDiscount.toInt() }
+        }
+
         viewState = viewState.copy(
             currentSortingType = type,
-            isSortingMenuExpanded = !viewState.isSortingMenuExpanded
+            isSortingMenuExpanded = !viewState.isSortingMenuExpanded,
+            products = sortedProducts
         )
     }
 
