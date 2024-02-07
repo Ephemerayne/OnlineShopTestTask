@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">OnlineShopTestTask</string>
+    <string name="nav_item_main_text">Главная</string>
+    <string name="nav_item_catalog_text">Каталог</string>
+    <string name="nav_item_cart_text">Корзина</string>
+    <string name="nav_item_stocks_text">Акции</string>
+    <string name="nav_item_profile_text">Профиль</string>
 </resources>

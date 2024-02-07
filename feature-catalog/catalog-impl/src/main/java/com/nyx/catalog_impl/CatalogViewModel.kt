@@ -27,7 +27,7 @@ class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, Cata
             is CatalogViewEvent.OnSortingVariantClicked -> setCurrentSortingType(viewEvent.type)
             is CatalogViewEvent.OnTagClicked -> setProductTag(viewEvent.type)
             is CatalogViewEvent.OnClearTagClicked -> resetTags()
-            is CatalogViewEvent.OnProductClicked -> openProductCard()
+            is CatalogViewEvent.OnProductClicked -> openProductCard(viewEvent.productId)
             is CatalogViewEvent.OnFavouriteClicked -> addProductToFavourites()
             is CatalogViewEvent.ActionInvoked -> viewAction = null
         }
@@ -70,8 +70,8 @@ class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, Cata
         viewState = CatalogViewState(currentSortingType = viewState.currentSortingType)
     }
 
-    private fun openProductCard() {
-        viewAction = CatalogViewAction.OpenProductCard
+    private fun openProductCard(productId: String) {
+        viewAction = CatalogViewAction.OpenProductCard(productId)
     }
 
     private fun addProductToFavourites() {

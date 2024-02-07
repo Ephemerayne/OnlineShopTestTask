@@ -38,7 +38,7 @@ import com.nyx.common_compose.typography.AppTypography
 @Composable
 fun ProductsGridView(
     products: List<ProductUiEntity>,
-    onProductClick: () -> Unit,
+    onProductClick: (productId: String) -> Unit,
     onFavouriteClick: () -> Unit,
 ) {
     LazyVerticalGrid(
@@ -46,7 +46,11 @@ fun ProductsGridView(
         contentPadding = PaddingValues(start = 8.dp),
         content = {
             items(products) { product ->
-                ProductItem(product, onProductClick, onFavouriteClick)
+                ProductItem(
+                    product = product,
+                    onProductClick = { onProductClick(product.id) },
+                    onFavouriteClick = onFavouriteClick
+                )
             }
         })
 }

@@ -15,7 +15,7 @@ fun catalogActionNavigation(
     viewModel.observeAction(CatalogViewEvent.ActionInvoked) { action ->
         when (action) {
             is CatalogViewAction.OpenProductCard -> {
-                navigation.openProductCard()
+                navigation.openProductCard(action.productId)
             }
         }
     }

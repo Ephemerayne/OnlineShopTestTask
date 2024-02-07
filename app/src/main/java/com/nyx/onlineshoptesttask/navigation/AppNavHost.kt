@@ -10,8 +10,6 @@ import com.nyx.onlineshoptesttask.navigation.screens.registration.RegistrationSc
 import com.nyx.onlineshoptesttask.ui.views.DashboardNavigationBar
 import com.nyx.registration_compose.screens.RegistrationScreen
 
-private const val ARGS = "args"
-
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,

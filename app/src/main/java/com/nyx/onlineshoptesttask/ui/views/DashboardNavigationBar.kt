@@ -13,13 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.nyx.catalog_compose.screens.CatalogScreen
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.utils.toStable
@@ -37,39 +40,44 @@ import com.nyx.common_compose.R as CommonRes
 
 const val catalogNavGraph = "CatalogNavGraph"
 const val profileNavGraph = "ProfileNavGraph"
+private const val ARGS = "args"
 
-sealed class NavItem(val route: String, val title: String, val icon: Int) {
+object Constants {
+    const val PRODUCT_ID = "productId"
+}
+
+sealed class NavItem(val route: String, val titleResId: Int, val iconResId: Int) {
     object Main :
         NavItem(
             route = NavigationTree.Root.Dashboard.Main.name,
-            title = "Главная",
-            icon = R.drawable.home_icon
+            titleResId = R.string.nav_item_main_text,
+            iconResId = R.drawable.home_icon
         )
 
     object Catalog : NavItem(
         route = NavigationTree.Root.Dashboard.Catalog.ProductsCatalog.name,
-        title = "Каталог",
-        icon = R.drawable.catalog_icon
+        titleResId = R.string.nav_item_catalog_text,
+        iconResId = R.drawable.catalog_icon
     )
 
     object Cart :
         NavItem(
             route = NavigationTree.Root.Dashboard.Cart.name,
-            title = "Корзина",
-            icon = R.drawable.cart_icon
+            titleResId = R.string.nav_item_cart_text,
+            iconResId = R.drawable.cart_icon
         )
 
     object Stocks : NavItem(
         route = NavigationTree.Root.Dashboard.Stocks.name,
-        title = "Акции",
-        icon = R.drawable.stocks_icon
+        titleResId = R.string.nav_item_stocks_text,
+        iconResId = R.drawable.stocks_icon
     )
 
     object Profile :
         NavItem(
             route = NavigationTree.Root.Dashboard.Profile.UserProfile.name,
-            title = "Профиль",
-            icon = CommonRes.drawable.profile_icon
+            titleResId = R.string.nav_item_profile_text,
+            iconResId = CommonRes.drawable.profile_icon
         )
 }
 
@@ -99,11 +107,16 @@ fun DashboardNavigationBar() {
                     BottomNavigationItem(
                         icon = {
                             Icon(
-                                painter = painterResource(id = screen.icon),
+                                painter = painterResource(id = screen.iconResId),
                                 contentDescription = null
                             )
                         },
-                        label = { Text(text = screen.title, style = AppTypography.caption1) },
+                        label = {
+                            Text(
+                                text = stringResource(screen.titleResId),
+                                style = AppTypography.caption1
+                            )
+                        },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         selectedContentColor = colorResource(id = R.color.pink),
                         unselectedContentColor = colorResource(id = R.color.dark_blue),
@@ -142,8 +155,22 @@ fun DashboardNavigationBar() {
                     CatalogScreen(screenNavigation = catalogScreenNavigation)
                 }
 
-                composable(NavigationTree.Root.Dashboard.Catalog.ProductCard.name) {
-                    ProductCardScreen(screenNavigation = productCardScreenNavigation)
+
+                // TODO ref route
+                composable(
+                    route = "${NavigationTree.Root.Dashboard.Catalog.ProductCard.name}/{${Constants.PRODUCT_ID}}",
+                    arguments = listOf(
+                        navArgument(Constants.PRODUCT_ID) {
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val productId = backStackEntry.arguments?.getString(Constants.PRODUCT_ID)
+                    requireNotNull(productId) { "productId parameter wasn't found. Please make sure it's set!" }
+                    ProductCardScreen(
+                        productId = productId,
+                        screenNavigation = productCardScreenNavigation
+                    )
                 }
             }
 
@@ -163,7 +190,10 @@ fun DashboardNavigationBar() {
                 }
 
                 composable(NavigationTree.Root.Dashboard.Profile.ProductCard.name) {
-                    ProductCardScreen(screenNavigation = productCardScreenNavigation)
+                    /* ProductCardScreen(
+                         product = "",
+                         screenNavigation = productCardScreenNavigation
+                     )*/
                 }
             }
         }

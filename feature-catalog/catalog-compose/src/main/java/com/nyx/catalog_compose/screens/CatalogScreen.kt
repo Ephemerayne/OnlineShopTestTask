@@ -68,7 +68,10 @@ fun CatalogScreen(
         viewModel.rememberEvent(CatalogViewEvent.OnClearTagClicked)
 
     val onProductClick =
-        viewModel.rememberEvent(CatalogViewEvent.OnProductClicked)
+        viewModel.rememberEvent<String, _> { productId ->
+            CatalogViewEvent.OnProductClicked(productId)
+        }
+
 
     val onFavouriteClick =
         viewModel.rememberEvent(CatalogViewEvent.OnFavouriteClicked)
@@ -93,8 +96,8 @@ private fun CatalogView(
     onSortingVariantClick: (SortingType) -> Unit,
     onTagClick: (ProductTagType) -> Unit,
     onClearTagClick: () -> Unit,
-    onProductClick: () -> Unit,
-    onFavouriteClick: () -> Unit
+    onProductClick: (productId: String) -> Unit,
+    onFavouriteClick: () -> Unit,
 ) {
     Column(modifier = Modifier) {
         ScreenTitleView(text = stringResource(R.string.catalog_title))

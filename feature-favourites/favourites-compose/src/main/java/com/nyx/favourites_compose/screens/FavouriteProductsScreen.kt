@@ -28,13 +28,13 @@ fun FavouriteProductsScreen(
     val onTabClick = viewModel.rememberEvent<Int, _> { tabIndex ->
         FavouritesViewEvent.OnTabClicked(tabIndex)
     }
-    val onProductClick = viewModel.rememberEvent(FavouritesViewEvent.OnProductClicked)
+//    val onProductClick = viewModel.rememberEvent(FavouritesViewEvent.OnProductClicked)
 
     FavouritesView(
         selectedTab = viewState.currentSelectedTab,
         onBackClick = onBackClick,
         onTabClick = onTabClick,
-        onProductClick = onProductClick
+        onProductClick = {}
     )
 
     favouritesActionNavigation(viewModel, screenNavigation)
@@ -45,7 +45,7 @@ private fun FavouritesView(
     selectedTab: TabType,
     onBackClick: () -> Unit,
     onTabClick: (Int) -> Unit,
-    onProductClick: () -> Unit,
+    onProductClick: (productId: String) -> Unit,
 ) {
     Column {
         HeaderView(

@@ -5,7 +5,7 @@ sealed class CatalogViewEvent {
     class OnSortingVariantClicked(val type: SortingType) : CatalogViewEvent()
     class OnTagClicked(val type: ProductTagType) : CatalogViewEvent()
     object OnClearTagClicked : CatalogViewEvent()
-    object OnProductClicked : CatalogViewEvent() // class with product
-    object ActionInvoked : CatalogViewEvent() // class with product
+    class OnProductClicked(val productId: String) : CatalogViewEvent()
+    object ActionInvoked : CatalogViewEvent()
     object OnFavouriteClicked : CatalogViewEvent() // class product
 }

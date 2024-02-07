@@ -2,6 +2,7 @@ package com.nyx.onlineshoptesttask.navigation
 
 open class BaseScreen {
     val name = this::class.qualifiedName!!
+    fun <T> createRoute(route: String, args: T) = "${route}/$args"
 }
 
 object NavigationTree {

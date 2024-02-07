@@ -27,7 +27,10 @@ class ProductRepositoryImpl : ProductRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getProduct(id: String):Flow<ProductEntity> {
-        TODO("Not yet implemented")
+    override fun getProduct(id: String): Flow<ProductEntity> {
+        return flow {
+            val product = service.getProducts().body()?.items?.firstOrNull { it.id == id }
+            product?.let { emit(it) }
+        }
     }
 }

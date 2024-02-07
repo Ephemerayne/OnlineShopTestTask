@@ -8,7 +8,12 @@ class CatalogScreenNavigationImpl(
     private val navController: NavController,
 ) : CatalogScreenNavigation {
 
-    override fun openProductCard() {
-        navController.navigate(route = NavigationTree.Root.Dashboard.Catalog.ProductCard.name)
+    override fun openProductCard(productId: String) {
+        navController.navigate(
+            route = NavigationTree.Root.Dashboard.Catalog.ProductsCatalog.createRoute(
+                route = NavigationTree.Root.Dashboard.Catalog.ProductCard.name,
+                args = productId
+            )
+        )
     }
 }

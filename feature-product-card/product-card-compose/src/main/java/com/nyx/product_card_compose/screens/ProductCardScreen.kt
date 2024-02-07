@@ -25,9 +25,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
-import com.nyx.common_api.models.InfoEntity
+import com.nyx.common_api.models.ProductEntity
+import com.nyx.common_compose.mappers.toUiEntity
+import com.nyx.common_compose.models.InfoUiEntity
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
+import com.nyx.common_compose.viewmodel.viewModelFactory
 import com.nyx.common_compose.views.*
 import com.nyx.product_card_api.navigation.ProductCardScreenNavigation
 import com.nyx.product_card_compose.R
@@ -39,9 +42,14 @@ import com.nyx.common_compose.R as CommonRes
 
 @Composable
 fun ProductCardScreen(
-    viewModel: ProductCardViewModel = viewModel(),
+    productId: String,
     screenNavigation: ProductCardScreenNavigation,
 ) {
+    val viewModel: ProductCardViewModel = viewModel(
+        factory = viewModelFactory {
+            ProductCardViewModel(productId = productId)
+        })
+
     val viewState = viewModel.viewStates().observeAsState().value
 
     val onHideOrShowDescriptionClick =
@@ -56,9 +64,9 @@ fun ProductCardScreen(
 
     ProductCardView(
         viewState = viewState,
-        onBackArrowClick = { screenNavigation.back() },
+        onBackArrowClick = { screenNavigation.back() }, // TODO
         onHideOrShowDescriptionClick = onHideOrShowDescriptionClick,
-        onHideOrShowIngredientsClick = onHideOrShowIngredientsClick,
+        onExpandOrHideIngredientsClick = onHideOrShowIngredientsClick,
         onIngredientsLinesCountMeasured = onIngredientsLinesCountMeasured
     )
 
@@ -71,11 +79,12 @@ private fun ProductCardView(
     viewState: ProductCardViewState,
     onBackArrowClick: () -> Unit,
     onHideOrShowDescriptionClick: () -> Unit,
-    onHideOrShowIngredientsClick: () -> Unit,
+    onExpandOrHideIngredientsClick: () -> Unit,
     onIngredientsLinesCountMeasured: (Boolean) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val pagerState = rememberPagerState(0)
+    val product = viewState.product ?: ProductEntity().toUiEntity()
 
     Box {
         Column(
@@ -99,37 +108,43 @@ private fun ProductCardView(
                     ),
                 )
                 VerticalSpacer(height = 8.dp)
-                ProductTitleView()
+                ProductTitleView(
+                    brand = product.title,
+                    title = product.subtitle
+                )
                 VerticalSpacer(height = 12.dp)
-                AvailableStockView()
+                AvailableStockView(availableStock = product.available)
                 VerticalSpacer(height = 12.dp)
                 HorizontalDividerView(thickness = 0.5.dp)
                 VerticalSpacer(height = 12.dp)
-                RatingView(rating = 3.5, reviews = 2)
+                RatingView(
+                    rating = product.feedback.rating,
+                    reviews = product.feedback.count
+                )
                 VerticalSpacer(height = 16.dp)
-                PriceView("150", "300", 50, "Р")
+                PriceView(
+                    newPrice = product.price.priceWithDiscount,
+                    oldPrice = product.price.price,
+                    discount = product.price.discount,
+                    unit = product.price.unit
+                )
                 VerticalSpacer(height = 16.dp)
                 DescriptionView(
-                    brand = "BRAND",
-                    description = "This is decription product This is decription product This is decription product This is decription product This is decription product This is decription productThis is decription product This is decription productThis is decription product",
+                    brand = product.title,
+                    description = product.subtitle,
                     isDescriptionVisible = viewState.isDescriptionVisible,
                     onClick = {/* No implementation */ },
                     onHideOrShowDescriptionClick = onHideOrShowDescriptionClick
                 )
                 VerticalSpacer(height = 24.dp)
                 CharacteristicsView(
-                    characteristics = listOf(
-                        InfoEntity("title 1", "value 1"),
-                        InfoEntity("title 2", "value 2"),
-                        InfoEntity("title 3", "value 3"),
-                        InfoEntity("title 4", "value 4")
-                    )
+                    characteristics = product.info
                 )
                 VerticalSpacer(height = 20.dp)
                 IngredientsView(
-                    description = "ct  product ingredients product efefef nts prodgggggggggggggggggg rfffffffffffffffffffffd df fg dfg dfuct  product ingredients produ nts product  product ingredients produ",
+                    description = product.ingredients,
                     isIngredientsExpanded = viewState.isIngredientsExpanded,
-                    onHideOrShowIngredientsClick = onHideOrShowIngredientsClick,
+                    onHideOrShowIngredientsClick = onExpandOrHideIngredientsClick,
                     onIngredientsLinesCountMeasured = onIngredientsLinesCountMeasured,
                     isIngredientsTextHasMoreThanTwoLines = viewState.isIngredientsTextHasMoreThanTwoLines
                 )
@@ -138,9 +153,9 @@ private fun ProductCardView(
         }
         AddToCartButton(
             modifier = Modifier.align(Alignment.BottomCenter),
-            newPrice = "150.0",
-            oldPrice = "300.0",
-            unit = "₽",
+            newPrice = product.price.priceWithDiscount,
+            oldPrice = product.price.price,
+            unit = product.price.unit,
             onClick = {/* No implementation */ }
         )
     }
@@ -178,15 +193,15 @@ private fun ImagePagerView(
 }
 
 @Composable
-private fun ProductTitleView() {
+private fun ProductTitleView(brand: String, title: String) {
     Text(
-        text = "BRAND",
+        text = brand,
         color = colorResource(id = CommonRes.color.text_gray),
         style = AppTypography.title1
     )
     VerticalSpacer(height = 12.dp)
     Text(
-        text = "Пенка для умывания`A`PIEU` `DEEP CLEAN` 200 мл",
+        text = title,
         maxLines = 3,
         overflow = TextOverflow.Ellipsis,
         style = AppTypography.largeTitle,
@@ -194,9 +209,9 @@ private fun ProductTitleView() {
 }
 
 @Composable
-private fun AvailableStockView() {
+private fun AvailableStockView(availableStock: Int) {
     Text(
-        text = pluralStringResource(R.plurals.available_stock, 1, 1),
+        text = pluralStringResource(R.plurals.available_stock, availableStock, 1),
         color = colorResource(id = CommonRes.color.text_gray),
         style = AppTypography.text1
     )
@@ -266,7 +281,7 @@ private fun DescriptionView(
 }
 
 @Composable
-private fun CharacteristicsView(characteristics: List<InfoEntity>) {
+private fun CharacteristicsView(characteristics: List<InfoUiEntity>) {
     TitleView(text = stringResource(R.string.characteristics_title))
     VerticalSpacer(height = 20.dp)
 
