@@ -1,4 +1,4 @@
-package com.nyx.common_api.repository
+package com.nyx.common_api.repository.product
 
 import com.nyx.common_api.models.ProductEntity
 import kotlinx.coroutines.flow.Flow

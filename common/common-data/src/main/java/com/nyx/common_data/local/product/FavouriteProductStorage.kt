@@ -1,4 +1,4 @@
-package com.nyx.common_data.local
+package com.nyx.common_data.local.product
 
 import android.content.SharedPreferences
 import kotlinx.coroutines.channels.Channel

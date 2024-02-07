@@ -10,8 +10,8 @@ import com.nyx.catalog_impl.models.SortingType
 import com.nyx.catalog_impl.models.serverTag
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.viewmodel.BaseViewModel
-import com.nyx.common_data.local.FavouriteProductStorage
-import com.nyx.common_data.repository.ProductRepositoryImpl
+import com.nyx.common_data.local.product.FavouriteProductStorage
+import com.nyx.common_data.repository.product.ProductRepositoryImpl
 import kotlinx.coroutines.launch
 
 // TODO: REFACTOR FILTERING: CREATE FILTER DATA CLASS

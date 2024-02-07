@@ -1,5 +1,6 @@
 package com.nyx.registration_compose.screens
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,14 +15,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
+import com.nyx.common_api.constant.Constants
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
+import com.nyx.common_compose.viewmodel.viewModelFactory
 import com.nyx.common_compose.views.*
 import com.nyx.registration_api.navigation.RegistrationScreenNavigation
 import com.nyx.registration_compose.R
@@ -32,9 +36,14 @@ import com.nyx.common_compose.R as CommonRes
 
 @Composable
 fun RegistrationScreen(
-    viewModel: RegistrationViewModel = viewModel(),
     screenNavigation: RegistrationScreenNavigation,
 ) {
+    val context = LocalContext.current
+    val sharedPref = context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+
+    val viewModel: RegistrationViewModel = viewModel(factory = viewModelFactory {
+        RegistrationViewModel(sharedPref)
+    })
 
     val viewState = viewModel.viewStates().observeAsState().value
 
@@ -62,20 +71,21 @@ fun RegistrationScreen(
 
     val onEnterButtonClick = viewModel.rememberEvent(RegistrationViewEvent.OnEnterButtonClicked)
 
-
-    RegistrationView(
-        nameInput = viewState.name,
-        surnameInput = viewState.surname,
-        phoneNumberInput = viewState.phoneNumber,
-        isEnterButtonEnabled = viewState.isInputValid,
-        onNameChanged = onNameChanged,
-        onSurnameChanged = onSurnameChanged,
-        onPhoneNumberChanged = onPhoneNumberChanged,
-        onClearNameClick = onClearNameClick,
-        onClearSurnameClick = onClearSurnameClick,
-        onClearPhoneNumberClick = onClearPhoneNumberClick,
-        onEnterButtonClick = onEnterButtonClick
-    )
+    if (viewState.isUserDataReceived) {
+        RegistrationView(
+            nameInput = viewState.name,
+            surnameInput = viewState.surname,
+            phoneNumberInput = viewState.phoneNumber,
+            isEnterButtonEnabled = viewState.isInputValid,
+            onNameChanged = onNameChanged,
+            onSurnameChanged = onSurnameChanged,
+            onPhoneNumberChanged = onPhoneNumberChanged,
+            onClearNameClick = onClearNameClick,
+            onClearSurnameClick = onClearSurnameClick,
+            onClearPhoneNumberClick = onClearPhoneNumberClick,
+            onEnterButtonClick = onEnterButtonClick
+        )
+    }
 
     registrationActionNavigation(viewModel = viewModel, navigation = screenNavigation)
 }
@@ -137,7 +147,7 @@ private fun RegistrationView(
                 disabledBackgroundColor = colorResource(CommonRes.color.light_pink),
                 disabledContentColor = colorResource(CommonRes.color.white)
             ),
-//            enabled = isEnterButtonEnabled,
+            enabled = isEnterButtonEnabled,
             onClick = onEnterButtonClick
         ) {
             Text(

@@ -16,7 +16,6 @@ fun AppNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = NavigationTree.Root.Registration.name,
 ) {
-
     NavHost(
         modifier = modifier,
         navController = navController,

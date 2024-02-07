@@ -1,14 +1,29 @@
 package com.nyx.registration_impl
 
+import android.content.SharedPreferences
+import androidx.lifecycle.viewModelScope
+import com.nyx.common_api.models.UserEntity
+import com.nyx.common_compose.viewmodel.BaseViewModel
+import com.nyx.common_data.local.user.UserStorage
+import com.nyx.common_data.repository.user.UserRepositoryImpl
 import com.nyx.common_impl.utils.isCyrillicInput
 import com.nyx.registration_impl.models.RegistrationViewAction
 import com.nyx.registration_impl.models.RegistrationViewEvent
 import com.nyx.registration_impl.models.RegistrationViewState
+import kotlinx.coroutines.launch
 
-class RegistrationViewModel :
-    com.nyx.common_compose.viewmodel.BaseViewModel<RegistrationViewState, RegistrationViewAction, RegistrationViewEvent>(
+class RegistrationViewModel(
+    private val sharedPreferences: SharedPreferences,
+) :
+    BaseViewModel<RegistrationViewState, RegistrationViewAction, RegistrationViewEvent>(
         initialState = RegistrationViewState()
     ) {
+
+    private val userRepository = UserRepositoryImpl(UserStorage(sharedPreferences))
+
+    init {
+        observeUserData()
+    }
 
     override fun obtainEvent(viewEvent: RegistrationViewEvent) {
         when (viewEvent) {
@@ -57,7 +72,20 @@ class RegistrationViewModel :
     }
 
     private fun login() {
-        viewAction = RegistrationViewAction.OpenCatalog
+        val user = UserEntity(viewState.name, viewState.surname, viewState.phoneNumber)
+        userRepository.setUserData(user)
+    }
+
+    private fun observeUserData() {
+        viewModelScope.launch {
+            userRepository.getUserData().collect {
+                if (it != null) {
+                    viewAction = RegistrationViewAction.OpenCatalog
+                }
+
+                viewState = viewState.copy(isUserDataReceived = true)
+            }
+        }
     }
 
     private fun validateInput() {

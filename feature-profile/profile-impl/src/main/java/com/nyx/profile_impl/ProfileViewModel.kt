@@ -3,8 +3,8 @@ package com.nyx.profile_impl
 import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
 import com.nyx.common_compose.viewmodel.BaseViewModel
-import com.nyx.common_data.local.FavouriteProductStorage
-import com.nyx.common_data.repository.ProductRepositoryImpl
+import com.nyx.common_data.local.product.FavouriteProductStorage
+import com.nyx.common_data.repository.product.ProductRepositoryImpl
 import com.nyx.profile_impl.models.ProfileViewAction
 import com.nyx.profile_impl.models.ProfileViewEvent
 import com.nyx.profile_impl.models.ProfileViewState

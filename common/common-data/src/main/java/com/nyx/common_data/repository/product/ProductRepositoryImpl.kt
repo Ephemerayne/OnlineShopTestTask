@@ -1,8 +1,8 @@
-package com.nyx.common_data.repository
+package com.nyx.common_data.repository.product
 
 import com.nyx.common_api.models.ProductEntity
-import com.nyx.common_api.repository.ProductRepository
-import com.nyx.common_data.local.FavouriteProductStorage
+import com.nyx.common_api.repository.product.ProductRepository
+import com.nyx.common_data.local.product.FavouriteProductStorage
 import com.nyx.common_data.remote.ApiClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
