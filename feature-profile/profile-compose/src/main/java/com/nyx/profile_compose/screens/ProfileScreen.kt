@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
 import com.nyx.common_api.constant.Constants
+import com.nyx.common_api.models.UserEntity
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.common_compose.viewmodel.viewModelFactory
@@ -58,6 +59,7 @@ fun ProfileScreen(
 
     ProfileView(
         productCount = viewState.productCount,
+        userEntity = viewState.userEntity,
         onFavouritesClick = onFavouritesItemClick,
         onExitClick = {} // exit to registration screen
     )
@@ -68,6 +70,7 @@ fun ProfileScreen(
 @Composable
 private fun ProfileView(
     productCount: Int,
+    userEntity: UserEntity?,
     onFavouritesClick: () -> Unit,
     onExitClick: () -> Unit,
 ) {
@@ -84,7 +87,10 @@ private fun ProfileView(
         ) {
             ScreenTitleView(text = stringResource(R.string.profile_title))
             VerticalSpacer(height = 8.dp)
-            UserNameItemView(username = "Name Surname", phone = "+7 123 456 78 99")
+            UserNameItemView(
+                username = "${userEntity?.name.orEmpty()} ${userEntity?.surname.orEmpty()}",
+                phone = "+7 ${userEntity?.phoneNumber.orEmpty()}"
+            )
             VerticalSpacer(height = 20.dp)
             FavouritesItemView(
                 productsCount = productCount,
