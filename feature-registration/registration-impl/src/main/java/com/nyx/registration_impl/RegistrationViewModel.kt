@@ -46,17 +46,14 @@ class RegistrationViewModel :
 
     private fun clearNameField() {
         viewState = viewState.copy(name = "")
-        validateInput()
     }
 
     private fun clearSurnameField() {
         viewState = viewState.copy(surname = "")
-        validateInput()
     }
 
     private fun clearPhoneNumberField() {
         viewState = viewState.copy(phoneNumber = "")
-        validateInput()
     }
 
     private fun login() {
@@ -66,8 +63,6 @@ class RegistrationViewModel :
     private fun validateInput() {
         val isInputValid =
             isCyrillicLetterInput(viewState.name) && isCyrillicLetterInput(viewState.surname) && viewState.phoneNumber.length == 10
-
-
 
         viewState = viewState.copy(isInputValid = isInputValid)
     }

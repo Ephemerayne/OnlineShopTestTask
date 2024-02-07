@@ -1,6 +1,9 @@
 package com.nyx.catalog_impl.models
 
+import com.nyx.common_compose.models.ProductUiEntity
+
 data class CatalogViewState(
+    val products: List<ProductUiEntity> = listOf(),
     val isSortingMenuExpanded: Boolean = false,
     val currentSortingType: SortingType = SortingType.BY_POPULAR,
     val currentTag: ProductTagType = ProductTagType.ALL,

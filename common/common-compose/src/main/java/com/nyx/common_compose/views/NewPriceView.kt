@@ -10,7 +10,7 @@ import com.nyx.common_compose.R
 @Composable
 fun NewPriceView(
     modifier: Modifier = Modifier,
-    price: Double,
+    price: String,
     unit: String,
     textStyle: TextStyle = TextStyle(),
 ) {

@@ -1,15 +1,25 @@
 package com.nyx.catalog_impl
 
+import androidx.lifecycle.viewModelScope
 import com.nyx.catalog_impl.models.CatalogViewAction
 import com.nyx.catalog_impl.models.CatalogViewEvent
 import com.nyx.catalog_impl.models.CatalogViewState
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
+import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.viewmodel.BaseViewModel
+import com.nyx.common_data.repository.ProductRepositoryImpl
+import kotlinx.coroutines.launch
 
 class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, CatalogViewEvent>(
     initialState = CatalogViewState()
 ) {
+
+    private val repository = ProductRepositoryImpl()
+
+    init {
+        fetchProducts()
+    }
 
     override fun obtainEvent(viewEvent: CatalogViewEvent) {
         when (viewEvent) {
@@ -20,6 +30,14 @@ class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, Cata
             is CatalogViewEvent.OnProductClicked -> openProductCard()
             is CatalogViewEvent.OnFavouriteClicked -> addProductToFavourites()
             is CatalogViewEvent.ActionInvoked -> viewAction = null
+        }
+    }
+
+    private fun fetchProducts() {
+        viewModelScope.launch {
+            repository.getProducts().collect {
+                viewState = viewState.copy(products = it.map { entity -> entity.toUiEntity() })
+            }
         }
     }
 

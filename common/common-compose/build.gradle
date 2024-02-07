@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation project(":common:common-impl")
+    implementation project(":common:common-api")
 
     // AndroidX
     api "androidx.core:core-ktx:$core_version"

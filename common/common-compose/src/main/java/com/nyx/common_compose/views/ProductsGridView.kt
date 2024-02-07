@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -27,13 +28,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nyx.common_compose.R
+import com.nyx.common_compose.models.ProductUiEntity
 import com.nyx.common_compose.typography.AppTypography
 
 @Composable
 fun ProductsGridView(
+    products: List<ProductUiEntity>,
     onProductClick: () -> Unit,
     onFavouriteClick: () -> Unit,
 ) {
@@ -41,8 +45,8 @@ fun ProductsGridView(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(start = 8.dp),
         content = {
-            items(9) { product ->
-                ProductItem(onProductClick, onFavouriteClick)
+            items(products) { product ->
+                ProductItem(product, onProductClick, onFavouriteClick)
             }
         })
 }
@@ -50,6 +54,7 @@ fun ProductsGridView(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ProductItem(
+    product: ProductUiEntity,
     onProductClick: () -> Unit,
     onFavouriteClick: () -> Unit,
 ) {
@@ -87,10 +92,14 @@ private fun ProductItem(
             )
         )
         VerticalSpacer(height = 4.dp)
-        CrossedOutPriceView(price = 140.0, unit = "Р")
-        PriceAndSalesView()
-        TitleAndDescriptionView()
-        RatingView()
+        CrossedOutPriceView(price = product.price.price, unit = product.price.unit)
+        PriceAndSalesView(
+            newPrice = product.price.priceWithDiscount,
+            unit = product.price.unit,
+            discount = product.price.discount
+        )
+        TitleAndDescriptionView(brand = product.title, productTitle = product.subtitle)
+        RatingView(rating = product.feedback.rating, reviews = product.feedback.count)
         AddToCartIconButton()
     }
 }
@@ -112,37 +121,42 @@ private fun BoxScope.FavouriteIconView(onFavouriteClick: () -> Unit) {
 }
 
 @Composable
-private fun PriceAndSalesView() {
+private fun PriceAndSalesView(
+    newPrice: String,
+    unit: String,
+    discount: Int,
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         NewPriceView(
             modifier = Modifier.padding(start = 4.dp),
-            price = 124.0,
-            unit = "Р",
+            price = newPrice,
+            unit = unit,
             textStyle = AppTypography.title2
         )
         HorizontalSpacer(width = 4.dp)
-        DiscountChipView(discount = 35)
+        DiscountChipView(discount = discount)
     }
 }
 
 @Composable
-private fun TitleAndDescriptionView() {
+private fun TitleAndDescriptionView(brand: String, productTitle: String) {
     Text(
         modifier = Modifier.padding(horizontal = 4.dp),
-        text = "PRODUCT",
+        text = brand,
         style = AppTypography.title3
     )
     Text(
         modifier = Modifier.padding(horizontal = 4.dp),
-        text = "Лосьон для тела`ESFOLIO` COENZYME Q 10 Увлажняющий 500 мл",
+        text = productTitle,
         maxLines = 3,
+        minLines = 3,
         overflow = TextOverflow.Ellipsis,
         style = AppTypography.caption1
     )
 }
 
 @Composable
-private fun RatingView() {
+private fun RatingView(rating: Double, reviews: Int) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -152,13 +166,13 @@ private fun RatingView() {
         )
         HorizontalSpacer(width = 4.dp)
         Text(
-            text = "4.5",
+            text = rating.toString(),
             color = colorResource(id = R.color.orange),
             style = AppTypography.elementText
         )
         HorizontalSpacer(width = 4.dp)
         Text(
-            text = "(10)",
+            text = stringResource(R.string.reviews_count, reviews),
             color = colorResource(id = R.color.text_gray),
             style = AppTypography.elementText
         )

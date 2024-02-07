@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
-import com.nyx.common_api.models.Info
+import com.nyx.common_api.models.InfoEntity
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.common_compose.views.*
@@ -77,7 +77,6 @@ private fun ProductCardView(
     val scrollState = rememberScrollState()
     val pagerState = rememberPagerState(0)
 
-
     Box {
         Column(
             modifier = Modifier
@@ -108,7 +107,7 @@ private fun ProductCardView(
                 VerticalSpacer(height = 12.dp)
                 RatingView(rating = 3.5, reviews = 2)
                 VerticalSpacer(height = 16.dp)
-                PriceView(150.0, 300.0, 50)
+                PriceView("150", "300", 50, "Р")
                 VerticalSpacer(height = 16.dp)
                 DescriptionView(
                     brand = "BRAND",
@@ -120,10 +119,10 @@ private fun ProductCardView(
                 VerticalSpacer(height = 24.dp)
                 CharacteristicsView(
                     characteristics = listOf(
-                        Info("title 1", "value 1"),
-                        Info("title 2", "value 2"),
-                        Info("title 3", "value 3"),
-                        Info("title 4", "value 4")
+                        InfoEntity("title 1", "value 1"),
+                        InfoEntity("title 2", "value 2"),
+                        InfoEntity("title 3", "value 3"),
+                        InfoEntity("title 4", "value 4")
                     )
                 )
                 VerticalSpacer(height = 20.dp)
@@ -139,8 +138,8 @@ private fun ProductCardView(
         }
         AddToCartButton(
             modifier = Modifier.align(Alignment.BottomCenter),
-            newPrice = 150.0,
-            oldPrice = 300.0,
+            newPrice = "150.0",
+            oldPrice = "300.0",
             unit = "₽",
             onClick = {/* No implementation */ }
         )
@@ -223,15 +222,20 @@ private fun RatingView(rating: Double, reviews: Int) {
 }
 
 @Composable
-private fun PriceView(newPrice: Double, oldPrice: Double, discount: Int) {
+private fun PriceView(
+    newPrice: String,
+    oldPrice: String,
+    discount: Int,
+    unit: String,
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         NewPriceView(
             price = newPrice,
-            unit = "Р",
+            unit = unit,
             textStyle = AppTypography.priceText
         )
         HorizontalSpacer(width = 12.dp)
-        CrossedOutPriceView(price = oldPrice, unit = "Р", textStyle = AppTypography.text1)
+        CrossedOutPriceView(price = oldPrice, unit = unit, textStyle = AppTypography.text1)
         HorizontalSpacer(width = 12.dp)
         DiscountChipView(discount = discount)
     }
@@ -262,7 +266,7 @@ private fun DescriptionView(
 }
 
 @Composable
-private fun CharacteristicsView(characteristics: List<Info>) {
+private fun CharacteristicsView(characteristics: List<InfoEntity>) {
     TitleView(text = stringResource(R.string.characteristics_title))
     VerticalSpacer(height = 20.dp)
 

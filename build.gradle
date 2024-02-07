@@ -11,6 +11,8 @@ buildscript {
         navigation_version = '2.6.0'
         kview_model_version = '0.14'
         kview_model_compose_version = '0.14'
+        coroutines = '1.6.4'
+        retrofit = '2.9.0'
     }
 }
 

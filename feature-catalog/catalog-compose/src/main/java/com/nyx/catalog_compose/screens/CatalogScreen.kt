@@ -114,6 +114,7 @@ private fun CatalogView(
             onClearClick = onClearTagClick
         )
         ProductsGridView(
+            products = viewState.products,
             onProductClick = onProductClick,
             onFavouriteClick = onFavouriteClick
         )

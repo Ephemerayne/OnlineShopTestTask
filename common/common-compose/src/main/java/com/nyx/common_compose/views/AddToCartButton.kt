@@ -21,8 +21,8 @@ import com.nyx.common_compose.typography.AppTypography
 @Composable
 fun AddToCartButton(
     modifier: Modifier = Modifier,
-    newPrice: Double,
-    oldPrice: Double,
+    newPrice: String,
+    oldPrice: String,
     unit: String,
     onClick: () -> Unit,
 ) {
@@ -39,7 +39,7 @@ fun AddToCartButton(
         ) {
             NewPriceView(
                 price = newPrice,
-                unit= "Р",
+                unit= unit,
                 textStyle = AppTypography.buttonText2.copy(Color.White)
             )
             HorizontalSpacer(width = 4.dp)

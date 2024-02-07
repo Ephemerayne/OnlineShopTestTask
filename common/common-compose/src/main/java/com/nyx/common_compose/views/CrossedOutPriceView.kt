@@ -20,7 +20,7 @@ import com.nyx.common_compose.typography.AppTypography
 
 @Composable
 fun CrossedOutPriceView(
-    price: Double,
+    price: String,
     unit: String,
     textColor: Color = colorResource(id = R.color.text_gray),
     textStyle: TextStyle = AppTypography.elementText,
