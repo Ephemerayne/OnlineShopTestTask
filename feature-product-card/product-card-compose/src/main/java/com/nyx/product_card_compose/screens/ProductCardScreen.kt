@@ -202,7 +202,7 @@ private fun ImagePagerView(
                 .align(Alignment.TopEnd)
                 .padding(4.dp)
                 .clickable(onClick = { onFavouriteClick(product.id, product.isFavourite) }),
-            painter = painterResource(CommonRes.drawable.favourite_icon),
+            painter = painterResource(if (product.isFavourite) CommonRes.drawable.selected_favourite_icon else CommonRes.drawable.favourite_icon),
             contentDescription = null
         )
         Image(
