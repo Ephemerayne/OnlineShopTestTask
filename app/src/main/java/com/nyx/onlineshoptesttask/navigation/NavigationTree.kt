@@ -7,10 +7,10 @@ open class BaseScreen {
 
 object NavigationTree {
     sealed class Root : BaseScreen() {
+        object Launch: Root()
         object Registration : Root()
 
         sealed class Dashboard : BaseScreen() {
-
             object Main : Dashboard()
 
             sealed class Catalog : BaseScreen() {

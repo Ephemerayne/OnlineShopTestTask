@@ -7,9 +7,9 @@ import com.nyx.common_compose.viewmodel.BaseViewModel
 import com.nyx.common_data.local.user.UserStorage
 import com.nyx.common_data.repository.user.UserRepositoryImpl
 import com.nyx.common_impl.utils.isCyrillicInput
-import com.nyx.registration_impl.models.RegistrationViewAction
-import com.nyx.registration_impl.models.RegistrationViewEvent
-import com.nyx.registration_impl.models.RegistrationViewState
+import com.nyx.registration_impl.models.registration.RegistrationViewAction
+import com.nyx.registration_impl.models.registration.RegistrationViewEvent
+import com.nyx.registration_impl.models.registration.RegistrationViewState
 import kotlinx.coroutines.launch
 
 class RegistrationViewModel(

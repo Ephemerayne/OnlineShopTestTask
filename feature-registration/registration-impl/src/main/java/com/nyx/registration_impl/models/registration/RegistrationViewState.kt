@@ -1,4 +1,4 @@
-package com.nyx.registration_impl.models
+package com.nyx.registration_impl.models.registration
 
 data class RegistrationViewState(
     val name: String = "",

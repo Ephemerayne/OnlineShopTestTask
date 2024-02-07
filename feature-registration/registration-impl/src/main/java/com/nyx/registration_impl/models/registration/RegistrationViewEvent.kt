@@ -1,4 +1,4 @@
-package com.nyx.registration_impl.models
+package com.nyx.registration_impl.models.registration
 
 sealed class RegistrationViewEvent {
     class OnNameChanged(val input: String): RegistrationViewEvent()

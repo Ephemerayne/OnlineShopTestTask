@@ -31,7 +31,7 @@ import com.nyx.registration_api.navigation.RegistrationScreenNavigation
 import com.nyx.registration_compose.R
 import com.nyx.registration_compose.navigation.registrationActionNavigation
 import com.nyx.registration_impl.RegistrationViewModel
-import com.nyx.registration_impl.models.RegistrationViewEvent
+import com.nyx.registration_impl.models.registration.RegistrationViewEvent
 import com.nyx.common_compose.R as CommonRes
 
 @Composable
