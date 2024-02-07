@@ -3,7 +3,8 @@ package com.nyx.catalog_impl.models
 import com.nyx.common_compose.models.ProductUiEntity
 
 data class CatalogViewState(
-    val products: List<ProductUiEntity> = listOf(),
+    val allProducts: List<ProductUiEntity> = listOf(),
+    val filteredProducts: List<ProductUiEntity> = listOf(),
     val isSortingMenuExpanded: Boolean = false,
     val currentSortingType: SortingType = SortingType.BY_POPULAR,
     val currentTag: ProductTagType = ProductTagType.ALL,
@@ -29,3 +30,13 @@ enum class ProductTagType {
     SUNTAN,
     MASKS,
 }
+
+
+val ProductTagType.serverTag: String
+    get() = when (this) {
+        ProductTagType.ALL -> ""
+        ProductTagType.FACE -> "face"
+        ProductTagType.BODY -> "body"
+        ProductTagType.SUNTAN -> "suntan"
+        ProductTagType.MASKS -> "mask"
+    }

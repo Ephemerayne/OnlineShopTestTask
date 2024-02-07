@@ -7,11 +7,14 @@ import com.nyx.catalog_impl.models.CatalogViewEvent
 import com.nyx.catalog_impl.models.CatalogViewState
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
+import com.nyx.catalog_impl.models.serverTag
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.viewmodel.BaseViewModel
 import com.nyx.common_data.local.FavouriteProductStorage
 import com.nyx.common_data.repository.ProductRepositoryImpl
 import kotlinx.coroutines.launch
+
+// TODO: REFACTOR FILTERING: CREATE FILTER DATA CLASS
 
 class CatalogViewModel
     (sharedPreferences: SharedPreferences) :
@@ -46,8 +49,14 @@ class CatalogViewModel
     private fun fetchProducts() {
         viewModelScope.launch {
             repository.getProducts().collect {
-                viewState = viewState.copy(products = it.map { entity -> entity.toUiEntity() }
-                    .sortedByDescending { it.feedback.rating })
+                val products = it
+                    .map { entity -> entity.toUiEntity() }
+                    .sortedByDescending { it.feedback.rating }
+
+                viewState = viewState.copy(
+                    allProducts = products,
+                    filteredProducts = products,
+                )
             }
         }
     }
@@ -58,19 +67,21 @@ class CatalogViewModel
 
     private fun setCurrentSortingType(type: SortingType) {
         val sortedProducts = when (type) {
-            SortingType.BY_POPULAR -> viewState.products.sortedByDescending { it.feedback.rating }
-            SortingType.BY_DECREASE_PRICE -> viewState.products.sortedByDescending { it.price.priceWithDiscount.toInt() }
-            SortingType.BY_INCREASE_PRICE -> viewState.products.sortedBy { it.price.priceWithDiscount.toInt() }
+            SortingType.BY_POPULAR -> viewState.allProducts.sortedByDescending { it.feedback.rating }
+            SortingType.BY_DECREASE_PRICE -> viewState.allProducts.sortedByDescending { it.price.priceWithDiscount.toInt() }
+            SortingType.BY_INCREASE_PRICE -> viewState.allProducts.sortedBy { it.price.priceWithDiscount.toInt() }
         }
 
         viewState = viewState.copy(
             currentSortingType = type,
             isSortingMenuExpanded = !viewState.isSortingMenuExpanded,
-            products = sortedProducts
+            allProducts = sortedProducts,
         )
     }
 
     private fun setProductTag(tagType: ProductTagType) {
+        val serverTag = tagType.serverTag
+
         val reorderedTags = mutableListOf<ProductTagType>().apply {
             addAll(viewState.availableTags)
         }
@@ -80,12 +91,17 @@ class CatalogViewModel
 
         viewState = viewState.copy(
             currentTag = tagType,
-            availableTags = reorderedTags
+            availableTags = reorderedTags,
+            filteredProducts = viewState.allProducts.filter { it.tags.contains(serverTag) }
         )
     }
 
     private fun resetTags() {
-        viewState = CatalogViewState(currentSortingType = viewState.currentSortingType)
+        viewState = CatalogViewState(
+            currentSortingType = viewState.currentSortingType,
+            allProducts = viewState.allProducts,
+            filteredProducts = viewState.allProducts,
+        )
     }
 
     private fun openProductCard(productId: String) {
