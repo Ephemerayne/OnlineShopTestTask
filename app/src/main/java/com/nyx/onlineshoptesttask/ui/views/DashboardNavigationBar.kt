@@ -156,7 +156,7 @@ fun DashboardNavigationBar() {
                 }
 
 
-                // TODO ref route
+                // TODO: try refactor route
                 composable(
                     route = "${NavigationTree.Root.Dashboard.Catalog.ProductCard.name}/{${Constants.PRODUCT_ID}}",
                     arguments = listOf(

@@ -15,20 +15,27 @@ class FavouriteProductStorage(
             SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
                 if (key == FAVOURITE_KEY) {
                     val favourite = sharedPreferences.getStringSet(FAVOURITE_KEY, mutableSetOf())
-                    favourite?.let { trySend(it.toList()) }
+                    trySend(favourite?.toList() ?: emptyList())
                 }
             }
+
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
-        if (sharedPreferences.contains(FAVOURITE_KEY)) {
-            sharedPreferences.getStringSet(FAVOURITE_KEY, setOf<String>())?.let {
-                send(it.toList())
+
+        send(
+            if (sharedPreferences.contains(FAVOURITE_KEY)) {
+                sharedPreferences.getStringSet(FAVOURITE_KEY, setOf<String>())?.toList()
+                    ?: emptyList()
+            } else {
+                emptyList()
             }
-        }
+        )
+
         awaitClose { sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener) }
     }.buffer(Channel.UNLIMITED)
 
     fun putValue(id: String) {
-        val favourites = sharedPreferences.getStringSet(FAVOURITE_KEY, mutableSetOf()) ?: mutableSetOf()
+        val favourites =
+            sharedPreferences.getStringSet(FAVOURITE_KEY, mutableSetOf()) ?: mutableSetOf()
         val newFavourites = mutableSetOf<String>().apply {
             addAll(favourites)
             add(id)
@@ -38,7 +45,8 @@ class FavouriteProductStorage(
     }
 
     fun deleteValue(id: String) {
-        val favourites = sharedPreferences.getStringSet(FAVOURITE_KEY, mutableSetOf()) ?: mutableSetOf()
+        val favourites =
+            sharedPreferences.getStringSet(FAVOURITE_KEY, mutableSetOf()) ?: mutableSetOf()
         val newFavourites = mutableSetOf<String>().apply {
             addAll(favourites)
             remove(id)

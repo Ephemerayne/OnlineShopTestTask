@@ -9,20 +9,24 @@ import kotlinx.coroutines.flow.callbackFlow
 
 class UserStorage(private val sharedPreferences: SharedPreferences,
 ) {
-    fun getUser(): Flow<String?> = callbackFlow<String> {
+    fun getUser(): Flow<String?> = callbackFlow {
         val listener =
             SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
                 if (key == USER_KEY) {
-                    val user = sharedPreferences.getString(USER_KEY, "")
-                    user?.let { trySend(it) }
+                    val user = sharedPreferences.getString(USER_KEY, null)
+                    trySend(user)
                 }
             }
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
-        if (sharedPreferences.contains(USER_KEY)) {
-            sharedPreferences.getString(USER_KEY, "")?.let {
-                send(it)
+
+        send(
+            if (sharedPreferences.contains(USER_KEY)) {
+                sharedPreferences.getString(USER_KEY, null)
+            } else {
+                null
             }
-        }
+        )
+
         awaitClose { sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener) }
     }.buffer(Channel.UNLIMITED)
 
@@ -32,8 +36,7 @@ class UserStorage(private val sharedPreferences: SharedPreferences,
     }
 
     fun deleteUserData() {
-        val user = sharedPreferences.getString(USER_KEY, "")
-        sharedPreferences.edit().putString(USER_KEY, user).apply()
+        sharedPreferences.edit().putString(USER_KEY, null).apply()
     }
 
     companion object {
