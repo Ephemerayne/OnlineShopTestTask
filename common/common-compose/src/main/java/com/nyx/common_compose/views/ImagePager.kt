@@ -30,8 +30,6 @@ fun ImagePager(
     imagesCount: Int,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-
-
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),

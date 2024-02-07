@@ -6,5 +6,6 @@ sealed class ProductCardViewEvent {
     class IngredientsTextLinesCountMeasured(
         val isLinesCountMoreThanTwo: Boolean,
     ) : ProductCardViewEvent()
+    class OnFavouriteClicked(val id: String, val isFavourite: Boolean): ProductCardViewEvent()
     object ActionInvoked: ProductCardViewEvent()
 }

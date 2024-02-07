@@ -11,6 +11,7 @@ data class ProductUiEntity(
     val description: String,
     val info: List<InfoUiEntity>,
     val ingredients: String,
+    val isFavourite: Boolean
 )
 
 data class PriceUiEntity(

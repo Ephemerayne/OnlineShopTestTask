@@ -1,5 +1,6 @@
 package com.nyx.catalog_impl
 
+import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
 import com.nyx.catalog_impl.models.CatalogViewAction
 import com.nyx.catalog_impl.models.CatalogViewEvent
@@ -8,14 +9,18 @@ import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.viewmodel.BaseViewModel
+import com.nyx.common_data.local.FavouriteProductStorage
 import com.nyx.common_data.repository.ProductRepositoryImpl
 import kotlinx.coroutines.launch
 
-class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, CatalogViewEvent>(
+class CatalogViewModel
+    (sharedPreferences: SharedPreferences): BaseViewModel<CatalogViewState, CatalogViewAction, CatalogViewEvent>(
     initialState = CatalogViewState()
 ) {
 
-    private val repository = ProductRepositoryImpl()
+    private val repository = ProductRepositoryImpl(
+        FavouriteProductStorage(sharedPreferences)
+    )
 
     init {
         fetchProducts()
@@ -28,7 +33,7 @@ class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, Cata
             is CatalogViewEvent.OnTagClicked -> setProductTag(viewEvent.type)
             is CatalogViewEvent.OnClearTagClicked -> resetTags()
             is CatalogViewEvent.OnProductClicked -> openProductCard(viewEvent.productId)
-            is CatalogViewEvent.OnFavouriteClicked -> addProductToFavourites()
+            is CatalogViewEvent.OnFavouriteClicked -> toggleProductToFavourites(viewEvent.productId, viewEvent.isFavourite)
             is CatalogViewEvent.ActionInvoked -> viewAction = null
         }
     }
@@ -74,7 +79,11 @@ class CatalogViewModel : BaseViewModel<CatalogViewState, CatalogViewAction, Cata
         viewAction = CatalogViewAction.OpenProductCard(productId)
     }
 
-    private fun addProductToFavourites() {
-        // database note
+    private fun toggleProductToFavourites(productId: String, isFavourite: Boolean) {
+        if (isFavourite) {
+            repository.deleteFavourite(productId)
+        } else {
+            repository.addFavourite(productId)
+        }
     }
 }

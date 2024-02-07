@@ -21,6 +21,7 @@ fun ProductEntity.toUiEntity(): ProductUiEntity {
         description = description.toString(),
         info = (info ?: emptyList()).map { it.toUiEntity() },
         ingredients = ingredients.toString(),
+        isFavourite = isFavourite
     )
 }
 

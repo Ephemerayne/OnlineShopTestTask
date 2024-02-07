@@ -8,5 +8,5 @@ interface ProductRepository {
     fun getFavourite(): Flow<List<ProductEntity>>
     fun addFavourite(id: String)
     fun deleteFavourite(id: String)
-    fun getProduct(id: String): Flow<ProductEntity>
+    fun getProduct(id: String): Flow<ProductEntity?>
 }

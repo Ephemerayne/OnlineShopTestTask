@@ -39,7 +39,7 @@ import com.nyx.common_compose.typography.AppTypography
 fun ProductsGridView(
     products: List<ProductUiEntity>,
     onProductClick: (productId: String) -> Unit,
-    onFavouriteClick: () -> Unit,
+    onFavouriteClick: (String, Boolean) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -49,7 +49,7 @@ fun ProductsGridView(
                 ProductItem(
                     product = product,
                     onProductClick = { onProductClick(product.id) },
-                    onFavouriteClick = onFavouriteClick
+                    onFavouriteClick = { onFavouriteClick(product.id, product.isFavourite) }
                 )
             }
         })
@@ -82,7 +82,10 @@ private fun ProductItem(
                 .clip(RoundedCornerShape(8.dp))
         ) {
             ImagePager(pagerState = pagerState, imagesCount = 4)
-            FavouriteIconView(onFavouriteClick = onFavouriteClick)
+            FavouriteIconView(
+                isFavourite = product.isFavourite,
+                onFavouriteClick = onFavouriteClick
+            )
         }
         VerticalSpacer(height = 4.dp)
         ImagePagerIndicatorView(
@@ -109,7 +112,10 @@ private fun ProductItem(
 }
 
 @Composable
-private fun BoxScope.FavouriteIconView(onFavouriteClick: () -> Unit) {
+private fun BoxScope.FavouriteIconView(
+    isFavourite: Boolean,
+    onFavouriteClick: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .align(Alignment.TopEnd)
@@ -118,7 +124,7 @@ private fun BoxScope.FavouriteIconView(onFavouriteClick: () -> Unit) {
         Image(
             modifier = Modifier
                 .padding(8.dp),
-            painter = painterResource(R.drawable.favourite_icon),
+            painter = painterResource(if (isFavourite) R.drawable.selected_favourite_icon else R.drawable.favourite_icon),
             contentDescription = null
         )
     }

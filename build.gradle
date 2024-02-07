@@ -13,6 +13,7 @@ buildscript {
         kview_model_compose_version = '0.14'
         coroutines = '1.6.4'
         retrofit = '2.9.0'
+//        room_version = '2.6.1'
     }
 }
 

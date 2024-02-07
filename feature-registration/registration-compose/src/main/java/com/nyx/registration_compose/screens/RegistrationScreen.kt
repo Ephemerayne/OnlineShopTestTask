@@ -137,7 +137,7 @@ private fun RegistrationView(
                 disabledBackgroundColor = colorResource(CommonRes.color.light_pink),
                 disabledContentColor = colorResource(CommonRes.color.white)
             ),
-            enabled = isEnterButtonEnabled,
+//            enabled = isEnterButtonEnabled,
             onClick = onEnterButtonClick
         ) {
             Text(

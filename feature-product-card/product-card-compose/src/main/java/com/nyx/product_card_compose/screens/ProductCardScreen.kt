@@ -1,5 +1,6 @@
 package com.nyx.product_card_compose.screens
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -17,6 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
@@ -25,9 +27,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
+import com.nyx.common_api.constant.Constants
 import com.nyx.common_api.models.ProductEntity
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.models.InfoUiEntity
+import com.nyx.common_compose.models.ProductUiEntity
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.common_compose.viewmodel.viewModelFactory
@@ -45,9 +49,12 @@ fun ProductCardScreen(
     productId: String,
     screenNavigation: ProductCardScreenNavigation,
 ) {
+    val context = LocalContext.current
+    val sharedPref = context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+
     val viewModel: ProductCardViewModel = viewModel(
         factory = viewModelFactory {
-            ProductCardViewModel(productId = productId)
+            ProductCardViewModel(sharedPreferences = sharedPref, productId = productId)
         })
 
     val viewState = viewModel.viewStates().observeAsState().value
@@ -62,9 +69,15 @@ fun ProductCardScreen(
         ProductCardViewEvent.IngredientsTextLinesCountMeasured(it)
     }
 
+    val onFavouriteClick =
+        viewModel.rememberEvent<String, Boolean, _> { id, isFavourite ->
+            ProductCardViewEvent.OnFavouriteClicked(id, isFavourite)
+        }
+
     ProductCardView(
         viewState = viewState,
         onBackArrowClick = { screenNavigation.back() }, // TODO
+        onFavouriteClick = onFavouriteClick,
         onHideOrShowDescriptionClick = onHideOrShowDescriptionClick,
         onExpandOrHideIngredientsClick = onHideOrShowIngredientsClick,
         onIngredientsLinesCountMeasured = onIngredientsLinesCountMeasured
@@ -78,6 +91,7 @@ fun ProductCardScreen(
 private fun ProductCardView(
     viewState: ProductCardViewState,
     onBackArrowClick: () -> Unit,
+    onFavouriteClick: (productId: String, isFavourite: Boolean) -> Unit,
     onHideOrShowDescriptionClick: () -> Unit,
     onExpandOrHideIngredientsClick: () -> Unit,
     onIngredientsLinesCountMeasured: (Boolean) -> Unit,
@@ -97,7 +111,12 @@ private fun ProductCardView(
                 onShareIconClick = { /* No implementation */ })
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 VerticalSpacer(height = 12.dp)
-                ImagePagerView(pagerState = pagerState, 4)
+                ImagePagerView(
+                    product = product,
+                    pagerState = pagerState,
+                    imagesCount = 4,
+                    onFavouriteClick = onFavouriteClick
+                )
                 VerticalSpacer(height = 8.dp)
                 ImagePagerIndicatorView(
                     pagerState = pagerState,
@@ -164,8 +183,10 @@ private fun ProductCardView(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ImagePagerView(
+    product: ProductUiEntity,
     pagerState: PagerState,
     imagesCount: Int,
+    onFavouriteClick: (productId: String, isFavourite: Boolean) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -175,10 +196,12 @@ private fun ImagePagerView(
             pagerState = pagerState,
             imagesCount = imagesCount
         )
+        // TODO box
         Image(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(4.dp),
+                .padding(4.dp)
+                .clickable(onClick = { onFavouriteClick(product.id, product.isFavourite) }),
             painter = painterResource(CommonRes.drawable.favourite_icon),
             contentDescription = null
         )

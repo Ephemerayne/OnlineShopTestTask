@@ -1,5 +1,6 @@
 package com.nyx.catalog_compose.screens
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,18 +40,27 @@ import com.nyx.catalog_impl.models.CatalogViewEvent
 import com.nyx.catalog_impl.models.CatalogViewState
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
+import com.nyx.common_api.constant.Constants
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.utils.StableList
 import com.nyx.common_compose.utils.toStable
 import com.nyx.common_compose.viewmodel.rememberEvent
+import com.nyx.common_compose.viewmodel.viewModelFactory
 import com.nyx.common_compose.views.*
 import com.nyx.common_compose.R as ColorRes
 
 @Composable
 fun CatalogScreen(
-    viewModel: CatalogViewModel = viewModel(),
     screenNavigation: CatalogScreenNavigation,
 ) {
+    val context = LocalContext.current
+    val sharedPref = context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+
+    val viewModel: CatalogViewModel = viewModel(
+        factory = viewModelFactory {
+            CatalogViewModel(sharedPreferences = sharedPref)
+        })
+
     val viewState = viewModel.viewStates().observeAsState().value
 
     val onSortingMenuClick =
@@ -74,7 +85,9 @@ fun CatalogScreen(
 
 
     val onFavouriteClick =
-        viewModel.rememberEvent(CatalogViewEvent.OnFavouriteClicked)
+        viewModel.rememberEvent<String, Boolean, _> { id, isFavourite ->
+            CatalogViewEvent.OnFavouriteClicked(id, isFavourite)
+        }
 
     CatalogView(
         viewState = viewState,
@@ -97,7 +110,7 @@ private fun CatalogView(
     onTagClick: (ProductTagType) -> Unit,
     onClearTagClick: () -> Unit,
     onProductClick: (productId: String) -> Unit,
-    onFavouriteClick: () -> Unit,
+    onFavouriteClick: (productId: String, isFavourite: Boolean) -> Unit,
 ) {
     Column(modifier = Modifier) {
         ScreenTitleView(text = stringResource(R.string.catalog_title))

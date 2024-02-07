@@ -1,8 +1,10 @@
 package com.nyx.product_card_impl
 
+import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.viewmodel.BaseViewModel
+import com.nyx.common_data.local.FavouriteProductStorage
 import com.nyx.common_data.repository.ProductRepositoryImpl
 import com.nyx.product_card_impl.models.ProductCardViewAction
 import com.nyx.product_card_impl.models.ProductCardViewEvent
@@ -10,13 +12,15 @@ import com.nyx.product_card_impl.models.ProductCardViewState
 import kotlinx.coroutines.launch
 
 class ProductCardViewModel(
+    sharedPreferences: SharedPreferences,
     val productId: String,
 ) :
     BaseViewModel<ProductCardViewState, ProductCardViewAction, ProductCardViewEvent>(
         initialState = ProductCardViewState()
     ) {
 
-    private val productRepository = ProductRepositoryImpl()
+    private val productRepository =
+        ProductRepositoryImpl(FavouriteProductStorage(sharedPreferences))
 
     init {
         fetchProduct()
@@ -28,6 +32,11 @@ class ProductCardViewModel(
             is ProductCardViewEvent.HideOrShowIngredientsClicked -> toggleIngredientsVisibility()
             is ProductCardViewEvent.IngredientsTextLinesCountMeasured ->
                 setIsIngredientsTextLinesCountMeasured(viewEvent.isLinesCountMoreThanTwo)
+
+            is ProductCardViewEvent.OnFavouriteClicked -> toggleProductToFavourites(
+                viewEvent.id,
+                viewEvent.isFavourite
+            )
 
             is ProductCardViewEvent.ActionInvoked -> viewAction = null
         }
@@ -50,8 +59,18 @@ class ProductCardViewModel(
     private fun fetchProduct() {
         viewModelScope.launch {
             productRepository.getProduct(productId).collect { product ->
-                viewState = viewState.copy(product = product.toUiEntity())
+                if (product != null) {
+                    viewState = viewState.copy(product = product.toUiEntity())
+                }
             }
+        }
+    }
+
+    private fun toggleProductToFavourites(productId: String, isFavourite: Boolean) {
+        if (isFavourite) {
+            productRepository.deleteFavourite(productId)
+        } else {
+            productRepository.addFavourite(productId)
         }
     }
 }

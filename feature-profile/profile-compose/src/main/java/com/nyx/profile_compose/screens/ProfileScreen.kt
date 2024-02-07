@@ -1,5 +1,6 @@
 package com.nyx.profile_compose.screens
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
@@ -23,8 +25,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.adeo.kviewmodel.compose.observeAsState
+import com.nyx.common_api.constant.Constants
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.viewmodel.rememberEvent
+import com.nyx.common_compose.viewmodel.viewModelFactory
 import com.nyx.common_compose.views.ButtonItemView
 import com.nyx.common_compose.views.ScreenTitleView
 import com.nyx.common_compose.views.VerticalSpacer
@@ -38,15 +42,22 @@ import com.nyx.common_compose.R as CommonRes
 
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel = viewModel(),
     screenNavigation: ProfileScreenNavigation,
 ) {
+    val context = LocalContext.current
+    val sharedPref = context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+
+    val viewModel: ProfileViewModel = viewModel(
+        factory = viewModelFactory {
+            ProfileViewModel(sharedPreferences = sharedPref)
+        })
 
     val viewState = viewModel.viewStates().observeAsState().value
 
     val onFavouritesItemClick = viewModel.rememberEvent(ProfileViewEvent.OnFavouritesClicked)
 
     ProfileView(
+        productCount = viewState.productCount,
         onFavouritesClick = onFavouritesItemClick,
         onExitClick = {} // exit to registration screen
     )
@@ -56,6 +67,7 @@ fun ProfileScreen(
 
 @Composable
 private fun ProfileView(
+    productCount: Int,
     onFavouritesClick: () -> Unit,
     onExitClick: () -> Unit,
 ) {
@@ -75,7 +87,7 @@ private fun ProfileView(
             UserNameItemView(username = "Name Surname", phone = "+7 123 456 78 99")
             VerticalSpacer(height = 20.dp)
             FavouritesItemView(
-                productsCount = 30,
+                productsCount = productCount,
                 onFavouritesClick = onFavouritesClick
             )
             VerticalSpacer(height = 8.dp)

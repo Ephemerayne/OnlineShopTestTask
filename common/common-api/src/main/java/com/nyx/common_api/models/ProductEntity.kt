@@ -11,6 +11,7 @@ data class ProductEntity(
     val description: String? = null,
     val info: List<InfoEntity>? = null,
     val ingredients: String? = null,
+    val isFavourite: Boolean = false,
 )
 
 data class PriceEntity(
@@ -46,12 +47,4 @@ data class FeedbackEntity(
 data class InfoEntity(
     val title: String? = null,
     val value: String? = null,
-) {
-    companion object {
-        val empty: InfoEntity
-            get() = InfoEntity(
-                title = "null",
-                value = "null"
-            )
-    }
-}
+)
