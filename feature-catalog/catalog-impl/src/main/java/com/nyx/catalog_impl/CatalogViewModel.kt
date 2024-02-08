@@ -76,6 +76,7 @@ class CatalogViewModel
             currentSortingType = type,
             isSortingMenuExpanded = !viewState.isSortingMenuExpanded,
             allProducts = sortedProducts,
+            filteredProducts = sortedProducts
         )
     }
 
