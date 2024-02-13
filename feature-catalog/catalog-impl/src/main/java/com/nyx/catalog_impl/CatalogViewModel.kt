@@ -1,6 +1,5 @@
 package com.nyx.catalog_impl
 
-import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
 import com.nyx.catalog_impl.models.CatalogViewAction
 import com.nyx.catalog_impl.models.CatalogViewEvent
@@ -8,23 +7,20 @@ import com.nyx.catalog_impl.models.CatalogViewState
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
 import com.nyx.catalog_impl.models.serverTag
+import com.nyx.common_api.repository.product.ProductRepository
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.viewmodel.BaseViewModel
-import com.nyx.common_data.local.product.FavouriteProductStorage
-import com.nyx.common_data.repository.product.ProductRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 // TODO: REFACTOR FILTERING: CREATE FILTER DATA CLASS
 
-class CatalogViewModel
-    (sharedPreferences: SharedPreferences) :
+@HiltViewModel
+class CatalogViewModel @Inject constructor(private val productRepository: ProductRepository) :
     BaseViewModel<CatalogViewState, CatalogViewAction, CatalogViewEvent>(
         initialState = CatalogViewState()
     ) {
-
-    private val repository = ProductRepositoryImpl(
-        FavouriteProductStorage(sharedPreferences)
-    )
 
     init {
         fetchProducts()
@@ -48,7 +44,7 @@ class CatalogViewModel
 
     private fun fetchProducts() {
         viewModelScope.launch {
-            repository.getProducts().collect {
+            productRepository.getProducts().collect {
                 val products = it
                     .map { entity -> entity.toUiEntity() }
                     .sortedByDescending { it.feedback.rating }
@@ -111,9 +107,9 @@ class CatalogViewModel
 
     private fun toggleProductToFavourites(productId: String, isFavourite: Boolean) {
         if (isFavourite) {
-            repository.deleteFavourite(productId)
+            productRepository.deleteFavourite(productId)
         } else {
-            repository.addFavourite(productId)
+            productRepository.addFavourite(productId)
         }
     }
 }

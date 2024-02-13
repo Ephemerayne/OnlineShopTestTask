@@ -6,8 +6,9 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.callbackFlow
+import javax.inject.Inject
 
-class FavouriteProductStorage(
+class FavouriteProductStorage @Inject constructor(
     private val sharedPreferences: SharedPreferences,
 ) {
     fun getFavouriteProductIds(): Flow<List<String>> = callbackFlow<List<String>> {

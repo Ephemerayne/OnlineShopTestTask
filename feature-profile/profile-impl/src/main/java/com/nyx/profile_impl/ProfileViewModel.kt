@@ -1,26 +1,23 @@
 package com.nyx.profile_impl
 
-import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
+import com.nyx.common_api.repository.product.ProductRepository
+import com.nyx.common_api.repository.user.UserRepository
 import com.nyx.common_compose.viewmodel.BaseViewModel
-import com.nyx.common_data.local.product.FavouriteProductStorage
-import com.nyx.common_data.local.user.UserStorage
-import com.nyx.common_data.repository.product.ProductRepositoryImpl
-import com.nyx.common_data.repository.user.UserRepositoryImpl
 import com.nyx.profile_impl.models.ProfileViewAction
 import com.nyx.profile_impl.models.ProfileViewEvent
 import com.nyx.profile_impl.models.ProfileViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProfileViewModel(
-    sharedPreferences: SharedPreferences,
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val productRepository: ProductRepository,
+    private val userRepository: UserRepository,
 ) : BaseViewModel<ProfileViewState, ProfileViewAction, ProfileViewEvent>(
     initialState = ProfileViewState()
 ) {
-
-    private val productRepository =
-        ProductRepositoryImpl(FavouriteProductStorage(sharedPreferences))
-    private val userRepository = UserRepositoryImpl(UserStorage(sharedPreferences))
 
     init {
         countFavourites()

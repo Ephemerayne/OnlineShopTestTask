@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -26,21 +27,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
+    buildFeatures {
+        compose true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion compose_compiler_version
-    }
-
-    buildFeatures {
-        compose true
     }
 
     packagingOptions {
@@ -54,6 +47,7 @@ dependencies {
     implementation project(":common:common-api")
     implementation project(":common:common-compose")
     implementation project(":common:common-impl")
+    implementation project(":common:common-data")
 
     implementation project(":feature-registration:registration-compose")
     implementation project(":feature-registration:registration-api")
@@ -74,4 +68,11 @@ dependencies {
     implementation project(":feature-favourites:favourites-compose")
     implementation project(":feature-favourites:favourites-api")
     implementation project(":feature-favourites:favourites-impl")
+
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_compose_navigation_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_compiler"
 }

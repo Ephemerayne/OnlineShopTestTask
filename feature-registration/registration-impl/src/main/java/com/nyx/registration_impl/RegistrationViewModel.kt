@@ -1,25 +1,24 @@
 package com.nyx.registration_impl
 
-import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
 import com.nyx.common_api.models.UserEntity
+import com.nyx.common_api.repository.user.UserRepository
 import com.nyx.common_compose.viewmodel.BaseViewModel
-import com.nyx.common_data.local.user.UserStorage
-import com.nyx.common_data.repository.user.UserRepositoryImpl
 import com.nyx.common_impl.utils.isCyrillicInput
 import com.nyx.registration_impl.models.registration.RegistrationViewAction
 import com.nyx.registration_impl.models.registration.RegistrationViewEvent
 import com.nyx.registration_impl.models.registration.RegistrationViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegistrationViewModel(
-    private val sharedPreferences: SharedPreferences,
+@HiltViewModel
+class RegistrationViewModel @Inject constructor(
+    private val userRepository: UserRepository,
 ) :
     BaseViewModel<RegistrationViewState, RegistrationViewAction, RegistrationViewEvent>(
         initialState = RegistrationViewState()
     ) {
-
-    private val userRepository = UserRepositoryImpl(UserStorage(sharedPreferences))
 
     init {
         observeUserData()

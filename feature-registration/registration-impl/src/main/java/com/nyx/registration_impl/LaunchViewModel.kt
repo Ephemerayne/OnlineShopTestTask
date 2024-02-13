@@ -1,22 +1,20 @@
 package com.nyx.registration_impl
 
-import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
+import com.nyx.common_api.repository.user.UserRepository
 import com.nyx.common_compose.viewmodel.BaseViewModel
-import com.nyx.common_data.local.user.UserStorage
-import com.nyx.common_data.repository.user.UserRepositoryImpl
 import com.nyx.registration_impl.models.launch.LaunchViewAction
 import com.nyx.registration_impl.models.launch.LaunchViewEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LaunchViewModel(
-    private val sharedPreferences: SharedPreferences,
-) :
-    BaseViewModel<Unit, LaunchViewAction, LaunchViewEvent>(
+@HiltViewModel
+class LaunchViewModel @Inject constructor(
+    private val userRepository: UserRepository,
+) : BaseViewModel<Unit, LaunchViewAction, LaunchViewEvent>(
         initialState = Unit
     ) {
-
-    private val repo = UserRepositoryImpl(UserStorage(sharedPreferences))
 
     init {
         observeUserData()
@@ -26,7 +24,7 @@ class LaunchViewModel(
 
     private fun observeUserData() {
         viewModelScope.launch {
-            repo.getUserData().collect {
+            userRepository.getUserData().collect {
                 viewAction = if (it == null) {
                     LaunchViewAction.OpenRegistration
                 } else {

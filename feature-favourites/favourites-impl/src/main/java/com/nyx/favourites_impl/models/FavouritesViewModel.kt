@@ -1,22 +1,20 @@
 package com.nyx.favourites_impl.models
 
-import android.content.SharedPreferences
 import androidx.lifecycle.viewModelScope
+import com.nyx.common_api.repository.product.ProductRepository
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.viewmodel.BaseViewModel
-import com.nyx.common_data.local.product.FavouriteProductStorage
-import com.nyx.common_data.repository.product.ProductRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FavouritesViewModel(
-    sharedPreferences: SharedPreferences,
+@HiltViewModel
+class FavouritesViewModel @Inject constructor(
+    private val productRepository: ProductRepository,
 ) :
     BaseViewModel<FavouritesViewState, FavouritesViewAction, FavouritesViewEvent>(
         initialState = FavouritesViewState()
     ) {
-
-    private val repository =
-        ProductRepositoryImpl(favouriteProductStorage = FavouriteProductStorage(sharedPreferences))
 
     init {
         fetchProducts()
@@ -44,15 +42,15 @@ class FavouritesViewModel(
 
     private fun toggleProductToFavourites(productId: String, isFavourite: Boolean) {
         if (isFavourite) {
-            repository.deleteFavourite(productId)
+            productRepository.deleteFavourite(productId)
         } else {
-            repository.addFavourite(productId)
+            productRepository.addFavourite(productId)
         }
     }
 
     private fun fetchProducts() {
         viewModelScope.launch {
-            repository.getFavourite().collect {
+            productRepository.getFavourite().collect {
                 viewState = viewState.copy(products = it.map { it.toUiEntity() })
             }
         }

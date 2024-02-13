@@ -1,6 +1,5 @@
 package com.nyx.product_card_compose.screens
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -18,16 +17,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.adeo.kviewmodel.compose.observeAsState
-import com.nyx.common_api.constant.Constants
 import com.nyx.common_api.models.ProductEntity
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.models.InfoUiEntity
@@ -37,7 +34,6 @@ import com.nyx.common_compose.utils.StableList
 import com.nyx.common_compose.utils.productIdToImageRes
 import com.nyx.common_compose.utils.toStable
 import com.nyx.common_compose.viewmodel.rememberEvent
-import com.nyx.common_compose.viewmodel.viewModelFactory
 import com.nyx.common_compose.views.*
 import com.nyx.product_card_api.navigation.ProductCardScreenNavigation
 import com.nyx.product_card_compose.R
@@ -49,16 +45,9 @@ import com.nyx.common_compose.R as CommonRes
 
 @Composable
 fun ProductCardScreen(
-    productId: String,
     screenNavigation: ProductCardScreenNavigation,
+    viewModel: ProductCardViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
-    val sharedPref = context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
-
-    val viewModel: ProductCardViewModel = viewModel(
-        factory = viewModelFactory {
-            ProductCardViewModel(sharedPreferences = sharedPref, productId = productId)
-        })
 
     val viewState = viewModel.viewStates().observeAsState().value
 

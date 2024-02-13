@@ -6,8 +6,10 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.callbackFlow
+import javax.inject.Inject
 
-class UserStorage(private val sharedPreferences: SharedPreferences,
+class UserStorage @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
 ) {
     fun getUser(): Flow<String?> = callbackFlow {
         val listener =

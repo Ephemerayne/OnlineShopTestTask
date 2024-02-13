@@ -40,7 +40,6 @@ import com.nyx.common_compose.R as CommonRes
 
 const val catalogNavGraph = "CatalogNavGraph"
 const val profileNavGraph = "ProfileNavGraph"
-private const val ARGS = "args"
 
 object Constants {
     const val PRODUCT_ID = "productId"
@@ -155,7 +154,6 @@ fun DashboardNavigationBar() {
                     CatalogScreen(screenNavigation = catalogScreenNavigation)
                 }
 
-
                 // TODO: try refactor route
                 composable(
                     route = "${NavigationTree.Root.Dashboard.Catalog.ProductCard.name}/{${Constants.PRODUCT_ID}}",
@@ -168,7 +166,6 @@ fun DashboardNavigationBar() {
                     val productId = backStackEntry.arguments?.getString(Constants.PRODUCT_ID)
                     requireNotNull(productId) { "productId parameter wasn't found. Please make sure it's set!" }
                     ProductCardScreen(
-                        productId = productId,
                         screenNavigation = productCardScreenNavigation
                     )
                 }
@@ -199,7 +196,6 @@ fun DashboardNavigationBar() {
                     val productId = backStackEntry.arguments?.getString(Constants.PRODUCT_ID)
                     requireNotNull(productId) { "productId parameter wasn't found. Please make sure it's set!" }
                     ProductCardScreen(
-                        productId = productId,
                         screenNavigation = productCardScreenNavigation
                     )
                 }

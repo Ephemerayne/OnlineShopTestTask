@@ -1,19 +1,15 @@
 package com.nyx.favourites_compose.screens
 
-import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.adeo.kviewmodel.compose.observeAsState
-import com.nyx.common_api.constant.Constants
 import com.nyx.common_compose.models.ProductUiEntity
 import com.nyx.common_compose.utils.toStable
 import com.nyx.common_compose.viewmodel.rememberEvent
-import com.nyx.common_compose.viewmodel.viewModelFactory
 import com.nyx.common_compose.views.*
 import com.nyx.favourites_api.navigation.FavouritesScreenNavigation
 import com.nyx.favourites_compose.R
@@ -26,14 +22,8 @@ import com.nyx.favourites_impl.models.TabType
 @Composable
 fun FavouriteProductsScreen(
     screenNavigation: FavouritesScreenNavigation,
+    viewModel: FavouritesViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
-    val sharedPref = context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
-
-    val viewModel: FavouritesViewModel = viewModel(
-        factory = viewModelFactory {
-            FavouritesViewModel(sharedPreferences = sharedPref)
-        })
 
     val viewState = viewModel.viewStates().observeAsState().value
     val onBackClick = viewModel.rememberEvent(FavouritesViewEvent.OnBackClicked)

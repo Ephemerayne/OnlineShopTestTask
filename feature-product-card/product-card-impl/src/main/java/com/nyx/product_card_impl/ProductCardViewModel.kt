@@ -1,26 +1,27 @@
 package com.nyx.product_card_impl
 
-import android.content.SharedPreferences
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.nyx.common_api.repository.product.ProductRepository
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.viewmodel.BaseViewModel
-import com.nyx.common_data.local.product.FavouriteProductStorage
-import com.nyx.common_data.repository.product.ProductRepositoryImpl
 import com.nyx.product_card_impl.models.ProductCardViewAction
 import com.nyx.product_card_impl.models.ProductCardViewEvent
 import com.nyx.product_card_impl.models.ProductCardViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductCardViewModel(
-    sharedPreferences: SharedPreferences,
-    val productId: String,
+@HiltViewModel
+class ProductCardViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val productRepository: ProductRepository,
 ) :
     BaseViewModel<ProductCardViewState, ProductCardViewAction, ProductCardViewEvent>(
         initialState = ProductCardViewState()
     ) {
 
-    private val productRepository =
-        ProductRepositoryImpl(FavouriteProductStorage(sharedPreferences))
+    private val productId: String? = savedStateHandle["productId"]
 
     init {
         fetchProduct()
@@ -53,10 +54,13 @@ class ProductCardViewModel(
     private fun setIsIngredientsTextLinesCountMeasured(isLinesCountMoreThanTwo: Boolean) {
         if (viewState.product == null) return
 
-        viewState = viewState.copy(isIngredientsTextHasMoreThanTwoLines = isLinesCountMoreThanTwo)
+        viewState =
+            viewState.copy(isIngredientsTextHasMoreThanTwoLines = isLinesCountMoreThanTwo)
     }
 
     private fun fetchProduct() {
+        if (productId == null) return
+
         viewModelScope.launch {
             productRepository.getProduct(productId).collect { product ->
                 if (product != null) {
