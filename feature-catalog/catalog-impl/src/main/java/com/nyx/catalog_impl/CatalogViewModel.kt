@@ -135,5 +135,7 @@ class CatalogViewModel @Inject constructor(private val productRepository: Produc
         } else {
             productRepository.addFavourite(productId)
         }
+
+        applyFilter(viewState.filterData)
     }
 }
