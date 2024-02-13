@@ -13,7 +13,7 @@
 1) ЯП, верстка - Kotlin, Jetpack Compose
 2) Архитектурный паттерн - MVI
 3) Внедрение зависимостей - Hilt
-4) Локальное хранение данных - SharedPreferences, Room (в процессе)
+4) Локальное хранение данных - SharedPreferences
 5) Работа с API - Retrofit2
 6) Асинхронность (потоки) - Coroutines, Flow
 
