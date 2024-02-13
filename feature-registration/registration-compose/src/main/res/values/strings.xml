@@ -5,4 +5,6 @@
     <string name="placeholder_surname">Фамилия</string>
     <string name="placeholder_phone_number">Номер телефона</string>
     <string name="enter_button_text">Войти</string>
+    <string name="apply_loyal_program_text">Нажимая кнопку “Войти”, Вы принимаете\n%1$s</string>
+    <string name="underlined_apply_loyal_program_text">условия программы лояльности</string>
 </resources>
