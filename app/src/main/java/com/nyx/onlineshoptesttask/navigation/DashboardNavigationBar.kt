@@ -1,4 +1,4 @@
-package com.nyx.onlineshoptesttask.ui.views
+package com.nyx.onlineshoptesttask.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -29,7 +29,6 @@ import com.nyx.common_compose.utils.toStable
 import com.nyx.common_compose.views.StubView
 import com.nyx.favourites_compose.screens.FavouriteProductsScreen
 import com.nyx.onlineshoptesttask.R
-import com.nyx.onlineshoptesttask.navigation.NavigationTree
 import com.nyx.onlineshoptesttask.navigation.screens.catalog.CatalogScreenNavigationImpl
 import com.nyx.onlineshoptesttask.navigation.screens.favourites.FavouritesScreenNavigationImpl
 import com.nyx.onlineshoptesttask.navigation.screens.product_card.ProductCardScreenNavigationImpl
@@ -81,7 +80,7 @@ sealed class NavItem(val route: String, val titleResId: Int, val iconResId: Int)
 }
 
 @Composable
-fun DashboardNavigationBar() {
+fun DashboardNavigationBar(onNavigateToRegistration: () -> Unit) {
     val items = remember {
         listOf(
             NavItem.Main,
@@ -140,7 +139,7 @@ fun DashboardNavigationBar() {
         ) {
             val catalogScreenNavigation = CatalogScreenNavigationImpl(navController)
             val productCardScreenNavigation = ProductCardScreenNavigationImpl(navController)
-            val profileScreenNavigation = ProfileScreenNavigationImpl(navController)
+            val profileScreenNavigation = ProfileScreenNavigationImpl(navController, onNavigateToRegistration)
             val favouritesScreenNavigation = FavouritesScreenNavigationImpl(navController)
 
             composable(NavItem.Main.route) { StubView(pageName = "main") }
@@ -154,7 +153,6 @@ fun DashboardNavigationBar() {
                     CatalogScreen(screenNavigation = catalogScreenNavigation)
                 }
 
-                // TODO: try refactor route
                 composable(
                     route = "${NavigationTree.Root.Dashboard.Catalog.ProductCard.name}/{${Constants.PRODUCT_ID}}",
                     arguments = listOf(
@@ -179,7 +177,9 @@ fun DashboardNavigationBar() {
                 route = NavItem.Profile.route
             ) {
                 composable(profileNavGraph) {
-                    ProfileScreen(screenNavigation = profileScreenNavigation)
+                    ProfileScreen(screenNavigation = profileScreenNavigation) {
+                        onNavigateToRegistration()
+                    }
                 }
 
                 composable(NavigationTree.Root.Dashboard.Profile.Favourite.name) {

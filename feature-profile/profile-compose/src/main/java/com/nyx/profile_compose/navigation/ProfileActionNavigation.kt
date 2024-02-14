@@ -17,6 +17,9 @@ fun profileActionNavigation(
             is ProfileViewAction.NavigateToFavouritesScreen -> {
                 screenNavigation.openFavourites()
             }
+            is ProfileViewAction.NavigateToRegistrationScreen -> {
+                screenNavigation.backToRegistration()
+            }
         }
     }
 }

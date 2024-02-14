@@ -29,6 +29,7 @@ class ProfileViewModel @Inject constructor(
             is ProfileViewEvent.OnFavouritesClicked -> viewAction =
                 ProfileViewAction.NavigateToFavouritesScreen
 
+            is ProfileViewEvent.OnExitClicked -> logout()
             is ProfileViewEvent.ActionInvoked -> viewAction = null
         }
     }
@@ -43,6 +44,8 @@ class ProfileViewModel @Inject constructor(
 
     private fun logout() {
         userRepository.clearUserData()
+
+        viewAction = ProfileViewAction.NavigateToRegistrationScreen
     }
 
     private fun observeUserData() {

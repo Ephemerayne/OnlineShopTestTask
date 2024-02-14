@@ -41,16 +41,18 @@ import com.nyx.common_compose.R as CommonRes
 fun ProfileScreen(
     screenNavigation: ProfileScreenNavigation,
     viewModel: ProfileViewModel = hiltViewModel(),
+    onExitClick: () -> Unit
 ) {
     val viewState = viewModel.viewStates().observeAsState().value
 
     val onFavouritesItemClick = viewModel.rememberEvent(ProfileViewEvent.OnFavouritesClicked)
+    val onExitClick = viewModel.rememberEvent(ProfileViewEvent.OnExitClicked)
 
     ProfileView(
         productCount = viewState.productCount,
         userEntity = viewState.userEntity,
         onFavouritesClick = onFavouritesItemClick,
-        onExitClick = {} // exit to registration screen
+        onExitClick = onExitClick
     )
 
     profileActionNavigation(viewModel = viewModel, screenNavigation = screenNavigation)

@@ -1,43 +1,25 @@
 package com.nyx.onlineshoptesttask.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.nyx.onlineshoptesttask.navigation.screens.registration.LaunchScreenNavigationImpl
-import com.nyx.onlineshoptesttask.navigation.screens.registration.RegistrationScreenNavigationImpl
-import com.nyx.onlineshoptesttask.ui.views.DashboardNavigationBar
-import com.nyx.registration_compose.screens.LauncherScreen
-import com.nyx.registration_compose.screens.RegistrationScreen
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+
+enum class NavType {
+    DASHBOARD,
+    REGISTRATION
+}
 
 @Composable
-fun AppNavHost(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    startDestination: String = NavigationTree.Root.Launch.name,
-) {
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = startDestination,
-    ) {
-        val registrationScreenNavigation = RegistrationScreenNavigationImpl(navController)
-        val launchScreenNavigation = LaunchScreenNavigationImpl(navController)
+fun AppNavHost() {
+    val navType = remember { mutableStateOf(NavType.REGISTRATION) }
 
-        composable(startDestination) {
-            LauncherScreen(screenNavigation = launchScreenNavigation)
-        }
+    when (navType.value) {
+        NavType.DASHBOARD -> DashboardNavigationBar(onNavigateToRegistration = {
+            navType.value = NavType.REGISTRATION
+        })
 
-        composable(NavigationTree.Root.Registration.name) {
-            RegistrationScreen(
-                screenNavigation = registrationScreenNavigation
-            )
-        }
-
-        composable(route = NavigationTree.Root.Dashboard.Catalog.ProductsCatalog.name) {
-            DashboardNavigationBar()
-        }
+        NavType.REGISTRATION -> LaunchNavHost(onNavigateToDashboard = {
+            navType.value = NavType.DASHBOARD
+        })
     }
 }

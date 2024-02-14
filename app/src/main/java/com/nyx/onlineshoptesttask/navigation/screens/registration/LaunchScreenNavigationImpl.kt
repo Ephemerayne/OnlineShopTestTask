@@ -5,11 +5,12 @@ import com.nyx.onlineshoptesttask.navigation.NavigationTree
 import com.nyx.registration_api.navigation.LaunchScreenNavigation
 
 class LaunchScreenNavigationImpl(
-    private val navController: NavController
+    private val navController: NavController,
+    private val onNavigateToDashboard: () -> Unit
 ): LaunchScreenNavigation {
 
     override fun openCatalog() {
-        navController.navigate(NavigationTree.Root.Dashboard.Catalog.ProductsCatalog.name)
+        onNavigateToDashboard()
     }
 
     override fun openRegistration() {

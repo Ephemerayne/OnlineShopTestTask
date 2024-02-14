@@ -13,6 +13,7 @@ import com.nyx.registration_impl.LaunchViewModel
 fun LauncherScreen(
     screenNavigation: LaunchScreenNavigation,
     viewModel: LaunchViewModel = hiltViewModel(),
+    onNavigateToDashboard: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize())
 
