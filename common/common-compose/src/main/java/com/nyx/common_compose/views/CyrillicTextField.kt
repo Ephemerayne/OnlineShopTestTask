@@ -90,6 +90,7 @@ fun CyrillicTextField(
                 ),
             textStyle = textStyle,
             cursorBrush = SolidColor(cursorColor),
+            maxLines = 1,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions
         ) { innerTextField ->

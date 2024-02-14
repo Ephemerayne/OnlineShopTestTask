@@ -78,15 +78,7 @@ fun PhoneNumberTextField(
         BasicTextField(
             value = input,
             onValueChange = { input ->
-                val availableInputLength = if (input.isNotEmpty() && input.startsWith("7")) {
-                    PhoneNumberDefaults.INPUT_LENGTH + 1
-                } else {
-                    PhoneNumberDefaults.INPUT_LENGTH
-                }
-
-                if (input.length <= availableInputLength) {
-                    onTextChanged(input)
-                }
+                onTextChanged(input)
             },
             modifier = Modifier
                 .fillMaxWidth()

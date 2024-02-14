@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.nyx.common_api.models.UserEntity
 import com.nyx.common_api.repository.user.UserRepository
 import com.nyx.common_compose.viewmodel.BaseViewModel
+import com.nyx.common_impl.utils.PhoneNumberDefaults
 import com.nyx.common_impl.utils.isCyrillicInput
 import com.nyx.registration_impl.models.registration.RegistrationViewAction
 import com.nyx.registration_impl.models.registration.RegistrationViewEvent
@@ -52,22 +53,37 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun onPhoneNumberTextInputChange(input: String) {
-        viewState = viewState.copy(
-            phoneNumber = input
-        )
+        val availableInputLength = if (input.isNotEmpty() && input.startsWith("7")) {
+            PhoneNumberDefaults.INPUT_LENGTH + 1
+        } else {
+            PhoneNumberDefaults.INPUT_LENGTH
+        }
+        val pattern = Regex("[0-9]*")
+        if (input.length <= availableInputLength && input.matches(pattern)) {
+            viewState = viewState.copy(
+                phoneNumber = input
+            )
+        }
+
         validateInput()
     }
 
     private fun clearNameField() {
         viewState = viewState.copy(name = "")
+
+        validateInput()
     }
 
     private fun clearSurnameField() {
         viewState = viewState.copy(surname = "")
+
+        validateInput()
     }
 
     private fun clearPhoneNumberField() {
         viewState = viewState.copy(phoneNumber = "")
+
+        validateInput()
     }
 
     private fun login() {
@@ -88,19 +104,10 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun validateInput() {
-        val numberStartsWithSeven =
-            viewState.phoneNumber.isNotBlank() && viewState.phoneNumber.startsWith("7")
-
-        val isValidNumberLength = if (numberStartsWithSeven) {
-            viewState.phoneNumber.length == 11
-        } else {
-            viewState.phoneNumber.length == 10
-        }
-
         val isInputValid =
             isCyrillicLetterInput(viewState.name) &&
                     isCyrillicLetterInput(viewState.surname) &&
-                    isValidNumberLength
+                    isValidPhoneNumber(viewState.phoneNumber)
 
         viewState = viewState.copy(isInputValid = isInputValid)
     }
@@ -109,5 +116,17 @@ class RegistrationViewModel @Inject constructor(
         if (input.isBlank()) return false
 
         return isCyrillicInput(input)
+    }
+    private fun isValidPhoneNumber(input: String): Boolean {
+        if (input.isBlank()) return false
+
+        val numberStartsWithSeven =
+            viewState.phoneNumber.isNotBlank() && viewState.phoneNumber.startsWith("7")
+
+        return if (numberStartsWithSeven) {
+            viewState.phoneNumber.length == 11
+        } else {
+            viewState.phoneNumber.length == 10
+        }
     }
 }
