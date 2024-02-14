@@ -19,19 +19,18 @@ fun LaunchNavHost(onNavigateToDashboard: () -> Unit) {
     ) {
         val registrationScreenNavigation =
             RegistrationScreenNavigationImpl(navController, onNavigateToDashboard)
-        val launchScreenNavigation = LaunchScreenNavigationImpl(navController, onNavigateToDashboard)
+        val launchScreenNavigation =
+            LaunchScreenNavigationImpl(navController, onNavigateToDashboard)
 
         composable(NavigationTree.Root.Launch.name) {
             LauncherScreen(
-                screenNavigation = launchScreenNavigation,
-                onNavigateToDashboard = onNavigateToDashboard
+                screenNavigation = launchScreenNavigation
             )
         }
 
         composable(NavigationTree.Root.Registration.name) {
             RegistrationScreen(
-                screenNavigation = registrationScreenNavigation,
-                onNavigateToDashboard = onNavigateToDashboard
+                screenNavigation = registrationScreenNavigation
             )
         }
     }

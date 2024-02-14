@@ -37,8 +37,7 @@ import com.nyx.common_compose.R as CommonRes
 @Composable
 fun RegistrationScreen(
     screenNavigation: RegistrationScreenNavigation,
-    viewModel: RegistrationViewModel = hiltViewModel(),
-    onNavigateToDashboard: () -> Unit
+    viewModel: RegistrationViewModel = hiltViewModel()
 ) {
     val viewState = viewModel.viewStates().observeAsState().value
 

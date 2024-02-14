@@ -139,7 +139,8 @@ fun DashboardNavigationBar(onNavigateToRegistration: () -> Unit) {
         ) {
             val catalogScreenNavigation = CatalogScreenNavigationImpl(navController)
             val productCardScreenNavigation = ProductCardScreenNavigationImpl(navController)
-            val profileScreenNavigation = ProfileScreenNavigationImpl(navController, onNavigateToRegistration)
+            val profileScreenNavigation =
+                ProfileScreenNavigationImpl(navController, onNavigateToRegistration)
             val favouritesScreenNavigation = FavouritesScreenNavigationImpl(navController)
 
             composable(NavItem.Main.route) { StubView(pageName = "main") }
@@ -177,9 +178,7 @@ fun DashboardNavigationBar(onNavigateToRegistration: () -> Unit) {
                 route = NavItem.Profile.route
             ) {
                 composable(profileNavGraph) {
-                    ProfileScreen(screenNavigation = profileScreenNavigation) {
-                        onNavigateToRegistration()
-                    }
+                    ProfileScreen(screenNavigation = profileScreenNavigation)
                 }
 
                 composable(NavigationTree.Root.Dashboard.Profile.Favourite.name) {

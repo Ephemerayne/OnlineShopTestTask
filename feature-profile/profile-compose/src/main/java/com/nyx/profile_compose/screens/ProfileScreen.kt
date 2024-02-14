@@ -40,8 +40,7 @@ import com.nyx.common_compose.R as CommonRes
 @Composable
 fun ProfileScreen(
     screenNavigation: ProfileScreenNavigation,
-    viewModel: ProfileViewModel = hiltViewModel(),
-    onExitClick: () -> Unit
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val viewState = viewModel.viewStates().observeAsState().value
 

@@ -12,8 +12,7 @@ import com.nyx.registration_impl.LaunchViewModel
 @Composable
 fun LauncherScreen(
     screenNavigation: LaunchScreenNavigation,
-    viewModel: LaunchViewModel = hiltViewModel(),
-    onNavigateToDashboard: () -> Unit
+    viewModel: LaunchViewModel = hiltViewModel()
 ) {
     Box(modifier = Modifier.fillMaxSize())
 
