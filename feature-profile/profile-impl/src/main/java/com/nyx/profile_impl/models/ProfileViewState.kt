@@ -4,5 +4,5 @@ import com.nyx.common_api.models.UserEntity
 
 data class ProfileViewState(
     val productCount: Int = 0,
-    val userEntity: UserEntity? = null,
+    val userEntity: UserEntity = UserEntity.empty,
 )

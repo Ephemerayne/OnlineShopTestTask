@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="profile_title">Личный кабинет</string>
+    <string name="profile_username">%1$s %2$s</string>
     <string name="profile_favourite_item_text">Избранное</string>
     <plurals name="favourite_products">
         <item quantity="one">%1$d товар</item>

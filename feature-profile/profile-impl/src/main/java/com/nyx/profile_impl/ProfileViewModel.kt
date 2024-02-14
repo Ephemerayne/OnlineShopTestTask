@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.nyx.common_api.repository.product.ProductRepository
 import com.nyx.common_api.repository.user.UserRepository
 import com.nyx.common_compose.viewmodel.BaseViewModel
+import com.nyx.common_impl.utils.replaceMaskToPhoneNumber
 import com.nyx.profile_impl.models.ProfileViewAction
 import com.nyx.profile_impl.models.ProfileViewEvent
 import com.nyx.profile_impl.models.ProfileViewState
@@ -52,9 +53,11 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.getUserData().collect {
                 if (it == null) {
-                    // viewAction = ProfileViewAction.NavigateToRegistrationScreen
+                    viewAction = ProfileViewAction.NavigateToRegistrationScreen
                 } else {
-                    viewState = viewState.copy(userEntity = it)
+                    val formattedPhoneNumber = replaceMaskToPhoneNumber(it.phoneNumber)
+                    viewState =
+                        viewState.copy(userEntity = it.copy(phoneNumber = formattedPhoneNumber))
                 }
             }
         }

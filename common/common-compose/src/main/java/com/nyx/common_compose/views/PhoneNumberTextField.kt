@@ -42,11 +42,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.nyx.common_compose.R
 import com.nyx.common_compose.typography.AppTypography
-
-private object PhoneNumberDefaults {
-    const val MASK = "+7 XXX XXX-XX-XX"
-    const val INPUT_LENGTH = 10
-}
+import com.nyx.common_impl.utils.PhoneNumberDefaults
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

@@ -40,7 +40,7 @@ import com.nyx.common_compose.R as CommonRes
 @Composable
 fun ProfileScreen(
     screenNavigation: ProfileScreenNavigation,
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val viewState = viewModel.viewStates().observeAsState().value
 
@@ -60,7 +60,7 @@ fun ProfileScreen(
 @Composable
 private fun ProfileView(
     productCount: Int,
-    userEntity: UserEntity?,
+    userEntity: UserEntity,
     onFavouritesClick: () -> Unit,
     onExitClick: () -> Unit,
 ) {
@@ -78,8 +78,12 @@ private fun ProfileView(
             ScreenTitleView(text = stringResource(R.string.profile_title))
             VerticalSpacer(height = 8.dp)
             UserNameItemView(
-                username = "${userEntity?.name.orEmpty()} ${userEntity?.surname.orEmpty()}",
-                phone = "+7 ${userEntity?.phoneNumber.orEmpty()}"
+                username = stringResource(
+                    R.string.profile_username,
+                    userEntity.name,
+                    userEntity.surname
+                ),
+                phone = userEntity.phoneNumber
             )
             VerticalSpacer(height = 20.dp)
             FavouritesItemView(
