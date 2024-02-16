@@ -30,6 +30,7 @@ fun LaunchNavHost(onNavigateToDashboard: () -> Unit) {
 
         composable(NavigationTree.Root.Registration.name) {
             RegistrationScreen(
+                navController,
                 screenNavigation = registrationScreenNavigation
             )
         }

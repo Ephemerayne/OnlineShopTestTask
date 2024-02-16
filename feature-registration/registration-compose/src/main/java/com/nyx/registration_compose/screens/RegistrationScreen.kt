@@ -1,5 +1,7 @@
 package com.nyx.registration_compose.screens
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -17,11 +19,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.adeo.kviewmodel.compose.observeAsState
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.utils.underlinedPartialText
@@ -36,10 +40,12 @@ import com.nyx.common_compose.R as CommonRes
 
 @Composable
 fun RegistrationScreen(
+    navController: NavController,
     screenNavigation: RegistrationScreenNavigation,
-    viewModel: RegistrationViewModel = hiltViewModel()
+    viewModel: RegistrationViewModel = hiltViewModel(),
 ) {
     val viewState = viewModel.viewStates().observeAsState().value
+    val context = LocalContext.current
 
     val onNameChanged =
         viewModel.rememberEvent<String, _> { input ->
@@ -64,6 +70,10 @@ fun RegistrationScreen(
         viewModel.rememberEvent(RegistrationViewEvent.OnClearPhoneNumberClicked)
 
     val onEnterButtonClick = viewModel.rememberEvent(RegistrationViewEvent.OnEnterButtonClicked)
+
+    BackHandler {
+        (context as? Activity)?.moveTaskToBack(true)
+    }
 
     if (viewState.isUserDataReceived) {
         RegistrationView(
