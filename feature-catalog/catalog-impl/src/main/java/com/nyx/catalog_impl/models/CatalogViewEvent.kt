@@ -7,5 +7,6 @@ sealed class CatalogViewEvent {
     object OnClearTagClicked : CatalogViewEvent()
     class OnProductClicked(val productId: String) : CatalogViewEvent()
     class OnFavouriteClicked(val productId: String, val isFavourite: Boolean) : CatalogViewEvent()
+    object OnUpdateClicked : CatalogViewEvent()
     object ActionInvoked : CatalogViewEvent()
 }

@@ -81,6 +81,9 @@ fun CatalogScreen(
             CatalogViewEvent.OnFavouriteClicked(id, isFavourite)
         }
 
+    val onUpdateClick =
+        viewModel.rememberEvent(CatalogViewEvent.OnUpdateClicked)
+
     CatalogView(
         viewState = viewState,
         onExpandSortingClick = onSortingMenuClick,
@@ -89,6 +92,7 @@ fun CatalogScreen(
         onClearTagClick = onClearTagClick,
         onProductClick = onProductClick,
         onFavouriteClick = onFavouriteClick,
+        onUpdateClick = onUpdateClick
     )
 
     catalogActionNavigation(viewModel = viewModel, navigation = screenNavigation)
@@ -103,6 +107,7 @@ private fun CatalogView(
     onClearTagClick: () -> Unit,
     onProductClick: (productId: String) -> Unit,
     onFavouriteClick: (productId: String, isFavourite: Boolean) -> Unit,
+    onUpdateClick: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val gridState = rememberLazyGridState()
@@ -139,12 +144,18 @@ private fun CatalogView(
                 }
             }
         )
-        ProductsGridView(
-            products = viewState.filteredProducts,
-            gridState = gridState,
-            onProductClick = onProductClick,
-            onFavouriteClick = onFavouriteClick
-        )
+
+        //TODO this error view showed when screen started
+        if (viewState.filteredProducts.isEmpty()) {
+            ErrorLoadingView(onUpdateClick = onUpdateClick)
+        } else {
+            ProductsGridView(
+                products = viewState.filteredProducts,
+                gridState = gridState,
+                onProductClick = onProductClick,
+                onFavouriteClick = onFavouriteClick
+            )
+        }
     }
 }
 

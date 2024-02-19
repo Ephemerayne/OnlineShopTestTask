@@ -16,8 +16,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// TODO: REFACTOR FILTERING: CREATE FILTER DATA CLASS
-
 @HiltViewModel
 class CatalogViewModel @Inject constructor(private val productRepository: ProductRepository) :
     BaseViewModel<CatalogViewState, CatalogViewAction, CatalogViewEvent>(
@@ -40,14 +38,15 @@ class CatalogViewModel @Inject constructor(private val productRepository: Produc
                 viewEvent.isFavourite
             )
 
+            is CatalogViewEvent.OnUpdateClicked -> fetchProducts()
             is CatalogViewEvent.ActionInvoked -> viewAction = null
         }
     }
 
     private fun fetchProducts() {
         viewModelScope.launch {
-            productRepository.getProducts().collect {
-                val products = it
+            productRepository.getProducts().collect { products ->
+                val products = products
                     .map { entity -> entity.toUiEntity() }
                     .sortedByDescending { it.feedback.rating }
 

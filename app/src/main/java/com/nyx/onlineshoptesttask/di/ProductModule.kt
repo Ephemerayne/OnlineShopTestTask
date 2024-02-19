@@ -7,7 +7,11 @@ import com.nyx.common_api.repository.product.ProductRepository
 import com.nyx.common_api.repository.user.UserRepository
 import com.nyx.common_data.local.product.FavouriteProductStorage
 import com.nyx.common_data.local.user.UserStorage
+import com.nyx.common_data.remote.ApiClient
+import com.nyx.common_data.remote.ProductService
+import com.nyx.common_data.repository.product.ProductDatabase
 import com.nyx.common_data.repository.product.ProductRepositoryImpl
+import com.nyx.common_data.repository.product.room.ProductDao
 import com.nyx.common_data.repository.user.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -25,8 +29,12 @@ class ProductModule {
 
     @Provides
     @ViewModelScoped
-    fun provideProductRepository(storage: FavouriteProductStorage): ProductRepository =
-        ProductRepositoryImpl(storage)
+    fun provideProductRepository(
+        dao: ProductDao,
+        storage: FavouriteProductStorage,
+        service: ProductService,
+    ): ProductRepository =
+        ProductRepositoryImpl(dao, storage, service)
 
     @Provides
     @ViewModelScoped
@@ -42,4 +50,33 @@ class SharedPreferencesModule {
     @Provides
     fun provideSharedPreference(@ApplicationContext appContext: Context): SharedPreferences =
         appContext.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class ProductServiceModule {
+
+    @Singleton
+    @Provides
+    fun provideProductService() = ApiClient.productService
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class RoomModule {
+
+    @Singleton
+    @Provides
+    fun provideProductDao(productDatabase: ProductDatabase): ProductDao =
+        productDatabase.productDao()
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class ProductDatabaseModule {
+
+    @Singleton
+    @Provides
+    fun provideProductDatabase(@ApplicationContext appContext: Context) =
+        ProductDatabase.getInstance(appContext)
 }

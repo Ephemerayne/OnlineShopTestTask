@@ -16,7 +16,7 @@ buildscript {
         hilt_version = '2.44'
         hilt_compose_navigation_version = '1.1.0-alpha01'
         hilt_compiler = '1.0.0-beta01'
-//        room_version = '2.6.1'
+        room_version = '2.4.2'
     }
 }
 
