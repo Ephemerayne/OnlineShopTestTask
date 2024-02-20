@@ -50,8 +50,8 @@ class FavouritesViewModel @Inject constructor(
 
     private fun fetchProducts() {
         viewModelScope.launch {
-            productRepository.getFavourite().collect {
-                viewState = viewState.copy(products = it.map { it.toUiEntity() })
+            productRepository.getFavourite().collect { products ->
+                viewState = viewState.copy(products = products.map { it.toUiEntity() })
             }
         }
     }

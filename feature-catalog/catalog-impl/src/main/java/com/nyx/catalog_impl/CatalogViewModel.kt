@@ -8,6 +8,7 @@ import com.nyx.catalog_impl.models.FilterData
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
 import com.nyx.catalog_impl.models.serverTag
+import com.nyx.common_api.common.ProgressState
 import com.nyx.common_api.repository.product.ProductRepository
 import com.nyx.common_compose.mappers.toUiEntity
 import com.nyx.common_compose.models.ProductUiEntity
@@ -45,15 +46,18 @@ class CatalogViewModel @Inject constructor(private val productRepository: Produc
 
     private fun fetchProducts() {
         viewModelScope.launch {
-            productRepository.getProducts().collect { products ->
-                val products = products
-                    .map { entity -> entity.toUiEntity() }
-                    .sortedByDescending { it.feedback.rating }
+            productRepository.getProducts().collect { state ->
+                viewState = viewState.copy(loadingProductsState = state)
 
-                viewState = viewState.copy(
-                    products = products,
-                    filteredProducts = products
-                )
+                if (state is ProgressState.Success) {
+                    val fetchedProducts = state.value.map { entity -> entity.toUiEntity() }
+                        .sortedByDescending { it.feedback.rating }
+                    println("debug: ${fetchedProducts.map { it.isFavourite }}")
+                    viewState = viewState.copy(
+                        products = fetchedProducts,
+                        filteredProducts = fetchedProducts
+                    )
+                }
             }
         }
     }

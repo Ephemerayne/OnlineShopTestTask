@@ -37,8 +37,8 @@ class ProfileViewModel @Inject constructor(
 
     private fun countFavourites() {
         viewModelScope.launch {
-            productRepository.getFavourite().collect {
-                viewState = viewState.copy(productCount = it.count())
+            productRepository.getFavourite().collect { products ->
+                viewState = viewState.copy(productCount = products.count())
             }
         }
     }

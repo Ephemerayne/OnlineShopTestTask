@@ -1,5 +1,6 @@
 package com.nyx.catalog_impl.models
 
+import com.nyx.common_api.common.ProgressState
 import com.nyx.common_compose.models.ProductUiEntity
 
 data class CatalogViewState(
@@ -7,6 +8,7 @@ data class CatalogViewState(
     val isSortingMenuExpanded: Boolean = false,
     val filterData: FilterData = FilterData(),
     val filteredProducts: List<ProductUiEntity> = listOf(),
+    val loadingProductsState: ProgressState<Any> = ProgressState.Progress
 )
 
 enum class SortingType {

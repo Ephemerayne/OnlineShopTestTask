@@ -3,6 +3,7 @@ package com.nyx.catalog_compose.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,6 +41,7 @@ import com.nyx.catalog_impl.models.CatalogViewEvent
 import com.nyx.catalog_impl.models.CatalogViewState
 import com.nyx.catalog_impl.models.ProductTagType
 import com.nyx.catalog_impl.models.SortingType
+import com.nyx.common_api.common.ProgressState
 import com.nyx.common_compose.typography.AppTypography
 import com.nyx.common_compose.utils.StableList
 import com.nyx.common_compose.utils.toStable
@@ -145,16 +147,19 @@ private fun CatalogView(
             }
         )
 
-        //TODO this error view showed when screen started
-        if (viewState.filteredProducts.isEmpty()) {
-            ErrorLoadingView(onUpdateClick = onUpdateClick)
-        } else {
-            ProductsGridView(
-                products = viewState.filteredProducts,
-                gridState = gridState,
-                onProductClick = onProductClick,
-                onFavouriteClick = onFavouriteClick
-            )
+        when (viewState.loadingProductsState) {
+            is ProgressState.Failure -> {
+                ErrorLoadingView(onUpdateClick = onUpdateClick)
+            }
+            is ProgressState.Success -> {
+                ProductsGridView(
+                    products = viewState.filteredProducts,
+                    gridState = gridState,
+                    onProductClick = onProductClick,
+                    onFavouriteClick = onFavouriteClick
+                )
+            }
+            else -> Box {}
         }
     }
 }

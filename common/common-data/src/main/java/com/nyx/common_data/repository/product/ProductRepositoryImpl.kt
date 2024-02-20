@@ -1,5 +1,6 @@
 package com.nyx.common_data.repository.product
 
+import com.nyx.common_api.common.ProgressState
 import com.nyx.common_api.models.ProductEntity
 import com.nyx.common_api.repository.product.ProductRepository
 import com.nyx.common_data.local.product.FavouriteProductStorage
@@ -8,11 +9,10 @@ import com.nyx.common_data.repository.product.room.ProductDao
 import com.nyx.common_data.repository.product.room.mappers.toProductEntity
 import com.nyx.common_data.repository.product.room.mappers.toRoomEntity
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
@@ -21,41 +21,57 @@ class ProductRepositoryImpl @Inject constructor(
     private val service: ProductService,
 ) : ProductRepository {
 
-    private suspend fun getAllProducts(): Flow<List<ProductEntity>> = coroutineScope {
-        launch(Dispatchers.IO) {
-            try {
-                val remoteProducts = service.getProducts()
+    private suspend fun getAllProducts(): Flow<ProgressState<List<ProductEntity>>> = flow {
+        try {
+            emit(ProgressState.Progress)
+            val remoteProducts = service.getProducts()
 
-                remoteProducts.body()?.items?.let { products ->
-                    dao.insertProducts(products.map { it.toRoomEntity() })
-                }
-            } catch (e: Exception) {
-                println("debug: $e")
+            remoteProducts.body()?.items?.let { products ->
+                dao.insertProducts(products.map { it.toRoomEntity() })
+            }
+        } catch (e: Exception) {
+            println("debug: $e")
+        }
+
+        dao.getProducts().collect { products ->
+            if (products.isEmpty()) {
+                emit(ProgressState.Failure)
+            } else {
+                emit(ProgressState.Success((products.map { it.toProductEntity() })))
             }
         }
-        val cachedProducts = dao.getProducts().map { products ->
-            products.map { it.toProductEntity() }
-        }
+    }.flowOn(Dispatchers.IO)
 
-        return@coroutineScope cachedProducts
-    }
-
-    override suspend fun getProducts(): Flow<List<ProductEntity>> = combine(
+    override suspend fun getProducts(): Flow<ProgressState<List<ProductEntity>>> = combine(
         flow = getAllProducts(),
         flow2 = favouriteProductStorage.getFavouriteProductIds()
-    ) { products, favourites ->
-        products
-            .map { it.copy(isFavourite = favourites.contains(it.id)) }
+    ) { state, favourites ->
+        when (state) {
+            is ProgressState.Success -> {
+                val updatedProducts = state.value.map { product ->
+                    product.copy(isFavourite = favourites.contains(product.id))
+                }
+                ProgressState.Success(updatedProducts)
+            }
+
+            else -> state
+        }
     }
 
     override suspend fun getFavourite(): Flow<List<ProductEntity>> =
         combine(
             flow = getAllProducts(),
             flow2 = favouriteProductStorage.getFavouriteProductIds()
-        ) { products, favourites ->
-            products
-                .filter { favourites.contains(it.id) }
-                .map { it.copy(isFavourite = true) }
+        ) { state, favourites ->
+            when (state) {
+                is ProgressState.Success -> {
+                    state.value
+                        .filter { favourites.contains(it.id) }
+                        .map { it.copy(isFavourite = true) }
+                }
+
+                else -> listOf()
+            }
         }
 
     override fun addFavourite(id: String) {
@@ -69,9 +85,14 @@ class ProductRepositoryImpl @Inject constructor(
     override suspend fun getProduct(id: String): Flow<ProductEntity?> = combine(
         flow = getAllProducts(),
         flow2 = favouriteProductStorage.getFavouriteProductIds()
-    ) { products, favourites ->
-        products
-            .map { it.copy(isFavourite = favourites.contains(it.id)) }
-            .firstOrNull { it.id == id }
+    ) { state, favourites ->
+        when (state) {
+            is ProgressState.Success -> {
+                state.value
+                    .map { it.copy(isFavourite = favourites.contains(it.id)) }
+                    .firstOrNull { it.id == id }
+            }
+            else -> null
+        }
     }
 }
