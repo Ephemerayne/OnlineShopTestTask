@@ -1,9 +1,16 @@
 package com.nyx.common_data.repository.product.room.entities
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "product_table")
+@Entity(
+    tableName = "product_table",
+    indices = [
+        Index(value = ["id"], unique = true)
+    ]
+)
+
 data class ProductRoomEntity(
     @PrimaryKey(autoGenerate = true)
     val roomId: Int = 0,
@@ -17,7 +24,7 @@ data class ProductRoomEntity(
     val available: Int,
     val description: String,
     val info: List<Info>,
-    val ingredients: String
+    val ingredients: String,
 )
 
 data class Price(
