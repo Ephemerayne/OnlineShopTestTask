@@ -52,7 +52,6 @@ class CatalogViewModel @Inject constructor(private val productRepository: Produc
                 if (state is ProgressState.Success) {
                     val fetchedProducts = state.value.map { entity -> entity.toUiEntity() }
                         .sortedByDescending { it.feedback.rating }
-                    println("debug: ${fetchedProducts.map { it.isFavourite }}")
                     viewState = viewState.copy(
                         products = fetchedProducts,
                         filteredProducts = fetchedProducts

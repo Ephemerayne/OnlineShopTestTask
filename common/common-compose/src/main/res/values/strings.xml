@@ -7,4 +7,6 @@
     <string name="more_details_text">Подробнее</string>
     <string name="stub_view_text">This is %1$s page</string>
     <string name="reviews_count">(%1$s)</string>
+    <string name="error_view_text">Произошла ошибка</string>
+    <string name="error_button_text">Обновить</string>
 </resources>

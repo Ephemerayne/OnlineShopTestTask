@@ -22,16 +22,8 @@ class ProductRepositoryImpl @Inject constructor(
 ) : ProductRepository {
 
     private suspend fun getAllProducts(): Flow<ProgressState<List<ProductEntity>>> = flow {
-        try {
-            emit(ProgressState.Progress)
-            val remoteProducts = service.getProducts()
-
-            remoteProducts.body()?.items?.let { products ->
-                dao.insertProducts(products.map { it.toRoomEntity() })
-            }
-        } catch (e: Exception) {
-            println("debug: $e")
-        }
+        emit(ProgressState.Progress)
+        getRemoteData()
 
         dao.getProducts().collect { products ->
             if (products.isEmpty()) {
@@ -41,6 +33,18 @@ class ProductRepositoryImpl @Inject constructor(
             }
         }
     }.flowOn(Dispatchers.IO)
+
+    private suspend fun getRemoteData() {
+        try {
+            val remoteProducts = service.getProducts()
+
+            remoteProducts.body()?.items?.let { products ->
+                dao.insertProducts(products.map { it.toRoomEntity() })
+            }
+        } catch (e: Exception) {
+            println("debug: $e")
+        }
+    }
 
     override suspend fun getProducts(): Flow<ProgressState<List<ProductEntity>>> = combine(
         flow = getAllProducts(),
@@ -92,6 +96,7 @@ class ProductRepositoryImpl @Inject constructor(
                     .map { it.copy(isFavourite = favourites.contains(it.id)) }
                     .firstOrNull { it.id == id }
             }
+
             else -> null
         }
     }

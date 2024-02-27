@@ -3,7 +3,6 @@ package com.nyx.catalog_compose.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -159,7 +158,7 @@ private fun CatalogView(
                     onFavouriteClick = onFavouriteClick
                 )
             }
-            else -> Box {}
+            is ProgressState.Progress -> LoadingProgressView()
         }
     }
 }
