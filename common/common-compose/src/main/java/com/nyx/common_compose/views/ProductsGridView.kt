@@ -37,12 +37,13 @@ import androidx.compose.ui.unit.dp
 import com.nyx.common_compose.R
 import com.nyx.common_compose.models.ProductUiEntity
 import com.nyx.common_compose.typography.AppTypography
+import com.nyx.common_compose.utils.StableList
 import com.nyx.common_compose.utils.productIdToImageRes
 import com.nyx.common_compose.utils.toStable
 
 @Composable
 fun ProductsGridView(
-    products: List<ProductUiEntity>,
+    products: StableList<ProductUiEntity>,
     gridState: LazyGridState? = null,
     onProductClick: (productId: String) -> Unit,
     onFavouriteClick: (String, Boolean) -> Unit,

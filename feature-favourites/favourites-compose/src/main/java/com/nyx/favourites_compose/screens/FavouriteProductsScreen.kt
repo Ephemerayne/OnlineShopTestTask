@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.adeo.kviewmodel.compose.observeAsState
 import com.nyx.common_compose.models.ProductUiEntity
+import com.nyx.common_compose.utils.StableList
 import com.nyx.common_compose.utils.toStable
 import com.nyx.common_compose.viewmodel.rememberEvent
 import com.nyx.common_compose.views.*
@@ -38,7 +39,7 @@ fun FavouriteProductsScreen(
     }
 
     FavouritesView(
-        favouritesProducts = viewState.products,
+        favouritesProducts = viewState.products.toStable(),
         selectedTab = viewState.currentSelectedTab,
         onBackClick = onBackClick,
         onTabClick = onTabClick,
@@ -51,7 +52,7 @@ fun FavouriteProductsScreen(
 
 @Composable
 private fun FavouritesView(
-    favouritesProducts: List<ProductUiEntity>,
+    favouritesProducts: StableList<ProductUiEntity>,
     selectedTab: TabType,
     onBackClick: () -> Unit,
     onTabClick: (Int) -> Unit,

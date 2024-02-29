@@ -152,7 +152,7 @@ private fun CatalogView(
             }
             is ProgressState.Success -> {
                 ProductsGridView(
-                    products = viewState.filteredProducts,
+                    products = viewState.filteredProducts.toStable(),
                     gridState = gridState,
                     onProductClick = onProductClick,
                     onFavouriteClick = onFavouriteClick
